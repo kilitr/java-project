@@ -1,3 +1,5 @@
+package de.kilitr;
+
 class WeightedEdge extends Edge {
     private int weight;
 

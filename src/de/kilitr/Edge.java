@@ -1,3 +1,5 @@
+package de.kilitr;
+
 class Edge {
     private Vertex to;
 

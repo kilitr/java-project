@@ -1,4 +1,5 @@
-import java.util.List;
+package de.kilitr;
+
 import java.util.Set;
 
 public class Graph extends BaseGraph {
@@ -8,16 +9,6 @@ public class Graph extends BaseGraph {
         for (String label : verticeLabels) {
             this.addVertex(new Vertex(label));
         }
-    }
-
-    protected Vertex getVertex(String label) {
-        List<Vertex> vertices = getVertices();
-        for (Vertex vert : vertices) {
-            if (vert.getLabel().equals(label)) {
-                return vert;
-            }
-        }
-        return null;
     }
 
     public boolean addEdge(String labelSource, String labelDestination) {

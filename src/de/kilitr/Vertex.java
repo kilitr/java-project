@@ -1,3 +1,5 @@
+package de.kilitr;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -16,7 +18,7 @@ public class Vertex {
         return label;
     }
 
-    boolean addEdge(Edge edge) {
+    public boolean addEdge(Edge edge) {
         return edges.add(edge);
     }
 

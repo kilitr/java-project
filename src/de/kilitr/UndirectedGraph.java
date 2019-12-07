@@ -1,3 +1,5 @@
+package de.kilitr;
+
 import java.util.Set;
 
 public class UndirectedGraph extends Graph {

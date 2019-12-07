@@ -1,3 +1,5 @@
+package de.kilitr;
+
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -14,5 +16,11 @@ public class Main {
         undirectedGraph.addEdge("v2", "v3");
         undirectedGraph.addEdge("v3", "v4");
         undirectedGraph.addEdge("v4", "v5");
+
+        UndirectedWeightedGraph undirectedWeightedGraph = new UndirectedWeightedGraph(new HashSet<>(Arrays.asList("v1", "v2", "v3", "v4", "v5")));
+        undirectedWeightedGraph.addEdge("v1", "v2", 1);
+        undirectedWeightedGraph.addEdge("v2", "v3", 2);
+        undirectedWeightedGraph.addEdge("v3", "v4", 3);
+        undirectedWeightedGraph.addEdge("v4", "v5", 1);
     }
 }
