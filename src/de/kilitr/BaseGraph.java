@@ -5,7 +5,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class BaseGraph {
+interface IBaseGraph {
+    boolean addEdge(Edge e);
+
+    Vertex getVertex(String label);
+
+    List<Edge> getShortestPath(Vertex src, Vertex dest);
+}
+
+public abstract class BaseGraph implements IBaseGraph {
     private Set<Vertex> vertices;
 
     public BaseGraph() {
@@ -20,7 +28,7 @@ public class BaseGraph {
         return vertices.add(vertex);
     }
 
-    protected Vertex getVertex(String label) {
+    public Vertex getVertex(String label) {
         List<Vertex> vertices = getVertices();
         for (Vertex vert : vertices) {
             if (vert.getLabel().equals(label)) {
