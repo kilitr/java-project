@@ -5,7 +5,6 @@ public class UndirectedGraph extends BaseGraph {
     public UndirectedGraph(String[] verticeLabels) {
         super();
         for (int i = 0; i < verticeLabels.length; i++) {
-            System.out.println(i + ": " + verticeLabels[i]);
             this.addVertex(new Vertex(verticeLabels[i]));
         }
     }
