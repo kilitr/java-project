@@ -1,19 +1,26 @@
 package de.kilitr;
 
-import java.util.Set;
+public class UndirectedGraph extends BaseGraph {
 
-public class UndirectedGraph extends Graph {
-    public UndirectedGraph(Set<String> verticeLabels) {
-        super(verticeLabels);
+    public UndirectedGraph(String[] verticeLabels) {
+        super();
+        for (int i = 0; i < verticeLabels.length; i++) {
+            System.out.println(i + ": " + verticeLabels[i]);
+            this.addVertex(new Vertex(verticeLabels[i]));
+        }
     }
 
-    @Override
-    public boolean addEdge(String label1, String label2) {
+
+    public boolean addEdge(String label1, String label2, int weight) {
         Vertex vertex1 = getVertex(label1);
         Vertex vertex2 = getVertex(label2);
         if (vertex1 == null || vertex2 == null) return false;
-        vertex1.addEdge(new Edge(vertex2));
-        vertex2.addEdge(new Edge(vertex1));
+        vertex1.addEdge(new Edge(vertex2, weight));
+        vertex2.addEdge(new Edge(vertex1, weight));
         return true;
+    }
+
+    public boolean addEdge(String label1, String label2) {
+        return addEdge(label1, label2, 1);
     }
 }

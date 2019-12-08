@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Set;
 
 interface IBaseGraph {
-    boolean addEdge(Edge e);
+    // Weighted Graph
+    boolean addEdge(String from, String to, int weight);
 
-    Vertex getVertex(String label);
-
-    List<Edge> getShortestPath(Vertex src, Vertex dest);
+    // Unweighted Graph
+    boolean addEdge(String from, String to);
+    // Vertex getVertex(String label);
+    // TODO: List<Edge> getShortestPath(Vertex src, Vertex dest);
 }
 
 public abstract class BaseGraph implements IBaseGraph {
@@ -20,7 +22,7 @@ public abstract class BaseGraph implements IBaseGraph {
         vertices = new HashSet<>();
     }
 
-    private List<Vertex> getVertices() {
+    private ArrayList<Vertex> getVertices() {
         return new ArrayList<>(vertices);
     }
 
@@ -37,6 +39,4 @@ public abstract class BaseGraph implements IBaseGraph {
         }
         return null;
     }
-
-
 }

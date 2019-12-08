@@ -1,26 +1,37 @@
 package de.kilitr;
 
-import java.util.Arrays;
-import java.util.HashSet;
 
 public class Main {
     public static void main(String[] args) {
-        WeightedGraph weightedGraph = new WeightedGraph(new HashSet<>(Arrays.asList("v1", "v2", "v3", "v4", "v5")));
-        weightedGraph.addEdge("v1", "v2", 1);
-        weightedGraph.addEdge("v2", "v3", 2);
-        weightedGraph.addEdge("v3", "v4", 3);
-        weightedGraph.addEdge("v4", "v5", 1);
 
-        UndirectedGraph undirectedGraph = new UndirectedGraph(new HashSet<>(Arrays.asList("v1", "v2", "v3", "v4", "v5")));
+        String[] vertices = new String[5];
+        vertices[0] = "v0";
+        vertices[1] = "v1";
+        vertices[2] = "v2";
+        vertices[3] = "v3";
+        vertices[4] = "v4";
+        UndirectedGraph undirectedGraph = new UndirectedGraph(vertices);
         undirectedGraph.addEdge("v1", "v2");
         undirectedGraph.addEdge("v2", "v3");
         undirectedGraph.addEdge("v3", "v4");
         undirectedGraph.addEdge("v4", "v5");
 
-        UndirectedWeightedGraph undirectedWeightedGraph = new UndirectedWeightedGraph(new HashSet<>(Arrays.asList("v1", "v2", "v3", "v4", "v5")));
-        undirectedWeightedGraph.addEdge("v1", "v2", 1);
-        undirectedWeightedGraph.addEdge("v2", "v3", 2);
-        undirectedWeightedGraph.addEdge("v3", "v4", 3);
-        undirectedWeightedGraph.addEdge("v4", "v5", 1);
+        UndirectedGraph weightedUndirectedGraph = new UndirectedGraph(vertices);
+        weightedUndirectedGraph.addEdge("v1", "v2", 3);
+        weightedUndirectedGraph.addEdge("v2", "v3", 4);
+        weightedUndirectedGraph.addEdge("v3", "v4", 1);
+        weightedUndirectedGraph.addEdge("v4", "v5", 2);
+
+        Graph graph = new Graph(vertices);
+        graph.addEdge("v1", "v2");
+        graph.addEdge("v2", "v3");
+        graph.addEdge("v3", "v4");
+        graph.addEdge("v4", "v5");
+
+        Graph weightedGraph = new Graph(vertices);
+        weightedGraph.addEdge("v1", "v2", 3);
+        weightedGraph.addEdge("v2", "v3", 4);
+        weightedGraph.addEdge("v3", "v4", 1);
+        weightedGraph.addEdge("v4", "v5", 2);
     }
 }
