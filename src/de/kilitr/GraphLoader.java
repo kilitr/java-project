@@ -12,6 +12,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * A helper class that offers an easy interface to load a graph described by an graphml file.
+ */
 public class GraphLoader {
     private File inputFile;
     private DocumentBuilderFactory dbFactory;
@@ -24,6 +27,9 @@ public class GraphLoader {
     private UndirectedGraph undirectedGraph;
     private Graph graph;
 
+    /**
+     * @param filename The filename / path of the graphml file to process.
+     */
     public GraphLoader(String filename) {
         try {
             inputFile = new File(filename);
@@ -75,6 +81,11 @@ public class GraphLoader {
         }
     }
 
+    /**
+     * @return The directed graph, described by the provided graphml file.
+     * @see de.kilitr.GraphLoader#GraphLoader(String)
+     * @see de.kilitr.Graph
+     */
     public Graph getGraph() {
         if(this.graph == null) {
             // throw new Exception("TODO: Custom Exception...");
@@ -82,6 +93,11 @@ public class GraphLoader {
         return this.graph;
     }
 
+    /**
+     * @return The undirected graph, described by the provided graphml file.
+     * @see de.kilitr.GraphLoader#GraphLoader(String)
+     * @see de.kilitr.UndirectedGraph
+     */
     public UndirectedGraph getUndirectedGraph() {
         if(this.undirectedGraph == null) {
             // throw new Exception("TODO: Custom Exception...");
