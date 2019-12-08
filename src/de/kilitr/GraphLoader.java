@@ -1,3 +1,5 @@
+package de.kilitr;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -19,6 +21,9 @@ public class GraphLoader {
     private NodeList xmlListVertices;
     private NodeList xmlListEdges;
 
+    private UndirectedGraph undirectedGraph;
+    private Graph graph;
+
     public GraphLoader(String filename) {
         try {
             inputFile = new File(filename);
@@ -35,15 +40,17 @@ public class GraphLoader {
 
     private void loadVertices() {
         xmlListVertices = doc.getElementsByTagName("node");
+        String[] vertices = new String[xmlListVertices.getLength()];
         for (int temp = 0; temp < xmlListVertices.getLength(); temp++) {
             Node nNode = xmlListVertices.item(temp);
             if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                 Element eElement = (Element) nNode;
                 String n_id = eElement.getAttribute("id");
-                String v_id = eElement.getElementsByTagName("data").item(0).getTextContent();
-                System.out.println(nNode.getNodeName() + " id: " + n_id + "\tv_id: " + v_id);
+                vertices[temp] = n_id;
             }
         }
+        undirectedGraph = new UndirectedGraph(vertices);
+        graph = new Graph(vertices);
     }
 
     private void loadEdges() {
@@ -52,13 +59,33 @@ public class GraphLoader {
             Node nNode = xmlListEdges.item(temp);
             if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                 Element eElement = (Element) nNode;
+
                 String source = eElement.getAttribute("source");
                 String target = eElement.getAttribute("target");
-                String e_id = eElement.getElementsByTagName("data").item(0).getTextContent();
-                String e_weight = eElement.getElementsByTagName("data").item(1).getTextContent();
-                System.out.println(nNode.getNodeName() + " source: " + source + "\ttarget: " + target +
-                        "\te_id: " + e_id + "\te_weight: " + e_weight);
+
+                int e_weight = Integer.parseInt(
+                        eElement.getElementsByTagName("data")
+                                .item(1)
+                                .getTextContent()
+                );
+
+                graph.addEdge(source, target, e_weight);
+                undirectedGraph.addEdge(source, target, e_weight);
             }
         }
+    }
+
+    public Graph getGraph() {
+        if(this.graph == null) {
+            // throw new Exception("TODO: Custom Exception...");
+        }
+        return this.graph;
+    }
+
+    public UndirectedGraph getUndirectedGraph() {
+        if(this.undirectedGraph == null) {
+            // throw new Exception("TODO: Custom Exception...");
+        }
+        return this.undirectedGraph;
     }
 }
