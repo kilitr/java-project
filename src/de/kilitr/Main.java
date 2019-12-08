@@ -1,11 +1,11 @@
 package de.kilitr;
 
 
-public class Main {
-    public static void main(String[] args) {
+public class main {
+    public static void main(string[] args) {
 
-        GraphLoader graphLoader = new GraphLoader("small_graph.graphml");
-        UndirectedGraph undirectedGraph = graphLoader.getUndirectedGraph();
+        graphloader graphloader = new graphloader("small_graph.graphml");
+        undirectedgraph undirectedgraph = graphloader.getundirectedgraph();
 
     }
 }
