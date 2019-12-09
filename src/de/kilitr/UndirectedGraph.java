@@ -7,7 +7,7 @@ package de.kilitr;
  * Unweighted means, that all Edges by default get <i>weight = 1</i> assigned.
  * </p>
  */
-public class UndirectedGraph extends BaseGraph {
+public class UndirectedGraph extends Graph {
 
     /**
      * @param verticeLabels An array, containing all ID's / labels of the vertices, that should be contained in
