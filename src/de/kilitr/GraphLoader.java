@@ -88,7 +88,7 @@ public class GraphLoader {
      */
     public DirectedGraph getDirectedGraph() {
         if (this.directedGraph == null) {
-            // throw new Exception("TODO: Custom Exception...");
+            // throw new Exception("TODO: Custom Exception... When something undefined went wrong during loading");
         }
         return this.directedGraph;
     }
@@ -100,7 +100,7 @@ public class GraphLoader {
      */
     public UndirectedGraph getUndirectedGraph() {
         if(this.undirectedGraph == null) {
-            // throw new Exception("TODO: Custom Exception...");
+            // throw new Exception("TODO: Custom Exception... When something undefined went wrong during loading");
         }
         return this.undirectedGraph;
     }

@@ -14,10 +14,7 @@ public class DirectedGraph extends Graph {
      *                      the Graph.
      */
     public DirectedGraph(String[] verticeLabels) {
-        super();
-        for (String verticeLabel : verticeLabels) {
-            this.addVertex(new Vertex(verticeLabel));
-        }
+        super(verticeLabels);
     }
 
     /**

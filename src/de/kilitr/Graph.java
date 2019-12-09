@@ -39,7 +39,18 @@ public abstract class Graph implements IGraph {
     private Set<Vertex> vertices;
 
     protected Graph() {
-        vertices = new HashSet<>();
+        this.vertices = new HashSet<>();
+    }
+
+    protected Graph(String[] verticeLabels) {
+        this.vertices = new HashSet<>();
+        for (String verticeLabel : verticeLabels) {
+            if (this.getVertex(verticeLabel) != null) {
+                //throw new Exception("TODO: Custom Exception, when trying to create Graph with 2 or more vertices with the same name");
+                System.exit(5);
+            }
+            this.addVertex(new Vertex(verticeLabel));
+        }
     }
 
     private ArrayList<Vertex> getVertices() {

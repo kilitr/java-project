@@ -14,10 +14,7 @@ public class UndirectedGraph extends Graph {
      *                      the Graph.
      */
     public UndirectedGraph(String[] verticeLabels) {
-        super();
-        for (String verticeLabel : verticeLabels) {
-            this.addVertex(new Vertex(verticeLabel));
-        }
+        super(verticeLabels);
     }
 
 
