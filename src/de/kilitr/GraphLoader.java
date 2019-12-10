@@ -55,8 +55,13 @@ public class GraphLoader {
                 vertices[temp] = n_id;
             }
         }
-        undirectedGraph = new UndirectedGraph(vertices);
-        directedGraph = new DirectedGraph(vertices);
+
+        try {
+            undirectedGraph = new UndirectedGraph(vertices);
+            directedGraph = new DirectedGraph(vertices);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadEdges() {

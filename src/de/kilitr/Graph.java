@@ -38,16 +38,12 @@ interface IGraph {
 public abstract class Graph implements IGraph {
     private Set<Vertex> vertices;
 
-    protected Graph() {
-        this.vertices = new HashSet<>();
-    }
-
-    protected Graph(String[] verticeLabels) {
+    protected Graph(String[] verticeLabels) throws Exception {
         this.vertices = new HashSet<>();
         for (String verticeLabel : verticeLabels) {
             if (this.getVertex(verticeLabel) != null) {
-                //throw new Exception("TODO: Custom Exception, when trying to create Graph with 2 or more vertices with the same name");
-                System.exit(5);
+                //TODO: Custom Exception, when trying to create Graph with 2 or more vertices with the same name"
+                throw new Exception("Trying to add multiple vertices with same label");
             }
             this.addVertex(new Vertex(verticeLabel));
         }

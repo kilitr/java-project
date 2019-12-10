@@ -13,7 +13,7 @@ public class UndirectedGraph extends Graph {
      * @param verticeLabels An array, containing all ID's / labels of the vertices, that should be contained in
      *                      the Graph.
      */
-    public UndirectedGraph(String[] verticeLabels) {
+    public UndirectedGraph(String[] verticeLabels) throws Exception {
         super(verticeLabels);
     }
 

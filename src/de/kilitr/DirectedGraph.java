@@ -13,7 +13,7 @@ public class DirectedGraph extends Graph {
      * @param verticeLabels An array, containing all ID's / labels of the vertices, that should be contained in
      *                      the Graph.
      */
-    public DirectedGraph(String[] verticeLabels) {
+    public DirectedGraph(String[] verticeLabels) throws Exception {
         super(verticeLabels);
     }
 
