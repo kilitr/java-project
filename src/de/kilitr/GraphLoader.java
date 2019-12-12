@@ -12,6 +12,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * A helper class that offers an easy interface to load a graph described by an graphml file.
+ */
 public class GraphLoader {
     private File inputFile;
     private DocumentBuilderFactory dbFactory;
@@ -22,8 +25,11 @@ public class GraphLoader {
     private NodeList xmlListEdges;
 
     private UndirectedGraph undirectedGraph;
-    private Graph graph;
+    private DirectedGraph directedGraph;
 
+    /**
+     * @param filename The filename / path of the graphml file to process.
+     */
     public GraphLoader(String filename) {
         try {
             inputFile = new File(filename);
@@ -49,8 +55,13 @@ public class GraphLoader {
                 vertices[temp] = n_id;
             }
         }
-        undirectedGraph = new UndirectedGraph(vertices);
-        graph = new Graph(vertices);
+
+        try {
+            undirectedGraph = new UndirectedGraph(vertices);
+            directedGraph = new DirectedGraph(vertices);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadEdges() {
@@ -69,22 +80,32 @@ public class GraphLoader {
                                 .getTextContent()
                 );
 
-                graph.addEdge(source, target, e_weight);
+                directedGraph.addEdge(source, target, e_weight);
                 undirectedGraph.addEdge(source, target, e_weight);
             }
         }
     }
 
-    public Graph getGraph() {
-        if(this.graph == null) {
-            // throw new Exception("TODO: Custom Exception...");
+    /**
+     * @return The directed graph, described by the provided graphml file.
+     * @see de.kilitr.GraphLoader#GraphLoader(String)
+     * @see DirectedGraph
+     */
+    public DirectedGraph getDirectedGraph() {
+        if (this.directedGraph == null) {
+            // throw new Exception("TODO: Custom Exception... When something undefined went wrong during loading");
         }
-        return this.graph;
+        return this.directedGraph;
     }
 
+    /**
+     * @return The undirected graph, described by the provided graphml file.
+     * @see de.kilitr.GraphLoader#GraphLoader(String)
+     * @see de.kilitr.UndirectedGraph
+     */
     public UndirectedGraph getUndirectedGraph() {
         if(this.undirectedGraph == null) {
-            // throw new Exception("TODO: Custom Exception...");
+            // throw new Exception("TODO: Custom Exception... When something undefined went wrong during loading");
         }
         return this.undirectedGraph;
     }
