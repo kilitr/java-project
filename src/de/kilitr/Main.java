@@ -1,13 +1,10 @@
 package de.kilitr;
 
-
 public class Main {
     public static void main(String[] args) {
-
-        GraphLoader graphLoader = new GraphLoader("small_graph.graphml");
-        UndirectedGraph undirectedGraph = graphLoader.getUndirectedGraph();
-
-
-        //DirectedGraph test = new DirectedGraph(new String[]{"a", "b", "a", "a"});
+        UndirectedGraph undirectedGraph =  new GraphLoader("implement_dijkstra.graphml").getUndirectedGraph();
+        System.out.println(undirectedGraph.getVertex("a").getEdges());
+        UndirectedDijkstra uDijk = new UndirectedDijkstra(undirectedGraph, undirectedGraph.getVertex("a"));
+        uDijk.execute();
     }
 }

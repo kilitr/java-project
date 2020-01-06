@@ -49,7 +49,11 @@ public abstract class Graph implements IGraph {
         }
     }
 
-    private ArrayList<Vertex> getVertices() {
+    /**
+     * TODO: Write JavaDoc
+     * @return
+     */
+    public ArrayList<Vertex> getVertices() {
         return new ArrayList<>(vertices);
     }
 

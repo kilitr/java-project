@@ -30,8 +30,9 @@ public class UndirectedGraph extends Graph {
         Vertex vertex1 = getVertex(label1);
         Vertex vertex2 = getVertex(label2);
         if (vertex1 == null || vertex2 == null) return false;
-        vertex1.addEdge(new Edge(vertex2, weight));
-        vertex2.addEdge(new Edge(vertex1, weight));
+        Edge e = new Edge(vertex1 ,vertex2, weight);
+        vertex1.addEdge(e);
+        vertex2.addEdge(e);
         return true;
     }
 

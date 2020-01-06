@@ -32,6 +32,7 @@ public class GraphLoader {
      */
     public GraphLoader(String filename) {
         try {
+            System.out.print("Parsing " + filename + " ...");
             inputFile = new File(filename);
             dbFactory = DocumentBuilderFactory.newInstance();
             dBuilder = dbFactory.newDocumentBuilder();
@@ -39,6 +40,7 @@ public class GraphLoader {
             doc.getDocumentElement().normalize();
             loadVertices();
             loadEdges();
+            System.out.println(" succes!");
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
@@ -95,6 +97,7 @@ public class GraphLoader {
         if (this.directedGraph == null) {
             // throw new Exception("TODO: Custom Exception... When something undefined went wrong during loading");
         }
+        System.out.println("Succesfully loaded directed graph.");
         return this.directedGraph;
     }
 
@@ -107,6 +110,7 @@ public class GraphLoader {
         if(this.undirectedGraph == null) {
             // throw new Exception("TODO: Custom Exception... When something undefined went wrong during loading");
         }
+        System.out.println("Succesfully loaded undirected graph.");
         return this.undirectedGraph;
     }
 }
