@@ -27,8 +27,6 @@ interface IGraph {
      * @return True, if edge was successfully added, otherwise false.
      */
     boolean addEdge(String from, String to);
-    // Vertex getVertex(String label);
-    // TODO: List<Edge> getShortestPath(Vertex src, Vertex dest);
 }
 
 /**

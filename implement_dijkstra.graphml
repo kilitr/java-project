@@ -56,7 +56,7 @@
         </edge>
         <edge source="e" target="f">
             <data key="e_id">7</data>
-            <data key="e_weight">-2</data>
+            <data key="e_weight">2</data>
         </edge>
     </graph>
 </graphml>

@@ -1,5 +1,6 @@
 package de.kilitr;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
@@ -7,6 +8,7 @@ public class UndirectedDijkstra {
     private UndirectedGraph graph;
     private HashMap<String, Integer> distances;
     private PriorityQueue<Edge> pQueue;
+    private ArrayList<Edge> visited;
     private Vertex start;
 
     public UndirectedDijkstra(UndirectedGraph graphToExamine, Vertex start) {
@@ -20,6 +22,7 @@ public class UndirectedDijkstra {
         // General Initialization
         distances = new HashMap<>();
         pQueue = new PriorityQueue<>();
+        visited = new ArrayList<Edge>();
         for(Vertex v : graph.getVertices()) {
             distances.put(v.getLabel(), -1); // TODO: Discuss whether to use -1 or Integer.MAX_VALUE
         }
@@ -30,14 +33,28 @@ public class UndirectedDijkstra {
 
         while(pQueue.size() > 0) {
             Vertex currentVertex = pQueue.poll().getTo();
-            System.out.println(currentVertex);
+            inspect(currentVertex);
         }
     }
 
     private void inspect(Vertex v) {
-        for(Edge e : v.getEdges()) {
-            distances.put(e.getTo().getLabel(), e.getWeight());
-            pQueue.add(e);
+        for (Edge e : v.getEdges()) {
+            if(!visited.contains(e)) {
+                int newWeight = e.getWeight() + distances.get(v.getLabel());
+                int oldWeight = distances.get(e.getTo().getLabel());
+                if (oldWeight == -1) oldWeight = Integer.MAX_VALUE;
+                distances.put(e.getTo().getLabel(), Integer.min(newWeight, oldWeight));
+                pQueue.add(e);
+                visited.add(e);
+            }
         }
+    }
+
+    /**
+     * TODO: Create JavaDoc
+     * @return
+     */
+    public HashMap<String, Integer> getDistances() {
+        return distances;
     }
 }
