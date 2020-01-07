@@ -1,6 +1,8 @@
 package de.kilitr.test;
 
 import de.kilitr.DirectedGraph;
+import de.kilitr.Edge;
+import de.kilitr.Vertex;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,11 +15,13 @@ class DirectedGraphTest {
     void addEdge_unweighted_validVertexAsParameter_ShouldBeAddedToSourceVertex() {
         try {
             dg = new DirectedGraph(new String[]{"a", "b"});
-            dg.addEdge("a", "b");
-            assertEquals(dg.getVertex("a").getEdges().get(0).getTo(), dg.getVertex("b"));
-            assertEquals(dg.getVertex("a").getEdges().get(0).getWeight(), 1);
-            assertEquals(dg.getVertex("b").getEdges().size(), 0);
-        } catch (Exception e) {
+            Edge edge = dg.addEdge("a", "b");
+            Vertex a = dg.getVertex("a");
+            Vertex b = dg.getVertex("b");
+            assertEquals(a.getTo(edge), dg.getVertex("b"));
+            assertEquals(edge.getWeight(), 1);
+            assertEquals(b.getEdges().size(), 0);
+        } catch (Exception ex) {
             fail("Unexpected Exception");
         }
     }
@@ -27,10 +31,12 @@ class DirectedGraphTest {
         try {
             int weight = 11;
             dg = new DirectedGraph(new String[]{"a", "b"});
-            dg.addEdge("a", "b", weight);
-            assertEquals(dg.getVertex("a").getEdges().get(0).getTo(), dg.getVertex("b"));
-            assertEquals(dg.getVertex("a").getEdges().get(0).getWeight(), weight);
-            assertEquals(dg.getVertex("b").getEdges().size(), 0);
+            Edge edge = dg.addEdge("a", "b", weight);
+            Vertex a = dg.getVertex("a");
+            Vertex b = dg.getVertex("b");
+            assertEquals(a.getTo(edge), dg.getVertex("b"));
+            assertEquals(edge.getWeight(), weight);
+            assertEquals(b.getEdges().size(), 0);
         } catch (Exception e) {
             fail("Unexpected Exception");
         }

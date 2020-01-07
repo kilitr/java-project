@@ -25,12 +25,13 @@ public class DirectedGraph extends Graph {
      * @param weight           The custom weight of this Edge.
      * @return true, if edge was successfully added, otherwise false.
      */
-    public boolean addEdge(String labelSource, String labelDestination, int weight) {
+    public Edge addEdge(String labelSource, String labelDestination, int weight) {
         Vertex source = getVertex(labelSource);
         Vertex destination = getVertex(labelDestination);
-        if (source == null || destination == null) return false;
-        source.addEdge(new Edge(source, destination, weight));
-        return true;
+        if (source == null || destination == null) ;// TODO: throw new Exception("123");
+        Edge e = new Edge(source, destination, weight);
+        source.addEdge(e);
+        return e;
     }
 
     /**
@@ -44,7 +45,7 @@ public class DirectedGraph extends Graph {
      * @param labelDestination label of vertex that this edge leads to.
      * @return true, if edge was successfully added, otherwise false.
      */
-    public boolean addEdge(String labelSource, String labelDestination) {
+    public Edge addEdge(String labelSource, String labelDestination) {
         return addEdge(labelSource, labelDestination, 1);
     }
 }

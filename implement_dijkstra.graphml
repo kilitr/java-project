@@ -26,37 +26,41 @@
         <node id="f">
             <data key="v_id">5</data>
         </node>
-        <edge source="a" target="b">
-            <data key="e_id">0</data>
-            <data key="e_weight">2</data>
-        </edge>
         <edge source="a" target="c">
             <data key="e_id">1</data>
-            <data key="e_weight">1</data>
+            <data key="e_weight">20</data>
         </edge>
-        <edge source="a" target="d">
-            <data key="e_id">2</data>
-            <data key="e_weight">3</data>
+        <edge source="a" target="b">
+            <data key="e_id">1</data>
+            <data key="e_weight">10</data>
         </edge>
-        <edge source="b" target="f">
-            <data key="e_id">3</data>
-            <data key="e_weight">2</data>
+        <edge source="b" target="e">
+            <data key="e_id">1</data>
+            <data key="e_weight">10</data>
         </edge>
-        <edge source="c" target="d">
-            <data key="e_id">4</data>
-            <data key="e_weight">2</data>
+        <edge source="b" target="d">
+            <data key="e_id">1</data>
+            <data key="e_weight">50</data>
         </edge>
         <edge source="c" target="e">
-            <data key="e_id">5</data>
-            <data key="e_weight">4</data>
+            <data key="e_id">1</data>
+            <data key="e_weight">33</data>
         </edge>
-        <edge source="c" target="f">
-            <data key="e_id">6</data>
-            <data key="e_weight">5</data>
+        <edge source="c" target="d">
+            <data key="e_id">1</data>
+            <data key="e_weight">20</data>
+        </edge>
+        <edge source="d" target="e">
+            <data key="e_id">1</data>
+            <data key="e_weight">20</data>
+        </edge>
+        <edge source="d" target="f">
+            <data key="e_id">1</data>
+            <data key="e_weight">2</data>
         </edge>
         <edge source="e" target="f">
-            <data key="e_id">7</data>
-            <data key="e_weight">2</data>
+            <data key="e_id">1</data>
+            <data key="e_weight">1</data>
         </edge>
     </graph>
 </graphml>

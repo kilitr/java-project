@@ -29,8 +29,15 @@ public class Edge implements Comparable<Edge>{
     /**
      * @return The vertex, that this edge points to.
      */
-    public Vertex getTo() {
+    protected Vertex getTo() {
         return to;
+    }
+
+    /**
+     * @return The vertex, that this edge comes from.
+     */
+    protected Vertex getFrom() {
+        return from;
     }
 
     /**
