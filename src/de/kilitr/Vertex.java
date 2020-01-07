@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * A class describing the vertices of a graph.
  */
-public class Vertex implements Comparable<Vertex>{
+public class Vertex {
     private String label;
     private Set<Edge> edges;
 
@@ -68,14 +68,5 @@ public class Vertex implements Comparable<Vertex>{
     @Override
     public String toString() {
         return label;
-    }
-
-    @Override
-    public int compareTo(Vertex vertex) {
-        if(this.getEdges().isEmpty()) return -1;
-        if(vertex.getEdges().isEmpty()) return 1;
-        int thisMinWeight = this.getMinEdge().getWeight();
-        int vertexMinWeight = vertex.getMinEdge().getWeight();
-        return Integer.compare(thisMinWeight, vertexMinWeight);
     }
 }
