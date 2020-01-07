@@ -72,8 +72,10 @@ public class Vertex implements Comparable<Vertex>{
 
     @Override
     public int compareTo(Vertex vertex) {
-        if(this.getMinEdge().getWeight() < vertex.getMinEdge().getWeight()) return -1;
-        else if(this.getMinEdge().getWeight() > vertex.getMinEdge().getWeight()) return 1;
-        else return 0;
+        if(this.getEdges().isEmpty()) return -1;
+        if(vertex.getEdges().isEmpty()) return 1;
+        int thisMinWeight = this.getMinEdge().getWeight();
+        int vertexMinWeight = vertex.getMinEdge().getWeight();
+        return Integer.compare(thisMinWeight, vertexMinWeight);
     }
 }
