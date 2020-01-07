@@ -12,9 +12,9 @@ interface IGraph {
      * @param from   Label of vertex that this edge starts from.
      * @param to     Label of vertex that this edge leads to.
      * @param weight The custom weight of this Edge.
-     * @return True, if edge was successfully added, otherwise false.
+     * @return the created Edge
      */
-    boolean addEdge(String from, String to, int weight);
+    Edge addEdge(String from, String to, int weight);
 
     /**
      * Connects two vertices in one direction with unweighted Edge.
@@ -24,9 +24,9 @@ interface IGraph {
      * </p>
      * @param from Label of vertex that this edge starts from.
      * @param to Label of vertex that this edge leads to.
-     * @return True, if edge was successfully added, otherwise false.
+     * @return the created Edge
      */
-    boolean addEdge(String from, String to);
+    Edge addEdge(String from, String to);
 }
 
 /**

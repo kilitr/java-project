@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * A class describing the vertices of a graph.
  */
-public class Vertex{
+public class Vertex {
     private String label;
     private Set<Edge> edges;
 
@@ -45,8 +45,23 @@ public class Vertex{
         return new ArrayList<>(edges);
     }
 
-    @Override
-    public String toString() {
-        return label;
+    /**
+     *
+     * @return the Edge contained in this Vertex with the minimal weight.
+     */
+    public Edge getMinEdge() {
+        int minWeight = Integer.MAX_VALUE;
+        Edge min = null;
+        for(Edge e : this.getEdges()) {
+            if(e.getWeight() < minWeight) {
+                minWeight = e.getWeight();
+                min = e;
+            }
+        }
+        return min;
+    }
+
+    public Vertex getTo(Edge e) {
+        return e.getTo() == this ? e.getFrom() : e.getTo();
     }
 }
