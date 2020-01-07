@@ -1,12 +1,10 @@
 package de.kilitr;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class UndirectedDijkstra {
     private UndirectedGraph graph;
-    private HashMap<String, Integer> distances;
+    private TreeMap<String, Integer> distances;
     private PriorityQueue<Edge> pQueue;
     private ArrayList<Edge> visited;
     private Vertex start;
@@ -20,7 +18,7 @@ public class UndirectedDijkstra {
         System.out.println("Executing Dijkstra");
 
         // General Initialization
-        distances = new HashMap<>();
+        distances = new TreeMap<>(new TreeAlphaNumComp());
         pQueue = new PriorityQueue<>();
         visited = new ArrayList<Edge>();
         for(Vertex v : graph.getVertices()) {
@@ -54,7 +52,7 @@ public class UndirectedDijkstra {
      * TODO: Create JavaDoc
      * @return
      */
-    public HashMap<String, Integer> getDistances() {
+    public TreeMap<String, Integer> getDistances() {
         return distances;
     }
 }
