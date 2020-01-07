@@ -64,9 +64,4 @@ public class Vertex {
     public Vertex getTo(Edge e) {
         return e.getTo() == this ? e.getFrom() : e.getTo();
     }
-
-    @Override
-    public String toString() {
-        return label;
-    }
 }
