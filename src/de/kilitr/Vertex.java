@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * A class describing the vertices of a graph.
  */
-public class Vertex {
+public class Vertex{
     private String label;
     private Set<Edge> edges;
 
@@ -43,5 +43,10 @@ public class Vertex {
      */
     public List<Edge> getEdges() {
         return new ArrayList<>(edges);
+    }
+
+    @Override
+    public String toString() {
+        return label;
     }
 }

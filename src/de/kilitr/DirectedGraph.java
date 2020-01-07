@@ -29,7 +29,7 @@ public class DirectedGraph extends Graph {
         Vertex source = getVertex(labelSource);
         Vertex destination = getVertex(labelDestination);
         if (source == null || destination == null) return false;
-        source.addEdge(new Edge(destination, weight));
+        source.addEdge(new Edge(source, destination, weight));
         return true;
     }
 

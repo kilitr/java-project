@@ -3,11 +3,11 @@ package de.kilitr;
 
 public class Main {
     public static void main(String[] args) {
-
-        GraphLoader graphLoader = new GraphLoader("small_graph.graphml");
-        UndirectedGraph undirectedGraph = graphLoader.getUndirectedGraph();
-
-
-        //DirectedGraph test = new DirectedGraph(new String[]{"a", "b", "a", "a"});
+        UndirectedGraph undirectedGraph =  new GraphLoader("implement_dijkstra.graphml").getUndirectedGraph();
+        UndirectedDijkstra uDijk = new UndirectedDijkstra(undirectedGraph, undirectedGraph.getVertex("a"));
+        uDijk.execute();
+        uDijk.getDistances().forEach((k,v) -> {
+            System.out.format("Vertex= %s, distance=%d%n", k, v);
+        });
     }
 }

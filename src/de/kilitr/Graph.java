@@ -27,8 +27,6 @@ interface IGraph {
      * @return True, if edge was successfully added, otherwise false.
      */
     boolean addEdge(String from, String to);
-    // Vertex getVertex(String label);
-    // TODO: List<Edge> getShortestPath(Vertex src, Vertex dest);
 }
 
 /**
@@ -49,7 +47,11 @@ public abstract class Graph implements IGraph {
         }
     }
 
-    private ArrayList<Vertex> getVertices() {
+    /**
+     * TODO: Write JavaDoc
+     * @return
+     */
+    public ArrayList<Vertex> getVertices() {
         return new ArrayList<>(vertices);
     }
 
