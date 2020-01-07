@@ -10,9 +10,18 @@ import java.util.Comparator;
 public class TreeAlphaNumComp implements Comparator<String> {
     @Override
     public int compare(String str1, String str2) {
-        String notDigit = "[^\\d]";
-        int int1 = Integer.parseInt(str1.replaceAll(notDigit, ""));
-        int int2 = Integer.parseInt(str2.replaceAll(notDigit, ""));
-        return Integer.compare(int1,int2);
+        String str1StringPart = str1.replaceAll("\\d", "");
+        String str2StringPart = str2.replaceAll("\\d", "");
+
+        if(str1StringPart.equalsIgnoreCase(str2StringPart)) {
+            return extractInt(str1) - extractInt(str2);
+        }
+        return str1.compareTo(str2);
+    }
+
+    private int extractInt(String s) {
+        String num = s.replaceAll("\\D", "");
+        // return 0 if no digits found
+        return num.isEmpty() ? 0 : Integer.parseInt(num);
     }
 }
