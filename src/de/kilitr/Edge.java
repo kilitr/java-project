@@ -46,4 +46,9 @@ public class Edge{
     public int getWeight() {
         return weight;
     }
+
+    @Override
+    public String toString() {
+        return "Edge{" + from.getLabel() + "-" + to.getLabel() + "(" + weight + ")}";
+    }
 }

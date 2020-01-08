@@ -61,7 +61,24 @@ public class Vertex {
         return min;
     }
 
+    /**
+     * @param e
+     * @return Vertex, that e points to
+     */
     public Vertex getTo(Edge e) {
         return e.getTo() == this ? e.getFrom() : e.getTo();
+    }
+
+    /**
+     * @param v
+     * @return Edge, that points from Vertex v to this Vertex.
+     * @throws Exception
+     */
+    public Edge getEdgeFrom(Vertex v) throws Exception {
+        for(Edge e : v.getEdges()) {
+            if(e.getTo() == this) return e;
+        }
+        // TODO: Custom Exception
+        throw new Exception("There is no Edge to " + this.getLabel() + " from " + v.getLabel() + "!");
     }
 }

@@ -18,9 +18,13 @@ class UndirectedGraphTest {
             Edge edge = ug.addEdge("a", "b");
             Vertex a = ug.getVertex("a");
             Vertex b = ug.getVertex("b");
+            // Both Vertices must have the same amout of Edges
             assertEquals(a.getEdges(), ug.getVertex("b").getEdges());
+            // The Weight of the Edge must be 1 (unweighted)
             assertEquals(edge.getWeight(), 1);
+            // Edge of a must point to b
             assertEquals(a.getTo(edge).getLabel(), "b");
+            // Edge of b must point to a
             assertEquals(b.getTo(edge).getLabel(), "a");
         } catch (Exception e) {
             fail("Unexpected Exception");
@@ -30,12 +34,14 @@ class UndirectedGraphTest {
     @Test
     void addEdge_weighted_validVertexAsParameter_onlyOneEdgeShouldExistPointedToByBothVertices() {
         try {
-            int weight = 11;
+            int weight = 10;
             ug = new UndirectedGraph(new String[]{"a", "b"});
             Edge edge = ug.addEdge("a", "b", weight);
             Vertex a = ug.getVertex("a");
             Vertex b = ug.getVertex("b");
+            // Both Vertices must have the same amount of Edges
             assertEquals(a.getEdges(), b.getEdges());
+            // The Weight of the edge must be equal to the desired weight
             assertEquals(edge.getWeight(), weight);
         } catch (Exception e) {
             fail("Unexpected Exception");
