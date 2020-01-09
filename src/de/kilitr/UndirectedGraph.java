@@ -29,7 +29,7 @@ public class UndirectedGraph extends Graph {
     public Edge addEdge(String label1, String label2, int weight) {
         Vertex vertex1 = getVertex(label1);
         Vertex vertex2 = getVertex(label2);
-        if (vertex1 == null || vertex2 == null) ;//TODO: throw new Exception();
+        if (vertex1 == null || vertex2 == null) return null;//TODO: throw new Exception();
         Edge e = new Edge(vertex1 ,vertex2, weight);
         vertex1.addEdge(e);
         vertex2.addEdge(e);

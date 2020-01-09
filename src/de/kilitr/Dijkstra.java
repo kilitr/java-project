@@ -17,7 +17,7 @@ public class Dijkstra {
         pQueue = new PriorityQueue<>(new VertexComparator());
         distanceAndOrigin = new TreeMap<>(new TreeAlphaNumComp());
         for(Vertex v : graph.getVertices()) {
-            distanceAndOrigin.put(v.getLabel(), new Pair<>(Integer.MAX_VALUE, null));
+            distanceAndOrigin.put(v.getLabel(), new Pair<>(Integer.MAX_VALUE, null)); // Because int has no Infinity
         }
 
         // Initialize distanceAndOrigin with start vertex for dijkstra
@@ -45,6 +45,35 @@ public class Dijkstra {
                 }
 
             }
+    }
+
+    public LinkedList<Edge> getPathTo(Vertex v) {
+        if(distanceAndOrigin.get(v.getLabel()).getKey() != Integer.MAX_VALUE) {
+            LinkedList<Edge> rawPath = new LinkedList<>();
+            Vertex parent;
+            while (distanceAndOrigin.get(v.getLabel()).getValue() != start.getLabel()) {
+                try {
+                    parent = graph.getVertex(distanceAndOrigin.get(v.getLabel()).getValue());
+                    Edge part = v.getNormalizedEdgeTo(parent);
+                    rawPath.add(0, part);
+                    v = parent;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.exit(-1);
+                }
+            }
+            try {
+                parent = graph.getVertex(distanceAndOrigin.get(v.getLabel()).getValue());
+                Edge part = v.getNormalizedEdgeTo(parent);
+                rawPath.add(0, part);
+                v = parent;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return rawPath;//return new Path(rawPath);
+        }
+        return null; //TODO: or exception ?
     }
 
     private class VertexComparator implements Comparator<Vertex> {

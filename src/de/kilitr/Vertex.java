@@ -69,15 +69,12 @@ public class Vertex {
         return e.getTo() == this ? e.getFrom() : e.getTo();
     }
 
-    /**
-     * @param v
-     * @return Edge, that points from Vertex v to this Vertex.
-     * @throws Exception
-     */
-    public Edge getEdgeFrom(Vertex v) throws Exception {
-        for(Edge e : v.getEdges()) {
-            if(e.getTo() == this) return e;
+    public Edge getNormalizedEdgeTo(Vertex v) throws Exception {
+        for(Edge e : this.getEdges()) {
+            if(e.getTo() == v) return new Edge(v, this, e.getWeight());
+            if(e.getFrom() == v) return e;
         }
+
         // TODO: Custom Exception
         throw new Exception("There is no Edge to " + this.getLabel() + " from " + v.getLabel() + "!");
     }
