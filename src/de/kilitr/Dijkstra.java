@@ -7,7 +7,6 @@ import java.util.*;
 public class Dijkstra {
     Graph graph;
     Vertex start;
-    ArrayList<Vertex> visited;
     PriorityQueue<Vertex> pQueue;
     TreeMap<String, Pair<Integer, String>> distanceAndOrigin;
 
@@ -15,7 +14,6 @@ public class Dijkstra {
         System.out.print("Loading Dijkstra for start=" + start.getLabel() + " ... ");
         this.graph = g;
         this.start = start;
-        visited = new ArrayList<>();
         pQueue = new PriorityQueue<>(new VertexComparator());
         distanceAndOrigin = new TreeMap<>(new TreeAlphaNumComp());
         for(Vertex v : graph.getVertices()) {
@@ -36,7 +34,6 @@ public class Dijkstra {
     }
 
     private void inspect(Vertex inspectedVertex) {
-        if(!visited.contains(inspectedVertex)) {
             for (Edge e : inspectedVertex.getEdges()) {
                 Vertex to = inspectedVertex.getTo(e);
                 Pair<Integer, String> entry = distanceAndOrigin.get(to.getLabel());
@@ -44,22 +41,10 @@ public class Dijkstra {
                 if(entry.getKey() > newWeight || entry.getKey() == Integer.MAX_VALUE) {
                     Pair <Integer, String> p = new Pair<>(newWeight, inspectedVertex.getLabel());
                     distanceAndOrigin.put(to.getLabel(), p);
+                    pQueue.add(to);
                 }
-                pQueue.add(to);
-            }
-            visited.add(inspectedVertex);
-        }
-    }
 
-    private boolean reachesStart(Pair<Integer, String> pairToCheck, Vertex currentVertex) {
-        Vertex parent = graph.getVertex(pairToCheck.getValue());
-        if(pairToCheck.getValue() == this.start.getLabel()) return true;
-        boolean interrupt = true;
-        while(true) {
-            if(parent == start) return true;
-            if(parent == currentVertex) return false;
-            parent = graph.getVertex(distanceAndOrigin.get(parent.getLabel()).getValue());
-        }
+            }
     }
 
     private class VertexComparator implements Comparator<Vertex> {

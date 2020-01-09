@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class GraphTest {
     private DirectedGraph g;
 
-    //TODO: Move to Graph
     @Test
     public void constructor_OneLabel_CreatesGraphSuccessful() {
         try {
@@ -18,7 +17,6 @@ class GraphTest {
         }
     }
 
-    //TODO: Move to Graph
     @Test
     public void constructor_TwoLabelsIdentical_ExceptionThrown() {
         try {
