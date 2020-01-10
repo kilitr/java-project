@@ -15,18 +15,6 @@ interface IGraph {
      * @return the created Edge
      */
     Edge addEdge(String from, String to, int weight);
-
-    /**
-     * Connects two vertices in one direction with unweighted Edge.
-     * <p>
-     *     Note: Sets weight of edge to 1. So will only work for unweighted graph if no Edge has been assigned a
-     *     different weight!
-     * </p>
-     * @param from Label of vertex that this edge starts from.
-     * @param to Label of vertex that this edge leads to.
-     * @return the created Edge
-     */
-    Edge addEdge(String from, String to);
 }
 
 /**
@@ -47,10 +35,6 @@ public abstract class Graph implements IGraph {
         }
     }
 
-    /**
-     * TODO: Write JavaDoc
-     * @return
-     */
     public ArrayList<Vertex> getVertices() {
         return new ArrayList<>(vertices);
     }

@@ -33,19 +33,4 @@ public class DirectedGraph extends Graph {
         source.addEdge(e);
         return e;
     }
-
-    /**
-     * Connects two vertices in one direction with unweighted Edge.
-     * <p>
-     * Note: Sets weight of edge to 1. So will only work for unweighted graph if no Edge has been assigned a
-     * different weight!
-     * </p>
-     *
-     * @param labelSource      label of vertex that this edge starts from.
-     * @param labelDestination label of vertex that this edge leads to.
-     * @return true, if edge was successfully added, otherwise false.
-     */
-    public Edge addEdge(String labelSource, String labelDestination) {
-        return addEdge(labelSource, labelDestination, 1);
-    }
 }

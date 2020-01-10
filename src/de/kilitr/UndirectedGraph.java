@@ -35,18 +35,4 @@ public class UndirectedGraph extends Graph {
         vertex2.addEdge(e);
         return e;
     }
-
-    /**
-     * Connects two vertices in both directions with unweighted Edge.
-     * <p>
-     *     Note: Sets weight of edge to 1. So will only work for unweighted graph if no Edge has been assigned a
-     *     different weight!
-     * </p>
-     * @param label1 Label of first involved vertex. (order does not matter)
-     * @param label2 Label of second involved vertex. (order does not matter)
-     * @return true, if edge was successfully added, otherwise false.
-     */
-    public Edge addEdge(String label1, String label2) {
-        return addEdge(label1, label2, 1);
-    }
 }

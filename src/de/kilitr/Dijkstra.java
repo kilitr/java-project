@@ -30,12 +30,15 @@ public class Dijkstra {
         while(!pQueue.isEmpty()) {
             inspect(pQueue.poll());
         }
+        System.out.println("done");
         System.out.println(distanceAndOrigin);
     }
 
     private void inspect(Vertex inspectedVertex) {
             for (Edge e : inspectedVertex.getEdges()) {
-                Vertex to = inspectedVertex.getTo(e);
+                Vertex to;
+                if(graph instanceof UndirectedGraph) to = inspectedVertex.getUndirectedTo(e);
+                else to = e.getTo();
                 Pair<Integer, String> entry = distanceAndOrigin.get(to.getLabel());
                 int newWeight = distanceAndOrigin.get(inspectedVertex.getLabel()).getKey() + e.getWeight();
                 if(entry.getKey() > newWeight || entry.getKey() == Integer.MAX_VALUE) {
@@ -54,7 +57,16 @@ public class Dijkstra {
             while (distanceAndOrigin.get(v.getLabel()).getValue() != start.getLabel()) {
                 try {
                     parent = graph.getVertex(distanceAndOrigin.get(v.getLabel()).getValue());
-                    Edge part = v.getNormalizedEdgeTo(parent);
+                    Edge part;
+                    if(graph instanceof UndirectedGraph){
+                        part = v.getNormalizedUndirectedEdgeTo(parent);
+                    }
+                    else if(graph instanceof DirectedGraph){
+                        part = v.getDirectedEdgeFrom(parent);
+                    }
+                    else{
+                        throw new Exception("Dijkstra was applied to object of unknown class.");
+                    }
                     rawPath.add(0, part);
                     v = parent;
                 } catch (Exception e) {
@@ -64,7 +76,10 @@ public class Dijkstra {
             }
             try {
                 parent = graph.getVertex(distanceAndOrigin.get(v.getLabel()).getValue());
-                Edge part = v.getNormalizedEdgeTo(parent);
+                Edge part;
+                if(graph instanceof UndirectedGraph) part = v.getNormalizedUndirectedEdgeTo(parent);
+                else if(graph instanceof DirectedGraph) part = v.getDirectedEdgeFrom(parent);
+                else throw new Exception("Dijkstra was applied to object of unknown class.");
                 rawPath.add(0, part);
                 v = parent;
             } catch (Exception e) {

@@ -9,14 +9,6 @@ public class Edge{
     private int weight;
 
     /**
-     * @param to Vertex, that this Edge points to.
-     */
-    public Edge(Vertex from, Vertex to) {
-        this.to = to;
-        this.weight = 1;
-    }
-
-    /**
      * @param to     Vertex, that this Edge points to.
      * @param weight The weight of this Edge.
      */

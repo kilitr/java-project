@@ -32,7 +32,7 @@ public class Vertex {
     /**
      * @param edge Edge to add to this vertex. (This vertex will be the source of that edge)
      * @return True if the Edge was not already present and is new, else it returns False if the edge is already present
-     *         in the vertex.
+     * in the vertex.
      */
     public boolean addEdge(Edge edge) {
         return edges.add(edge);
@@ -46,36 +46,29 @@ public class Vertex {
     }
 
     /**
+     * Only for usage in context with undirected graphs
      *
-     * @return the Edge contained in this Vertex with the minimal weight.
-     */
-    public Edge getMinEdge() {
-        int minWeight = Integer.MAX_VALUE;
-        Edge min = null;
-        for(Edge e : this.getEdges()) {
-            if(e.getWeight() < minWeight) {
-                minWeight = e.getWeight();
-                min = e;
-            }
-        }
-        return min;
-    }
-
-    /**
      * @param e
      * @return Vertex, that e points to
      */
-    public Vertex getTo(Edge e) {
+    public Vertex getUndirectedTo(Edge e) {
         return e.getTo() == this ? e.getFrom() : e.getTo();
     }
 
-    public Edge getNormalizedEdgeTo(Vertex v) throws Exception {
-        for(Edge e : this.getEdges()) {
-            if(e.getTo() == v) return new Edge(v, this, e.getWeight());
-            if(e.getFrom() == v) return e;
+    public Edge getNormalizedUndirectedEdgeTo(Vertex v) throws Exception {
+        for (Edge e : this.getEdges()) {
+            if (e.getTo() == v) return new Edge(v, this, e.getWeight());
+            if (e.getFrom() == v) return e;
         }
-
         // TODO: Custom Exception
-        throw new Exception("There is no Edge to " + this.getLabel() + " from " + v.getLabel() + "!");
+        throw new Exception("[Undirected] There is no Edge to " + this.getLabel() + " from " + v.getLabel() + "!");
     }
+
+    public Edge getDirectedEdgeFrom(Vertex parent) throws Exception {
+        for (Edge e : parent.getEdges()) {
+            if (e.getTo().getLabel().equals(this.getLabel())) return e;
+        }
+        throw new Exception("[Directed] There is no Edge to " + this.getLabel() + " from " + parent.getLabel() + "!");
+    }
+
 }
