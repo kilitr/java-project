@@ -48,4 +48,9 @@ public class UndirectedGraph extends Graph {
     public boolean addEdge(String label1, String label2) {
         return addEdge(label1, label2, 1);
     }
+
+    @Override
+    public int getNumberOfEdges() {
+        return super.getNumberOfEdges()/2;
+    }
 }

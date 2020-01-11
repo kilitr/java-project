@@ -47,4 +47,9 @@ public class DirectedGraph extends Graph {
     public boolean addEdge(String labelSource, String labelDestination) {
         return addEdge(labelSource, labelDestination, 1);
     }
+
+    @Override
+    public int getNumberOfEdges() {
+        return super.getNumberOfEdges();
+    }
 }

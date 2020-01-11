@@ -1,9 +1,6 @@
 package de.kilitr;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 interface IGraph {
     /**
@@ -36,7 +33,7 @@ interface IGraph {
  * and undirected Graphs.
  */
 public abstract class Graph implements IGraph {
-    private Set<Vertex> vertices;
+    protected Set<Vertex> vertices;
 
     protected Graph(String[] verticeLabels) throws Exception {
         this.vertices = new HashSet<>();
@@ -72,4 +69,47 @@ public abstract class Graph implements IGraph {
         }
         return null;
     }
+
+    public int getNumberOfVertices() {
+        return vertices.size();
+    }
+
+    protected int getNumberOfEdges() {
+        int sum = 0;
+        for(Vertex v : vertices) {
+            sum += v.getEdges().size();
+        }
+        return sum;
+    }
+
+    public boolean isConnected() {
+        return breadthFirstSearch() == getNumberOfVertices();
+    }
+
+    private int breadthFirstSearch() {
+        int visitedVertices = 0;
+        Vertex current = getVertices().get(0);
+        HashMap<Vertex, Boolean> visited = new HashMap<>();
+        Queue<Vertex> queue = new LinkedList<>();
+        for (Vertex v : vertices) {
+            visited.put(v, false);
+        }
+
+        visited.put(current, true);
+        visitedVertices++;
+        queue.add(current);
+
+        while (!queue.isEmpty()) {
+            current = queue.poll();
+            for (Vertex v : current.getNeighbours()) {
+                if (!visited.get(v)) {
+                    visited.put(v, true);
+                    visitedVertices++;
+                    queue.add(v);
+                }
+            }
+        }
+        return visitedVertices;
+    }
+
 }

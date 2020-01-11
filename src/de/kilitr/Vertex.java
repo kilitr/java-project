@@ -44,4 +44,12 @@ public class Vertex {
     public List<Edge> getEdges() {
         return new ArrayList<>(edges);
     }
+
+    public List<Vertex> getNeighbours() {
+        List<Vertex> neighbours= new ArrayList<>();
+        for (Edge e : edges) {
+            neighbours.add(e.getTo());
+        }
+        return neighbours;
+    }
 }
