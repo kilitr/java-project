@@ -33,4 +33,9 @@ public class DirectedGraph extends Graph {
         source.addEdge(e);
         return e;
     }
+
+    @Override
+    public int getNumberOfEdges() {
+        return super.getNumberOfEdges();
+    }
 }

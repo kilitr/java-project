@@ -35,4 +35,9 @@ public class UndirectedGraph extends Graph {
         vertex2.addEdge(e);
         return e;
     }
+
+    @Override
+    public int getNumberOfEdges() {
+        return super.getNumberOfEdges()/2;
+    }
 }

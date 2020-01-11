@@ -32,7 +32,7 @@ public class Vertex {
     /**
      * @param edge Edge to add to this vertex. (This vertex will be the source of that edge)
      * @return True if the Edge was not already present and is new, else it returns False if the edge is already present
-     * in the vertex.
+     *         in the vertex.
      */
     public boolean addEdge(Edge edge) {
         return edges.add(edge);
@@ -71,4 +71,11 @@ public class Vertex {
         throw new Exception("[Directed] There is no Edge to " + this.getLabel() + " from " + parent.getLabel() + "!");
     }
 
+    public List<Vertex> getNeighbours() {
+        List<Vertex> neighbours= new ArrayList<>();
+        for (Edge e : edges) {
+            neighbours.add(e.getTo());
+        }
+        return neighbours;
+    }
 }
