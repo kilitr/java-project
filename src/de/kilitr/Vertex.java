@@ -55,22 +55,6 @@ public class Vertex {
         return e.getTo() == this ? e.getFrom() : e.getTo();
     }
 
-    public Edge getNormalizedUndirectedEdgeTo(Vertex v) throws Exception {
-        for (Edge e : this.getEdges()) {
-            if (e.getTo() == v) return new Edge(v, this, e.getWeight());
-            if (e.getFrom() == v) return e;
-        }
-        // TODO: Custom Exception
-        throw new Exception("[Undirected] There is no Edge to " + this.getLabel() + " from " + v.getLabel() + "!");
-    }
-
-    public Edge getDirectedEdgeFrom(Vertex parent) throws Exception {
-        for (Edge e : parent.getEdges()) {
-            if (e.getTo().getLabel().equals(this.getLabel())) return e;
-        }
-        throw new Exception("[Directed] There is no Edge to " + this.getLabel() + " from " + parent.getLabel() + "!");
-    }
-
     public List<Vertex> getNeighbours() {
         List<Vertex> neighbours= new ArrayList<>();
         for (Edge e : edges) {
