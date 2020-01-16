@@ -1,9 +1,14 @@
 package de.kilitr;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * A class describing the edges of a graph.
  */
-public class Edge{
+public class Edge {
+    private static final Logger logger = LogManager.getLogger(GraphLoader.class);
+
     private Vertex from; // for toString()
     private Vertex to;
     private int weight;

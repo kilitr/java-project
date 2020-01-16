@@ -1,5 +1,8 @@
 package de.kilitr;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * An implementation of the data structure Graph (here a undirected Graph). Can be both weighted and unweighted with
  * this implementation.
@@ -8,6 +11,8 @@ package de.kilitr;
  * </p>
  */
 public class UndirectedGraph extends Graph {
+    private static final Logger logger = LogManager.getLogger(GraphLoader.class);
+
 
     /**
      * @param verticeLabels An array, containing all ID's / labels of the vertices, that should be contained in

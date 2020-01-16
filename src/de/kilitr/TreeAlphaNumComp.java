@@ -1,5 +1,8 @@
 package de.kilitr;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.Comparator;
 
 /**
@@ -8,12 +11,14 @@ import java.util.Comparator;
  * Example using this class: n0, n1, n2, n3, ...
  */
 public class TreeAlphaNumComp implements Comparator<String> {
+    private static final Logger logger = LogManager.getLogger(GraphLoader.class);
+
     @Override
     public int compare(String str1, String str2) {
         String str1StringPart = str1.replaceAll("\\d", "");
         String str2StringPart = str2.replaceAll("\\d", "");
 
-        if(str1StringPart.equalsIgnoreCase(str2StringPart)) {
+        if (str1StringPart.equalsIgnoreCase(str2StringPart)) {
             return extractInt(str1) - extractInt(str2);
         }
         return str1.compareTo(str2);

@@ -1,5 +1,7 @@
 package de.kilitr;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -16,6 +18,8 @@ import java.io.IOException;
  * A helper class that offers an easy interface to load a graph described by an graphml file.
  */
 public class GraphLoader {
+    private static final Logger logger = LogManager.getLogger(GraphLoader.class);
+
     private File inputFile;
     private DocumentBuilderFactory dbFactory;
     private DocumentBuilder dBuilder;
@@ -30,8 +34,9 @@ public class GraphLoader {
      * @param filename The filename / path of the graphml file to process.
      */
     public GraphLoader(String filename) {
+        logger.traceEntry("Constructor");
         try {
-            System.out.print("Parsing " + filename + " ...");
+            logger.debug("Parsing \"" + filename + "\"");
             inputFile = new File(filename);
             dbFactory = DocumentBuilderFactory.newInstance();
             dBuilder = dbFactory.newDocumentBuilder();
@@ -39,13 +44,14 @@ public class GraphLoader {
             doc.getDocumentElement().normalize();
             loadVertices();
             loadEdges();
-            System.out.println(" succes!");
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
+        logger.traceExit("Constructor");
     }
 
     private void loadVertices() {
+        logger.traceEntry("loadVertices");
         xmlListVertices = doc.getElementsByTagName("node");
         String[] vertices = new String[xmlListVertices.getLength()];
         for (int temp = 0; temp < xmlListVertices.getLength(); temp++) {
@@ -62,9 +68,11 @@ public class GraphLoader {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        logger.traceExit("loadVertices");
     }
 
     private void loadEdges() {
+        logger.traceEntry("loadEdges");
         xmlListEdges = doc.getElementsByTagName("edge");
         for (int temp = 0; temp < xmlListEdges.getLength(); temp++) {
             Node nNode = xmlListEdges.item(temp);
@@ -82,6 +90,7 @@ public class GraphLoader {
                 undirectedGraph.addEdge(source, target, e_weight);
             }
         }
+        logger.traceExit("loadEdges");
     }
 
     /**
@@ -90,10 +99,12 @@ public class GraphLoader {
      * @see de.kilitr.UndirectedGraph
      */
     public UndirectedGraph getUndirectedGraph() {
-        if(this.undirectedGraph == null) {
+        logger.traceEntry("getUndirectedGraph");
+        if (this.undirectedGraph == null) {
             // throw new Exception("TODO: Custom Exception... When something undefined went wrong during loading");
         }
-        System.out.println("Succesfully loaded undirected graph.");
+        logger.debug("Succesfully loaded graph");
+        logger.traceExit("getUndirectedGraph");
         return this.undirectedGraph;
     }
 }

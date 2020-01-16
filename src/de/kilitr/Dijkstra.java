@@ -1,6 +1,8 @@
 package de.kilitr;
 
 import javafx.util.Pair;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -8,13 +10,15 @@ import java.util.PriorityQueue;
 import java.util.TreeMap;
 
 public class Dijkstra {
+    private static final Logger logger = LogManager.getLogger(GraphLoader.class);
+
     Graph graph;
     Vertex start;
     PriorityQueue<Vertex> pQueue;
     TreeMap<String, Pair<Integer, String>> distanceAndOrigin;
 
     public Dijkstra(Graph g, Vertex start) {
-        System.out.print("Loading Dijkstra for start=" + start.getLabel() + " ... ");
+        logger.debug("Preparing Dijkstra for start=" + start.getLabel() + " ... ");
         this.graph = g;
         this.start = start;
         pQueue = new PriorityQueue<>(new VertexComparator());
@@ -29,19 +33,15 @@ public class Dijkstra {
     }
 
     public void execute() {
-        System.out.print("executing ... ");
+        logger.debug("executing Dijkstra");
         while(!pQueue.isEmpty()) {
             inspect(pQueue.poll());
         }
-        System.out.println("done");
-        System.out.println(distanceAndOrigin);
     }
 
     private void inspect(Vertex inspectedVertex) {
             for (Edge e : inspectedVertex.getEdges()) {
-                Vertex to;
-                if(graph instanceof UndirectedGraph) to = inspectedVertex.getUndirectedTo(e);
-                else to = e.getTo();
+                Vertex to = e.getTo();
                 Pair<Integer, String> entry = distanceAndOrigin.get(to.getLabel());
                 int newWeight = distanceAndOrigin.get(inspectedVertex.getLabel()).getKey() + e.getWeight();
                 if (entry.getKey() > newWeight || entry.getKey() == Integer.MAX_VALUE) {

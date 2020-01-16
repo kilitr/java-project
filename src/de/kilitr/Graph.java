@@ -1,5 +1,8 @@
 package de.kilitr;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.*;
 
 interface IGraph {
@@ -18,6 +21,8 @@ interface IGraph {
  * and undirected Graphs.
  */
 public abstract class Graph implements IGraph {
+    private static final Logger logger = LogManager.getLogger(GraphLoader.class);
+
     protected Set<Vertex> vertices;
 
     protected Graph(String[] verticeLabels) throws Exception {

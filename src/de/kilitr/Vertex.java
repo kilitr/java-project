@@ -1,5 +1,8 @@
 package de.kilitr;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -9,6 +12,8 @@ import java.util.Set;
  * A class describing the vertices of a graph.
  */
 public class Vertex {
+    private static final Logger logger = LogManager.getLogger(GraphLoader.class);
+
     private String label;
     private Set<Edge> edges;
 
@@ -47,7 +52,6 @@ public class Vertex {
 
     /**
      * Only for usage in context with undirected graphs
-     *
      * @param e
      * @return Vertex, that e points to
      */
