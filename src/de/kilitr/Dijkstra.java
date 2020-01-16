@@ -80,6 +80,32 @@ public class Dijkstra {
         return null;
     }
 
+    private class CustomTuple {
+        private int weight;
+        private Vertex parent;
+
+        private CustomTuple(int w, Vertex p) {
+            setWeight(w);
+            setParent(p);
+        }
+
+        private Vertex getParent() {
+            return parent;
+        }
+
+        private void setParent(Vertex parent) {
+            this.parent = parent;
+        }
+
+        private int getWeight() {
+            return weight;
+        }
+
+        private void setWeight(int weight) {
+            this.weight = weight;
+        }
+    }
+
     private class VertexComparator implements Comparator<Vertex> {
         @Override
         public int compare(Vertex v1, Vertex v2) {
