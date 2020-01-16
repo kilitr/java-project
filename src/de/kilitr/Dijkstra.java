@@ -1,6 +1,5 @@
 package de.kilitr;
 
-import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,7 +14,7 @@ public class Dijkstra {
     Graph graph;
     Vertex start;
     PriorityQueue<Vertex> pQueue;
-    TreeMap<String, Pair<Integer, String>> distanceAndOrigin;
+    TreeMap<String, CustomTuple> distanceAndOrigin;
 
     public Dijkstra(Graph g, Vertex start) {
         logger.debug("Preparing Dijkstra for start=" + start.getLabel() + " ... ");
@@ -24,11 +23,11 @@ public class Dijkstra {
         pQueue = new PriorityQueue<>(new VertexComparator());
         distanceAndOrigin = new TreeMap<>(new TreeAlphaNumComp());
         for(Vertex v : graph.getVertices()) {
-            distanceAndOrigin.put(v.getLabel(), new Pair<>(Integer.MAX_VALUE, null)); // Because int has no Infinity
+            distanceAndOrigin.put(v.getLabel(), new CustomTuple(Integer.MAX_VALUE, null)); // Because int has no Infinity
         }
 
         // Initialize distanceAndOrigin with start vertex for dijkstra
-        distanceAndOrigin.put(start.getLabel(), new Pair<>(0, start.getLabel()));
+        distanceAndOrigin.put(start.getLabel(), new CustomTuple(0, start));
         inspect(start);
     }
 
@@ -42,10 +41,10 @@ public class Dijkstra {
     private void inspect(Vertex inspectedVertex) {
             for (Edge e : inspectedVertex.getEdges()) {
                 Vertex to = e.getTo();
-                Pair<Integer, String> entry = distanceAndOrigin.get(to.getLabel());
-                int newWeight = distanceAndOrigin.get(inspectedVertex.getLabel()).getKey() + e.getWeight();
-                if (entry.getKey() > newWeight || entry.getKey() == Integer.MAX_VALUE) {
-                    Pair<Integer, String> p = new Pair<>(newWeight, inspectedVertex.getLabel());
+                CustomTuple entry = distanceAndOrigin.get(to.getLabel());
+                int newWeight = distanceAndOrigin.get(inspectedVertex.getLabel()).getWeight() + e.getWeight();
+                if (entry.getWeight() > newWeight || entry.getWeight() == Integer.MAX_VALUE) {
+                    CustomTuple p = new CustomTuple(newWeight, inspectedVertex);
                     distanceAndOrigin.put(to.getLabel(), p);
                     pQueue.add(to);
                 }
@@ -72,8 +71,7 @@ public class Dijkstra {
      * @return Edge from the Dijkstra-Graph based parent to v.
      */
     private Edge getEdgeTo(Vertex v) {
-        String parentLabel = distanceAndOrigin.get(v.getLabel()).getValue();
-        Vertex parent = graph.getVertex(parentLabel);
+        Vertex parent = distanceAndOrigin.get(v.getLabel()).getParent();
         for (Edge e : parent.getEdges()) {
             if (e.getTo() == v) {
                 return e;
@@ -85,8 +83,8 @@ public class Dijkstra {
     private class VertexComparator implements Comparator<Vertex> {
         @Override
         public int compare(Vertex v1, Vertex v2) {
-            int weightV1 = distanceAndOrigin.get(v1.getLabel()).getKey();
-            int weightV2 = distanceAndOrigin.get(v2.getLabel()).getKey();
+            int weightV1 = distanceAndOrigin.get(v1.getLabel()).getWeight();
+            int weightV2 = distanceAndOrigin.get(v2.getLabel()).getWeight();
             return Integer.compare(weightV1, weightV2);
         }
     }
