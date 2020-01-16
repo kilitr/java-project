@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="LogDir" value="logs"></Property>
+        <Property name="DefaultLogPattern" value="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"></Property>
+        <Property name="PrettyConsolePattern" value="[%d{HH:mm:ss.SSS}] %msg%n"></Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${PrettyConsolePattern}"/>
+        </Console>
+
+        <File name="File_Appender" filename="${LogDir}/logfile.log">
+            <PatternLayout pattern="${DefaultLogPattern}"/>
+        </File>
+    </Appenders>
+    <Loggers>
+        <logger name="de.kilitr.Main" level="info" additivity="true">
+            <AppenderRef ref="Console"></AppenderRef>
+        </logger>
+        <Root level="debug">
+            <AppenderRef ref="File_Appender"/>
+        </Root>
+    </Loggers>
+</Configuration>
