@@ -7,15 +7,7 @@ public class Main {
         Dijkstra uDijk = new Dijkstra(undirectedGraph, undirectedGraph.getVertex("n0"));
         uDijk.execute();
 
-        System.out.println("Path to f = " + uDijk.getPathTo(undirectedGraph.getVertex("n13")));
-        //System.out.println("Weight to f = " + uDijk.getWeightTo(undirectedGraph.getVertex("f")));*/
-
-
-        DirectedGraph directedGraph =  new GraphLoader("small_graph.graphml").getDirectedGraph();
-        Dijkstra dDijk = new Dijkstra(directedGraph, directedGraph.getVertex("n0"));
-        dDijk.execute();
-
-        System.out.println("Path to f = " + dDijk.getPathTo(undirectedGraph.getVertex("n13")));
-        //System.out.println("Weight to f = " + dDijk.getWeightTo(undirectedGraph.getVertex("f")));
+        System.out.println("Path to f = " + uDijk.getPathTo(undirectedGraph.getVertex("n12")));
+        System.out.println("Graph is connected? " + undirectedGraph.isConnected());
     }
 }

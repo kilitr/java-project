@@ -9,9 +9,8 @@ interface IGraph {
      * @param from   Label of vertex that this edge starts from.
      * @param to     Label of vertex that this edge leads to.
      * @param weight The custom weight of this Edge.
-     * @return the created Edge
      */
-    Edge addEdge(String from, String to, int weight);
+    void addEdge(String from, String to, int weight);
 }
 
 /**

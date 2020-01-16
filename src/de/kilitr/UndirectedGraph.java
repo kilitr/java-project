@@ -24,16 +24,15 @@ public class UndirectedGraph extends Graph {
      * @param label1 Label of first involved vertex. (order does not matter)
      * @param label2 Label of second involved vertex. (order does not matter)
      * @param weight The custom weight of this Edge.
-     * @return true, if edge was successfully added, otherwise false.
      */
-    public Edge addEdge(String label1, String label2, int weight) {
+    public void addEdge(String label1, String label2, int weight) {
         Vertex vertex1 = getVertex(label1);
         Vertex vertex2 = getVertex(label2);
-        if (vertex1 == null || vertex2 == null) return null;//TODO: throw new Exception();
+        if (vertex1 == null || vertex2 == null) return;//TODO: throw new Exception();
         Edge e = new Edge(vertex1 ,vertex2, weight);
         vertex1.addEdge(e);
+        e = new Edge(vertex2, vertex1, weight);
         vertex2.addEdge(e);
-        return e;
     }
 
     @Override

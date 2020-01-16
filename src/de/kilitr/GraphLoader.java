@@ -25,7 +25,6 @@ public class GraphLoader {
     private NodeList xmlListEdges;
 
     private UndirectedGraph undirectedGraph;
-    private DirectedGraph directedGraph;
 
     /**
      * @param filename The filename / path of the graphml file to process.
@@ -60,7 +59,6 @@ public class GraphLoader {
 
         try {
             undirectedGraph = new UndirectedGraph(vertices);
-            directedGraph = new DirectedGraph(vertices);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -81,24 +79,9 @@ public class GraphLoader {
                                 .item(1)
                                 .getTextContent()
                 );
-
-                directedGraph.addEdge(source, target, e_weight);
                 undirectedGraph.addEdge(source, target, e_weight);
             }
         }
-    }
-
-    /**
-     * @return The directed graph, described by the provided graphml file.
-     * @see de.kilitr.GraphLoader#GraphLoader(String)
-     * @see DirectedGraph
-     */
-    public DirectedGraph getDirectedGraph() {
-        if (this.directedGraph == null) {
-            // throw new Exception("TODO: Custom Exception... When something undefined went wrong during loading");
-        }
-        System.out.println("Succesfully loaded directed graph.");
-        return this.directedGraph;
     }
 
     /**
