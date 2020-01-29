@@ -52,6 +52,7 @@ public class Vertex {
 
     /**
      * Only for usage in context with undirected graphs
+     *
      * @param e
      * @return Vertex, that e points to
      */
@@ -59,11 +60,25 @@ public class Vertex {
         return e.getTo() == this ? e.getFrom() : e.getTo();
     }
 
+
+    public int getWeightTo(Vertex v) {
+        for (Edge e : this.getEdges()) {
+            if (e.getTo() == v)
+                return e.getWeight();
+        }
+        return -1000;
+    }
+
     public List<Vertex> getNeighbours() {
-        List<Vertex> neighbours= new ArrayList<>();
+        List<Vertex> neighbours = new ArrayList<>();
         for (Edge e : edges) {
             neighbours.add(e.getTo());
         }
         return neighbours;
+    }
+
+    @Override
+    public String toString() {
+        return this.getLabel();
     }
 }
