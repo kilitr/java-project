@@ -1,116 +1,111 @@
 package de.kilitr;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Dijkstra {
-    private static final Logger logger = LogManager.getLogger(GraphLoader.class);
+    private Graph graph;
+    private Vertex start;
+    private HashMap<Vertex, Integer> distance;
+    private HashMap<Vertex, List<Vertex>> predecessor;
+    private Queue<Vertex> q;
 
-    Graph graph;
-    Vertex start;
-    PriorityQueue<Vertex> pQueue;
-    TreeMap<String, CustomTuple> distanceAndOrigin;
 
     public Dijkstra(Graph g, Vertex start) {
-        logger.debug("Preparing Dijkstra for start=" + start.getLabel() + " ... ");
+        this.distance = new HashMap<>();
+        this.predecessor = new HashMap<>();
+        this.q = new PriorityQueue<>(new VertexComparator());
         this.graph = g;
         this.start = start;
-        pQueue = new PriorityQueue<>(new VertexComparator());
-        distanceAndOrigin = new TreeMap<>(new TreeAlphaNumComp());
-        for(Vertex v : graph.getVertices()) {
-            distanceAndOrigin.put(v.getLabel(), new CustomTuple(Integer.MAX_VALUE, null)); // Because int has no Infinity
+        for (Vertex v : this.graph.getVertices()) {
+            distance.put(v, Integer.MAX_VALUE);
+            predecessor.put(v, null);
         }
-
-        // Initialize distanceAndOrigin with start vertex for dijkstra
-        distanceAndOrigin.put(start.getLabel(), new CustomTuple(0, start));
-        inspect(start);
+        distance.put(this.start, 0);
+        q.addAll(this.graph.getVertices());
     }
 
-    public void execute() {
-        logger.debug("executing Dijkstra");
-        while(!pQueue.isEmpty()) {
-            inspect(pQueue.poll());
-        }
-    }
-
-    private void inspect(Vertex inspectedVertex) {
-            for (Edge e : inspectedVertex.getEdges()) {
-                Vertex to = e.getTo();
-                CustomTuple entry = distanceAndOrigin.get(to.getLabel());
-                int newWeight = distanceAndOrigin.get(inspectedVertex.getLabel()).getWeight() + e.getWeight();
-                if (entry.getWeight() > newWeight || entry.getWeight() == Integer.MAX_VALUE) {
-                    CustomTuple p = new CustomTuple(newWeight, inspectedVertex);
-                    distanceAndOrigin.put(to.getLabel(), p);
-                    pQueue.add(to);
+    public HashMap<Vertex, List<Vertex>> execute() {
+        while (!q.isEmpty()) {
+            Vertex u = q.poll();
+            for (Vertex v : u.getNeighbours()) {
+                if (q.contains(v)) {
+                    update(u, v);
                 }
-
             }
+        }
+        return predecessor;
     }
 
-    public LinkedList<Edge> getPathTo(Vertex v) {
-        LinkedList<Edge> path = new LinkedList<>();
-        Edge edgeToParent = getEdgeTo(v);
-        path.add(0, edgeToParent);
-        assert edgeToParent != null; // TODO: prettier solution to avoid NullPointerException
-        while (edgeToParent.getFrom() != start) {
-            edgeToParent = getEdgeTo(edgeToParent.getFrom());
-            path.add(0, edgeToParent);
+    public LinkedList<Vertex> createShortestPath(Vertex target) {
+        LinkedList<Vertex> path = new LinkedList<>();
+        path.add(target);
+        Vertex u = target;
+        while (predecessor.get(u) != null) { // Predecessor of start is null
+            u = predecessor.get(u).get(0);
+            path.add(0, u);
         }
         return path;
     }
 
-    /**
-     * If there exists a path to v, this will return the optimal (according to Dijkstra) Edge to v.
-     *
-     * @param v is the destination Vertex.
-     * @return Edge from the Dijkstra-Graph based parent to v.
-     */
-    private Edge getEdgeTo(Vertex v) {
-        Vertex parent = distanceAndOrigin.get(v.getLabel()).getParent();
-        for (Edge e : parent.getEdges()) {
-            if (e.getTo() == v) {
-                return e;
-            }
+    public Paths createAllShortestPaths(Vertex target) {
+        Vertex u = target;
+
+        int amountOfPaths = 0;
+        while (predecessor.get(u) != null) {
+            List<Vertex> predecessors = predecessor.get(u);
+            amountOfPaths = amountOfPaths + (predecessors.size() - 1);
+            u = predecessors.get(0);
         }
-        return null;
+        amountOfPaths++;
+
+        Paths allPaths = new Paths(distance.get(target));
+        for(int i = 0; i < amountOfPaths; i++) {
+            LinkedList<Vertex> path = new LinkedList<>();
+            path.add(target);
+            u = target;
+            while (predecessor.get(u) != null) { // Predecessor of start is null
+                List<Vertex> predecessors = predecessor.get(u);
+                if(predecessors.size() > i) {
+                    u = predecessors.get(i);
+                } else {
+                    u = predecessors.get(0);
+                }
+                path.add(0, u);
+            }
+            allPaths.addPath(path);
+        }
+        return allPaths;
     }
 
-    private class CustomTuple {
-        private int weight;
-        private Vertex parent;
-
-        private CustomTuple(int w, Vertex p) {
-            setWeight(w);
-            setParent(p);
+    private void update(Vertex u, Vertex v) {
+        int alternative = distance.get(u) + u.getWeightTo(v);
+        if (alternative < distance.get(v)) {
+            distance.put(v, alternative);
+            predecessor.put(v, List.of(u));
+        } else if (alternative == distance.get(v)) {
+            // würde das dafür sorgen, dass 2 kürzeste Wege gefunden werden?
+            List<Vertex> multiplePredecessors = new ArrayList<>();
+            multiplePredecessors.add(predecessor.get(v).get(0));
+            multiplePredecessors.add(u);
+            distance.put(v, alternative);
+            predecessor.put(v, multiplePredecessors);
         }
+    }
 
-        private Vertex getParent() {
-            return parent;
-        }
+    public HashMap<Vertex, Integer> getDistances() {
+        return distance;
+    }
 
-        private void setParent(Vertex parent) {
-            this.parent = parent;
-        }
-
-        private int getWeight() {
-            return weight;
-        }
-
-        private void setWeight(int weight) {
-            this.weight = weight;
-        }
+    public Integer getDistanceTo(Vertex v) {
+        return distance.get(v);
     }
 
     private class VertexComparator implements Comparator<Vertex> {
         @Override
         public int compare(Vertex v1, Vertex v2) {
-            int weightV1 = distanceAndOrigin.get(v1.getLabel()).getWeight();
-            int weightV2 = distanceAndOrigin.get(v2.getLabel()).getWeight();
+            int weightV1 = distance.get(v1);
+            int weightV2 = distance.get(v2);
             return Integer.compare(weightV1, weightV2);
         }
     }

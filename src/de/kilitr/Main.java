@@ -20,8 +20,12 @@ public class Main {
         logger.info("Path to n12 = " + uDijk.getVertexPathTo(undirectedGraph.getVertex("n12")));*/
         logger.info("Graph is connected? " + undirectedGraph.isConnected());
 
-        Dijkstra2 d2 = new Dijkstra2(undirectedGraph, undirectedGraph.getVertex("n0"));
-        logger.info("Alternative Dijkstra: " + d2.execute());
-        logger.info("Path to n12 = " + d2.createShortestPath(undirectedGraph.getVertex("n12")));
+        Dijkstra d2 = new Dijkstra(undirectedGraph, undirectedGraph.getVertex("n0"));
+        logger.info("Dijkstra: " + d2.execute());
+        logger.info("Dijkstra: " + d2.getDistances());
+        for(Vertex v : undirectedGraph.getVertices()) {
+            Paths tempPaths = d2.createAllShortestPaths(v);
+            logger.info(tempPaths.size() + " Path(s) to " + v.getLabel() + " (" + d2.getDistanceTo(v) + ") = " + d2.createAllShortestPaths(v));
+        }
     }
 }
