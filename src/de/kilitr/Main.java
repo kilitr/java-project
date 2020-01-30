@@ -3,6 +3,8 @@ package de.kilitr;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.*;
+
 
 public class Main {
     private static final Logger logger = LogManager.getLogger(Main.class);
@@ -27,5 +29,7 @@ public class Main {
             Paths tempPaths = d2.createAllShortestPaths(v);
             logger.info(tempPaths.size() + " Path(s) to " + v.getLabel() + " (" + d2.getDistanceTo(v) + ") = " + d2.createAllShortestPaths(v));
         }
+        Betweenness g1 = new Betweenness(undirectedGraph);
+        List<List<Paths>> l1 = new ArrayList<List<Paths>>(g1.getAllPaths());
     }
 }
