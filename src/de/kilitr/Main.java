@@ -11,18 +11,12 @@ public class Main {
         String filename = "small_graph.graphml";
         logger.info("Loading Graph: \"" + filename + "\".");
         UndirectedGraph undirectedGraph = new GraphLoader(filename).getUndirectedGraph();
+        logger.info("Graph is connected? " + undirectedGraph.isConnected());
 
         String vertexName = "n0";
         logger.info("Calculating shortest paths from Vertex \"" + vertexName + "\"");
-        /*Dijkstra uDijk = new Dijkstra(undirectedGraph, undirectedGraph.getVertex(vertexName));
-        uDijk.execute();
-
-        logger.info("Path to n12 = " + uDijk.getVertexPathTo(undirectedGraph.getVertex("n12")));*/
-        logger.info("Graph is connected? " + undirectedGraph.isConnected());
-
         Dijkstra d2 = new Dijkstra(undirectedGraph, undirectedGraph.getVertex("n0"));
-        logger.info("Dijkstra: " + d2.execute());
-        logger.info("Dijkstra: " + d2.getDistances());
+        d2.execute();
         for(Vertex v : undirectedGraph.getVertices()) {
             Paths tempPaths = d2.createAllShortestPaths(v);
             logger.info(tempPaths.size() + " Path(s) to " + v.getLabel() + " (" + d2.getDistanceTo(v) + ") = " + d2.createAllShortestPaths(v));

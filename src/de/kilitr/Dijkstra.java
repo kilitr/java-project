@@ -1,20 +1,25 @@
 package de.kilitr;
 
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.*;
 
 public class Dijkstra {
+    private static final Logger logger = LogManager.getLogger(Dijkstra.class);
+
     private Graph graph;
     private Vertex start;
     private HashMap<Vertex, Integer> distance;
     private HashMap<Vertex, List<Vertex>> predecessor;
-    private Queue<Vertex> q;
+    private List<Vertex> q;
 
 
     public Dijkstra(Graph g, Vertex start) {
         this.distance = new HashMap<>();
         this.predecessor = new HashMap<>();
-        this.q = new PriorityQueue<>(new VertexComparator());
+        this.q = new ArrayList<>();
         this.graph = g;
         this.start = start;
         for (Vertex v : this.graph.getVertices()) {
@@ -27,9 +32,14 @@ public class Dijkstra {
 
     public HashMap<Vertex, List<Vertex>> execute() {
         while (!q.isEmpty()) {
-            Vertex u = q.poll();
+            logger.debug("Queue: " + q.toString());
+            q.sort(new VertexComparator());
+            Vertex u = q.get(0);
+            q.remove(0);
+            logger.debug("Inspecting " + u.toString());
             for (Vertex v : u.getNeighbours()) {
                 if (q.contains(v)) {
+                    logger.debug("updating " + u.getLabel() + " & " + v.getLabel());
                     update(u, v);
                 }
             }
@@ -78,19 +88,23 @@ public class Dijkstra {
         return allPaths;
     }
 
-    private void update(Vertex u, Vertex v) {
-        int alternative = distance.get(u) + u.getWeightTo(v);
-        if (alternative < distance.get(v)) {
-            distance.put(v, alternative);
-            predecessor.put(v, List.of(u));
-        } else if (alternative == distance.get(v)) {
+    private void update(Vertex origin, Vertex target) {
+        logger.debug("Initial distance : " + distance.get(target));
+        int alternative = distance.get(origin) + origin.getWeightTo(target);
+        if (alternative < distance.get(target)) {
+            distance.put(target, alternative);
+            predecessor.put(target, List.of(origin));
+            logger.debug("New distance for " + target.getLabel() + " = " + alternative);
+        } else if (alternative == distance.get(target)) {
             // würde das dafür sorgen, dass 2 kürzeste Wege gefunden werden?
             List<Vertex> multiplePredecessors = new ArrayList<>();
-            multiplePredecessors.add(predecessor.get(v).get(0));
-            multiplePredecessors.add(u);
-            distance.put(v, alternative);
-            predecessor.put(v, multiplePredecessors);
+            multiplePredecessors.add(predecessor.get(target).get(0));
+            multiplePredecessors.add(origin);
+            distance.put(target, alternative);
+            logger.debug("New distance for " + target.getLabel() + " = " + alternative);
+            predecessor.put(target, multiplePredecessors);
         }
+        logger.debug("Final distance : " + distance.get(target));
     }
 
     public HashMap<Vertex, Integer> getDistances() {
@@ -104,9 +118,7 @@ public class Dijkstra {
     private class VertexComparator implements Comparator<Vertex> {
         @Override
         public int compare(Vertex v1, Vertex v2) {
-            int weightV1 = distance.get(v1);
-            int weightV2 = distance.get(v2);
-            return Integer.compare(weightV1, weightV2);
+            return distance.get(v1).compareTo(distance.get(v2));
         }
     }
 }
