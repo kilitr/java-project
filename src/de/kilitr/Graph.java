@@ -23,10 +23,10 @@ interface IGraph {
 public abstract class Graph implements IGraph {
     private static final Logger logger = LogManager.getLogger(GraphLoader.class);
 
-    protected Set<Vertex> vertices;
+    protected TreeSet<Vertex> vertices;
 
     protected Graph(String[] verticeLabels) throws Exception {
-        this.vertices = new HashSet<>();
+        this.vertices = new TreeSet<>(new TreeAlphaNumComp());
         for (String verticeLabel : verticeLabels) {
             if (this.getVertex(verticeLabel) != null) {
                 //TODO: Custom Exception, when trying to create Graph with 2 or more vertices with the same name"

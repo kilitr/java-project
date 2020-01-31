@@ -10,18 +10,18 @@ import java.util.Comparator;
  * Example without this class: n0, n1, n10, n11, ...
  * Example using this class: n0, n1, n2, n3, ...
  */
-public class TreeAlphaNumComp implements Comparator<String> {
+public class TreeAlphaNumComp implements Comparator<Vertex> {
     private static final Logger logger = LogManager.getLogger(GraphLoader.class);
 
     @Override
-    public int compare(String str1, String str2) {
-        String str1StringPart = str1.replaceAll("\\d", "");
-        String str2StringPart = str2.replaceAll("\\d", "");
+    public int compare(Vertex v1, Vertex v2) {
+        String str1StringPart = v1.getLabel().replaceAll("\\d", "");
+        String str2StringPart = v2.getLabel().replaceAll("\\d", "");
 
         if (str1StringPart.equalsIgnoreCase(str2StringPart)) {
-            return extractInt(str1) - extractInt(str2);
+            return extractInt(v1.getLabel()) - extractInt(v2.getLabel());
         }
-        return str1.compareTo(str2);
+        return v1.getLabel().compareTo(v2.getLabel());
     }
 
     private int extractInt(String s) {
