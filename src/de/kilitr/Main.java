@@ -24,6 +24,10 @@ public class Main {
             logger.info(tempPaths.size() + " Path(s) to " + v.getLabel() + " (" + d2.getDistanceTo(v) + ") = " + d2.createAllShortestPaths(v));
         }
         Betweenness g1 = new Betweenness(undirectedGraph);
-        List<List<Paths>> l1 = new ArrayList<List<Paths>>(g1.getAllPaths());
+        List<Paths> l1 = new ArrayList<Paths>(g1.getAllPaths());
+        for (Vertex v : undirectedGraph.getVertices()) {
+            double test = g1.getBetweenness(v);
+            logger.info("Betweenness " + v.getLabel() +" \"" + test + "\"");
+        }
     }
 }

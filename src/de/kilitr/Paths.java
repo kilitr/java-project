@@ -21,6 +21,19 @@ public class Paths {
         this.weight = w;
     }
 
+    public int checkVertex(Vertex v){
+        int pathsWithVertex = 0;
+        for (LinkedList l : paths){
+            if (l.getFirst() == v || l.getLast() == v){
+
+            }
+            else if(l.contains(v)){
+                pathsWithVertex++;
+            }
+        }
+        return pathsWithVertex;
+    }
+
     @Override
     public String toString() {
         List<String> output = new ArrayList<>();

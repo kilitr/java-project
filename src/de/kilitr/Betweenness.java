@@ -5,38 +5,37 @@ import java.util.*;
 
 public class Betweenness {
     private Graph graph;
-    private ArrayList<Vertex> vertices;
+    private List<Paths> paths;
 
     public Betweenness(Graph g) {
         this.graph = g;
-        this.vertices = g.getVertices();
+        this.paths = getAllPaths();
     }
 
-    public List<List<Paths>> getAllPaths(){
-        List<List<Paths>> allPathlist = new ArrayList<List<Paths>>();
+    public List<Paths> getAllPaths(){
+        List<Paths> allPathlist = new ArrayList<Paths>();
         int i = this.graph.getNumberOfVertices();
         for(Vertex v : this.graph.getVertices()) {
-            List<Paths> pathlist = new ArrayList<Paths>();
             Dijkstra paths = new Dijkstra(graph, v);
+            paths.execute();
             for (Vertex w : this.graph.getVertices()){
-                pathlist.add(paths.createAllShortestPaths(w));
+                allPathlist.add(paths.createAllShortestPaths(w));
             }
-            allPathlist.add(pathlist);
 
         }
         return allPathlist;
     }
-/*
+
     public double getBetweenness(Vertex v){
         double betweenness = 0;
-        List<Paths> pathlist = new ArrayList<Paths>(getAllPaths());
-        for(Paths p : pathlist) {
-
+        for (Paths p : this.paths) {
+            betweenness = betweenness + p.checkVertex(v)/p.size();
         }
-
-        return betweenness;
-
+        return betweenness/2;
     }
 
- */
+
+
+
+
 }
