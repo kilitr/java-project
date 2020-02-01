@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * A class describing the edges of a graph.
+ * Describes a single instance of the edges between a graph's vertices.
  */
 public class Edge {
     private static final Logger logger = LogManager.getLogger(GraphLoader.class);
@@ -14,6 +14,8 @@ public class Edge {
     private int weight;
 
     /**
+     * creates an Edge but <b>does not add</b> it to the respective vertices.
+     * @param from   Vertex, that this Edge starts at.
      * @param to     Vertex, that this Edge points to.
      * @param weight The weight of this Edge.
      */
@@ -24,6 +26,7 @@ public class Edge {
     }
 
     /**
+     * provides the destination of the edge.
      * @return The vertex, that this edge points to.
      */
     protected Vertex getTo() {
@@ -31,6 +34,7 @@ public class Edge {
     }
 
     /**
+     * provides the source of the edge.
      * @return The vertex, that this edge comes from.
      */
     protected Vertex getFrom() {
@@ -38,12 +42,18 @@ public class Edge {
     }
 
     /**
+     * provides the weight of this edge.
      * @return The weight of this Edge.
      */
     public int getWeight() {
         return weight;
     }
 
+    /**
+     * generates a String describing this Object.
+     *
+     * @return a String in the form of <i>Edge{[source]-[target]([weight]}</i>.
+     */
     @Override
     public String toString() {
         return "Edge{" + from.getLabel() + "-" + to.getLabel() + "(" + weight + ")}";

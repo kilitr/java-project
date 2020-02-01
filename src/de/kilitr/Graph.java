@@ -1,5 +1,6 @@
 package de.kilitr;
 
+import de.kilitr.exceptions.DuplicateVertexException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,17 +26,21 @@ public abstract class Graph implements IGraph {
 
     protected TreeSet<Vertex> vertices;
 
-    protected Graph(String[] verticeLabels) throws Exception {
+    protected Graph(String[] verticeLabels) throws DuplicateVertexException {
         this.vertices = new TreeSet<>(new TreeAlphaNumComp());
         for (String verticeLabel : verticeLabels) {
             if (this.getVertex(verticeLabel) != null) {
-                //TODO: Custom Exception, when trying to create Graph with 2 or more vertices with the same name"
-                throw new Exception("Trying to add multiple vertices with same label");
+                throw new DuplicateVertexException("Cannot create graph! - This Graph contains at least two different Vertices, that were given the same name.");
             }
             this.addVertex(new Vertex(verticeLabel));
         }
     }
 
+    /**
+     * Provides a list of vertices contained.
+     *
+     * @return a list of vertices contained in the Graph.
+     */
     public ArrayList<Vertex> getVertices() {
         return new ArrayList<>(vertices);
     }
@@ -60,6 +65,11 @@ public abstract class Graph implements IGraph {
         return null;
     }
 
+    /**
+     * Provides the amount of vertices contained.
+     *
+     * @return amount of vertices contained in the graph.
+     */
     public int getNumberOfVertices() {
         return vertices.size();
     }
@@ -72,6 +82,12 @@ public abstract class Graph implements IGraph {
         return sum;
     }
 
+
+    /**
+     * wheter this graph is connected or not.
+     *
+     * @return boolean value, whether the graph is connected or not.
+     */
     public boolean isConnected() {
         return breadthFirstSearch() == getNumberOfVertices();
     }

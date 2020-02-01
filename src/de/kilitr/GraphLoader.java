@@ -1,5 +1,7 @@
 package de.kilitr;
 
+import de.kilitr.exceptions.DuplicateVertexException;
+import de.kilitr.exceptions.GraphNotValidException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
@@ -15,7 +17,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * A helper class that offers an easy interface to load a graph described by an graphml file.
+ * Helper class that offers an easy interface to load a graph described by an graphml file.
  */
 public class GraphLoader {
     private static final Logger logger = LogManager.getLogger(GraphLoader.class);
@@ -31,7 +33,8 @@ public class GraphLoader {
     private UndirectedGraph undirectedGraph;
 
     /**
-     * @param filename The filename / path of the graphml file to process.
+     * loads the graph and automatically generates the Graph object.
+     * @param filename (path) of the graphml file to process.
      */
     public GraphLoader(String filename) {
         logger.traceEntry("Constructor");
@@ -65,8 +68,11 @@ public class GraphLoader {
 
         try {
             undirectedGraph = new UndirectedGraph(vertices);
+        } catch (DuplicateVertexException e) {
+            logger.error(e.getMessage());
+            System.exit(-1);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         logger.traceExit("loadVertices");
     }
@@ -94,14 +100,15 @@ public class GraphLoader {
     }
 
     /**
-     * @return The undirected graph, described by the provided graphml file.
+     * provides an Object of UndirectedGraph loaded with the information of the given *.graphml file.
+     * @return The undirected graph, described by the provided *.graphml file.
      * @see de.kilitr.GraphLoader#GraphLoader(String)
      * @see de.kilitr.UndirectedGraph
      */
-    public UndirectedGraph getUndirectedGraph() {
+    public UndirectedGraph getUndirectedGraph() throws GraphNotValidException {
         logger.traceEntry("getUndirectedGraph");
         if (this.undirectedGraph == null) {
-            // throw new Exception("TODO: Custom Exception... When something undefined went wrong during loading");
+            throw new GraphNotValidException("Something went wrong during loading the graph.");
         }
         logger.debug("Succesfully loaded graph");
         logger.traceExit("getUndirectedGraph");

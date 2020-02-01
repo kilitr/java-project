@@ -1,12 +1,13 @@
 package de.kilitr;
 
+import de.kilitr.exceptions.DuplicateVertexException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * An implementation of the data structure Graph (here a undirected Graph). Can be both weighted and unweighted with
- * this implementation.
+ * An implementation of the data structure Graph (here a undirected Graph).
  * <p>
+ * Can be both weighted and unweighted with this implementation.
  * Unweighted means, that all Edges by default get <i>weight = 1</i> assigned.
  * </p>
  */
@@ -15,10 +16,12 @@ public class UndirectedGraph extends Graph {
 
 
     /**
+     * creates the Undirected Graph utilizing the constructor of the abstract class Graph.
      * @param verticeLabels An array, containing all ID's / labels of the vertices, that should be contained in
      *                      the Graph.
+     * @throws DuplicateVertexException when trying to create a Graph with two identical vertex labels
      */
-    public UndirectedGraph(String[] verticeLabels) throws Exception {
+    public UndirectedGraph(String[] verticeLabels) throws DuplicateVertexException {
         super(verticeLabels);
     }
 
@@ -40,6 +43,11 @@ public class UndirectedGraph extends Graph {
         vertex2.addEdge(e);
     }
 
+    /**
+     * provides the amount of Edges contained.
+     *
+     * @return the amount of Edges contained.
+     */
     @Override
     public int getNumberOfEdges() {
         return super.getNumberOfEdges()/2;

@@ -4,19 +4,37 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Provides functionality to store multiple shortest Paths with the according weight.
+ */
 public class Paths {
     private ArrayList<LinkedList<Vertex>> paths;
     private int weight;
 
+    /**
+     * Initializes the contained data structures and sets the weight to <i>w</i>.
+     *
+     * @param w weight for all paths contained in this object
+     */
     public Paths(int w) {
         weight = w;
         paths = new ArrayList<>();
     }
 
+    /**
+     * Adds a new path.
+     *
+     * @param path the new path to add
+     */
     public void addPath(LinkedList<Vertex> path) {
         this.paths.add(path);
-    };
+    }
 
+    /**
+     * change the weight of all contained paths.
+     *
+     * @param w changes the weight.
+     */
     public void setWeight(int w) {
         this.weight = w;
     }
@@ -37,6 +55,10 @@ public class Paths {
         return pathsWithVertex;
     }
 
+    /**
+     * generates a String describing this Object.
+     * @return a String in the form of <i>[vertex1, vertex2, vertex3]</i> or <i>[vertex1, vertex2, vertex3] &amp; [vertex2, vertex3, vertex1]</i>, if multiple paths are present.
+     */
     @Override
     public String toString() {
         List<String> output = new ArrayList<>();
@@ -46,6 +68,11 @@ public class Paths {
         return String.join(" & ", output);
     }
 
+
+    /**
+     * provides the amount of existing paths.
+     * @return amount of paths contained.
+     */
     public int size() {
         return this.paths.size();
     }

@@ -13,6 +13,13 @@ import java.util.Comparator;
 public class TreeAlphaNumComp implements Comparator<Vertex> {
     private static final Logger logger = LogManager.getLogger(GraphLoader.class);
 
+    /**
+     * The custom compare function for achieving the described order.
+     *
+     * @param v1 first vertex to compare
+     * @param v2 second vertex to compare
+     * @return a positive Integer - if v1 &gt; v2 <br> a negative Integer - if v1 &lt; v2 <br> zero - if v1 == v2.
+     */
     @Override
     public int compare(Vertex v1, Vertex v2) {
         String str1StringPart = v1.getLabel().replaceAll("\\d", "");
