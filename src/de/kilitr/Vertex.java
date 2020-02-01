@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * A class describing the vertices of a graph.
+ * Describes a single instance of the vertices of a graph.
  */
 public class Vertex {
     private static final Logger logger = LogManager.getLogger(GraphLoader.class);
@@ -28,6 +28,7 @@ public class Vertex {
     }
 
     /**
+     * provides the label of this vertex.
      * @return The custom label of this vertex.
      */
     public String getLabel() {
@@ -35,6 +36,7 @@ public class Vertex {
     }
 
     /**
+     * adds an the specified edge to this vertex.
      * @param edge Edge to add to this vertex. (This vertex will be the source of that edge)
      * @return True if the Edge was not already present and is new, else it returns False if the edge is already present
      *         in the vertex.
@@ -44,31 +46,33 @@ public class Vertex {
     }
 
     /**
+     * get a list of all edges.
      * @return All edges of this vertex in an ArrayList.
      */
     public List<Edge> getEdges() {
         return new ArrayList<>(edges);
     }
 
+
     /**
-     * Only for usage in context with undirected graphs
-     *
-     * @param e
-     * @return Vertex, that e points to
+     * provides the weight of the Edge to the specified vertex.
+     * @param target the target vertex
+     * @return the weight of the edge to the given vertex.
+     * @throws Exception when no edge connects the source and target vertex.
      */
-    public Vertex getUndirectedTo(Edge e) {
-        return e.getTo() == this ? e.getFrom() : e.getTo();
-    }
-
-
-    public int getWeightTo(Vertex v) {
+    public int getWeightTo(Vertex target) throws Exception {
         for (Edge e : this.getEdges()) {
-            if (e.getTo() == v)
+            if (e.getTo() == target)
                 return e.getWeight();
         }
-        return -1000;
+        throw new Exception("No Edge to vertex " + target.getLabel());
     }
 
+    /**
+     * provides a list of vertices that are connected with this vertex.
+     *
+     * @return list of vertices connected to this vertex.
+     */
     public List<Vertex> getNeighbours() {
         List<Vertex> neighbours = new ArrayList<>();
         for (Edge e : edges) {
@@ -77,6 +81,11 @@ public class Vertex {
         return neighbours;
     }
 
+    /**
+     * generates a String describing this Object.
+     *
+     * @return the label of this vertex.
+     */
     @Override
     public String toString() {
         return this.getLabel();

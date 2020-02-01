@@ -6,6 +6,11 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
+
+/**
+ * Provides functionality to calculate all shortest paths.
+ * Provides the weight of the shortest paths and all available shortest paths.
+ */
 public class Dijkstra {
     private static final Logger logger = LogManager.getLogger(Dijkstra.class);
 
@@ -16,6 +21,12 @@ public class Dijkstra {
     private List<Vertex> q;
 
 
+    /**
+     * Initializes the shortest path calculation.
+     *
+     * @param g     The graph, that the starting vertex is contained in.
+     * @param start The start vertex.
+     */
     public Dijkstra(Graph g, Vertex start) {
         this.distance = new HashMap<>();
         this.predecessor = new HashMap<>();
@@ -28,9 +39,13 @@ public class Dijkstra {
         }
         distance.put(this.start, 0);
         q.addAll(this.graph.getVertices());
+        execute();
     }
 
-    public HashMap<Vertex, List<Vertex>> execute() {
+    /**
+     * Initiates the calculation for the constructed Object.
+     */
+    private void execute() {
         while (!q.isEmpty()) {
             logger.debug("Queue: " + q.toString());
             q.sort(new VertexComparator());
@@ -40,13 +55,18 @@ public class Dijkstra {
             for (Vertex v : u.getNeighbours()) {
                 if (q.contains(v)) {
                     logger.debug("updating " + u.getLabel() + " & " + v.getLabel());
-                    update(u, v);
+                    updateDistances(u, v);
                 }
             }
         }
-        return predecessor;
     }
 
+    /**
+     * creates a single shortest path from the startvertex to the target in form of a linked list.
+     *
+     * @param target The vertex, that you want to reach with the shortest path available.
+     * @return linked list of vertices, that describe the path.
+     */
     public LinkedList<Vertex> createShortestPath(Vertex target) {
         LinkedList<Vertex> path = new LinkedList<>();
         path.add(target);
@@ -58,6 +78,12 @@ public class Dijkstra {
         return path;
     }
 
+    /**
+     * creates all shortest paths from the starting vertex to the target in form of the class Paths.
+     *
+     * @param target The vertex, that you want to reach with all the shortest paths available.
+     * @return custom class containing the weight of the shortest path and all the paths available.
+     */
     public Paths createAllShortestPaths(Vertex target) {
         Vertex u = target;
 
@@ -88,31 +114,48 @@ public class Dijkstra {
         return allPaths;
     }
 
-    private void update(Vertex origin, Vertex target) {
+    private void updateDistances(Vertex origin, Vertex target) {
         logger.debug("Initial distance : " + distance.get(target));
-        int alternative = distance.get(origin) + origin.getWeightTo(target);
-        if (alternative < distance.get(target)) {
-            distance.put(target, alternative);
-            predecessor.put(target, List.of(origin));
-            logger.debug("New distance for " + target.getLabel() + " = " + alternative);
-        } else if (alternative == distance.get(target)) {
-            // würde das dafür sorgen, dass 2 kürzeste Wege gefunden werden?
-            List<Vertex> multiplePredecessors = new ArrayList<>();
-            multiplePredecessors.add(predecessor.get(target).get(0));
-            multiplePredecessors.add(origin);
-            distance.put(target, alternative);
-            logger.debug("New distance for " + target.getLabel() + " = " + alternative);
-            predecessor.put(target, multiplePredecessors);
+        try {
+            int alternative = distance.get(origin) + origin.getWeightTo(target);
+            if (alternative < distance.get(target)) {
+                distance.put(target, alternative);
+                predecessor.put(target, List.of(origin));
+                logger.debug("New distance for " + target.getLabel() + " = " + alternative);
+            } else if (alternative == distance.get(target)) {
+                // würde das dafür sorgen, dass 2 kürzeste Wege gefunden werden?
+                List<Vertex> multiplePredecessors = new ArrayList<>();
+                multiplePredecessors.add(predecessor.get(target).get(0));
+                multiplePredecessors.add(origin);
+                distance.put(target, alternative);
+                logger.debug("New distance for " + target.getLabel() + " = " + alternative);
+                predecessor.put(target, multiplePredecessors);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         logger.debug("Final distance : " + distance.get(target));
     }
 
+    /**
+     * Provides all distances from the starting vertex to all other contained vertices.
+     * If a distance seems oddly large, compare the distance to Integer.MAX_VALUE on your system, if
+     * the distance is qual to this value, then there is not path.
+     * @return a hash map with the target vertex as key and the respective distance as value.
+     */
     public HashMap<Vertex, Integer> getDistances() {
         return distance;
     }
 
-    public Integer getDistanceTo(Vertex v) {
-        return distance.get(v);
+
+    /**
+     * provides the distance of the shortest paths from the start vertex to the target vertex.
+     *
+     * @param target the vertex, you want to get the distance to starting from the start Vertex.
+     * @return the Integer value representing the distance.
+     */
+    public Integer getDistanceTo(Vertex target) {
+        return distance.get(target);
     }
 
     private class VertexComparator implements Comparator<Vertex> {

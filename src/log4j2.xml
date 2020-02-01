@@ -15,7 +15,7 @@
         </File>
     </Appenders>
     <Loggers>
-        <logger name="de.kilitr.Main" level="info" additivity="true">
+        <logger name="de.kilitr" level="info" additivity="true">
             <AppenderRef ref="Console"></AppenderRef>
         </logger>
         <Root level="debug">
