@@ -1,9 +1,14 @@
 package de.kilitr;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.nio.file.Path;
 import java.util.*;
 
 public class Betweenness {
+    private static final Logger logger = LogManager.getLogger(Dijkstra.class);
+
     private Graph graph;
     private List<Paths> paths;
 
@@ -29,7 +34,7 @@ public class Betweenness {
     public double getBetweenness(Vertex v){
         double betweenness = 0;
         for (Paths p : this.paths) {
-            betweenness = betweenness + p.checkVertex(v)/p.size();
+            betweenness = betweenness + ((double)p.checkVertex(v))/((double)p.size());
         }
         return betweenness/2;
     }
