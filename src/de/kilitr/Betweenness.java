@@ -3,8 +3,8 @@ package de.kilitr;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 /**
  * A class that can calculate the betweenness centrality of an vertex in a graph
  */
@@ -14,19 +14,24 @@ public class Betweenness {
     private Graph graph;
     private List<Paths> paths;
 
+    /**
+     * Initializes the betweenness centrality measure calculation.
+     *
+     * @param g graph, that the betweenness centrality measure should be calculated for.
+     */
     public Betweenness(Graph g) {
         this.graph = g;
         this.paths = getAllPaths();
     }
+
     /**
-     * @return an Arraylist of Paths with all shortest Paths of anGraph
+     * @return an Arraylist of paths with all shortest paths of an graph
      */
-    private List<Paths> getAllPaths(){
-        List<Paths> allPathlist = new ArrayList<Paths>();
+    private List<Paths> getAllPaths() {
+        List<Paths> allPathlist = new ArrayList<>();
         int i = this.graph.getNumberOfVertices();
         for(Vertex v : this.graph.getVertices()) {
             Dijkstra paths = new Dijkstra(graph, v);
-            paths.execute();
             for (Vertex w : this.graph.getVertices()){
                 allPathlist.add(paths.createAllShortestPaths(w));
             }
@@ -38,8 +43,9 @@ public class Betweenness {
     }
 
     /**
-     * @param v a Vertex of the Graph
-     * @return the betweenness centrality of an the Vertex v
+     * provides the betweenness centrality measure for the given vertex.
+     * @param v a vertex of the graph
+     * @return the betweenness centrality of the vertex v
      */
     public double getBetweenness(Vertex v){
         double betweenness = 0;

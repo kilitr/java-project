@@ -102,8 +102,7 @@ public class GraphLoader {
     /**
      * provides an Object of UndirectedGraph loaded with the information of the given *.graphml file.
      * @return The undirected graph, described by the provided *.graphml file.
-     * @see de.kilitr.GraphLoader#GraphLoader(String)
-     * @see de.kilitr.UndirectedGraph
+     * @throws GraphNotValidException when an error occured during loading the graph.
      */
     public UndirectedGraph getUndirectedGraph() throws GraphNotValidException {
         logger.traceEntry("getUndirectedGraph");
