@@ -1,6 +1,7 @@
 package de.kilitr;
 
 import de.kilitr.exceptions.DuplicateVertexException;
+import de.kilitr.exceptions.VertexNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,10 +28,14 @@ public abstract class Graph implements IGraph {
     protected TreeSet<Vertex> vertices;
 
     protected Graph(String[] verticeLabels) throws DuplicateVertexException {
-        this.vertices = new TreeSet<>(new TreeAlphaNumComp());
+        this.vertices = new TreeSet<>(new TreeVertexAlphaNumComp());
         for (String verticeLabel : verticeLabels) {
-            if (this.getVertex(verticeLabel) != null) {
-                throw new DuplicateVertexException("Cannot create graph! - This Graph contains at least two different Vertices, that were given the same name.");
+            try {
+                if (this.getVertex(verticeLabel) instanceof Vertex) {
+                    throw new DuplicateVertexException("Cannot create graph! - This Graph contains at least two different Vertices, that were given the same name.");
+                }
+            } catch (VertexNotFoundException e) {
+                // To be expected and nothing to worry about due to the fact that we are hoping not to find a Vertex here.
             }
             this.addVertex(new Vertex(verticeLabel));
         }
@@ -55,14 +60,14 @@ public abstract class Graph implements IGraph {
      * @param label the label (CLI = id) of the desired vertex.
      * @return Vertex if vertex with the given label exists, otherwise null.
      */
-    public Vertex getVertex(String label) {
+    public Vertex getVertex(String label) throws VertexNotFoundException {
         List<Vertex> vertices = getVertices();
         for (Vertex vert : vertices) {
             if (vert.getLabel().equals(label)) {
                 return vert;
             }
         }
-        return null;
+        throw new VertexNotFoundException("Vertex '" + label + "' does not exist.");
     }
 
     /**
@@ -118,4 +123,18 @@ public abstract class Graph implements IGraph {
         return visitedVertices;
     }
 
+    /**
+     * generates a TreeSet ordered by the TreeStringAlphaNumComp containing all labels of the vertices in the graph.
+     *
+     * @return TreeSet containing all labels of the vertices in the graph.
+     */
+    public TreeSet<String> getVertexLabels() {
+        TreeSet<String> vertexLabels = new TreeSet<>(new TreeStringAlphaNumComp());
+        for (Vertex v : this.getVertices()) {
+            vertexLabels.add(v.getLabel());
+        }
+        return vertexLabels;
+    }
+
+    public abstract TreeSet<String> getEdgeLabels();
 }

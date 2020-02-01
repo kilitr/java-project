@@ -4,6 +4,7 @@
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <option name="MAIN_CLASS_NAME" value="de.kilitr.Main" />
     <module name="java-project" />
+    <shortenClasspath name="MANIFEST" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="de.kilitr.exceptions.*" />

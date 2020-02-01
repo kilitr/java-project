@@ -37,7 +37,6 @@ public class GraphLoader {
      * @param filename (path) of the graphml file to process.
      */
     public GraphLoader(String filename) {
-        logger.traceEntry("Constructor");
         try {
             logger.debug("Parsing \"" + filename + "\"");
             inputFile = new File(filename);
@@ -48,13 +47,11 @@ public class GraphLoader {
             loadVertices();
             loadEdges();
         } catch (ParserConfigurationException | SAXException | IOException e) {
-            e.printStackTrace();
+            logger.error("Error: " + e.getMessage());
         }
-        logger.traceExit("Constructor");
     }
 
     private void loadVertices() {
-        logger.traceEntry("loadVertices");
         xmlListVertices = doc.getElementsByTagName("node");
         String[] vertices = new String[xmlListVertices.getLength()];
         for (int temp = 0; temp < xmlListVertices.getLength(); temp++) {
@@ -69,16 +66,14 @@ public class GraphLoader {
         try {
             undirectedGraph = new UndirectedGraph(vertices);
         } catch (DuplicateVertexException e) {
-            logger.error(e.getMessage());
+            logger.error("Error: " + e.getMessage());
             System.exit(-1);
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("Error: " + e.getMessage());
         }
-        logger.traceExit("loadVertices");
     }
 
     private void loadEdges() {
-        logger.traceEntry("loadEdges");
         xmlListEdges = doc.getElementsByTagName("edge");
         for (int temp = 0; temp < xmlListEdges.getLength(); temp++) {
             Node nNode = xmlListEdges.item(temp);
@@ -96,7 +91,6 @@ public class GraphLoader {
                 undirectedGraph.addEdge(source, target, e_weight);
             }
         }
-        logger.traceExit("loadEdges");
     }
 
     /**
@@ -105,12 +99,10 @@ public class GraphLoader {
      * @throws GraphNotValidException when an error occured during loading the graph.
      */
     public UndirectedGraph getUndirectedGraph() throws GraphNotValidException {
-        logger.traceEntry("getUndirectedGraph");
         if (this.undirectedGraph == null) {
             throw new GraphNotValidException("Something went wrong during loading the graph.");
         }
         logger.debug("Succesfully loaded graph");
-        logger.traceExit("getUndirectedGraph");
         return this.undirectedGraph;
     }
 }

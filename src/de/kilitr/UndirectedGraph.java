@@ -1,8 +1,11 @@
 package de.kilitr;
 
 import de.kilitr.exceptions.DuplicateVertexException;
+import de.kilitr.exceptions.VertexNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.TreeSet;
 
 /**
  * An implementation of the data structure Graph (here a undirected Graph).
@@ -34,8 +37,14 @@ public class UndirectedGraph extends Graph {
      * @param weight The custom weight of this Edge.
      */
     public void addEdge(String label1, String label2, int weight) {
-        Vertex vertex1 = getVertex(label1);
-        Vertex vertex2 = getVertex(label2);
+        Vertex vertex1 = null;
+        Vertex vertex2 = null;
+        try {
+            vertex1 = getVertex(label1);
+            vertex2 = getVertex(label2);
+        } catch (VertexNotFoundException e) {
+            e.printStackTrace();
+        }
         if (vertex1 == null || vertex2 == null) return;//TODO: throw new Exception();
         Edge e = new Edge(vertex1 ,vertex2, weight);
         vertex1.addEdge(e);
@@ -51,5 +60,18 @@ public class UndirectedGraph extends Graph {
     @Override
     public int getNumberOfEdges() {
         return super.getNumberOfEdges()/2;
+    }
+
+    public TreeSet<String> getEdgeLabels() {
+        TreeSet<String> edgeLabels = new TreeSet<>(new TreeStringAlphaNumComp());
+        for (Vertex v : this.getVertices()) {
+            for (Edge e : v.getEdges()) {
+                // only add, an edge once.
+                if (!edgeLabels.contains(e.reversed().toString())) {
+                    edgeLabels.add(e.toString());
+                }
+            }
+        }
+        return edgeLabels;
     }
 }

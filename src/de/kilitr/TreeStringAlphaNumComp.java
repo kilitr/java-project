@@ -10,25 +10,23 @@ import java.util.Comparator;
  * Example without this class: n0, n1, n10, n11, ...
  * Example using this class: n0, n1, n2, n3, ...
  */
-public class TreeAlphaNumComp implements Comparator<Vertex> {
+public class TreeStringAlphaNumComp implements Comparator<String> {
     private static final Logger logger = LogManager.getLogger(GraphLoader.class);
 
     /**
      * The custom compare function for achieving the described order.
      *
-     * @param v1 first vertex to compare
-     * @param v2 second vertex to compare
      * @return a positive Integer - if v1 &gt; v2 <br> a negative Integer - if v1 &lt; v2 <br> zero - if v1 == v2.
      */
     @Override
-    public int compare(Vertex v1, Vertex v2) {
-        String str1StringPart = v1.getLabel().replaceAll("\\d", "");
-        String str2StringPart = v2.getLabel().replaceAll("\\d", "");
+    public int compare(String str1, String str2) {
+        String str1StringPart = str1.replaceAll("\\d", "");
+        String str2StringPart = str2.replaceAll("\\d", "");
 
         if (str1StringPart.equalsIgnoreCase(str2StringPart)) {
-            return extractInt(v1.getLabel()) - extractInt(v2.getLabel());
+            return extractInt(str1) - extractInt(str2);
         }
-        return v1.getLabel().compareTo(v2.getLabel());
+        return str1.compareTo(str2);
     }
 
     private int extractInt(String s) {

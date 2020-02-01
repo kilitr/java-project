@@ -38,6 +38,15 @@ public class Paths {
     public void setWeight(int w) {
         this.weight = w;
     }
+
+    /**
+     * provides the weight of these shortest paths.
+     *
+     * @return weight of shortest paths.
+     */
+    public int getWeight() {
+        return this.weight;
+    }
     /**
      * @param v a Vertex of the Graph
      * @return The number of paths which contain the vertex v

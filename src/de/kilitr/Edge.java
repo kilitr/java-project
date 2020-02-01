@@ -56,6 +56,15 @@ public class Edge {
      */
     @Override
     public String toString() {
-        return "Edge{" + from.getLabel() + "-" + to.getLabel() + "(" + weight + ")}";
+        return "\"" + from.getLabel() + "-" + to.getLabel() + "\"";
+    }
+
+    /**
+     * reverses an edge by swapping the from and the to vertex.
+     *
+     * @return the reversed edge.
+     */
+    public Edge reversed() {
+        return new Edge(this.to, this.from, this.weight);
     }
 }

@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
     <Properties>
-        <Property name="LogDir" value="logs"></Property>
-        <Property name="DefaultLogPattern" value="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"></Property>
-        <Property name="PrettyConsolePattern" value="[%d{HH:mm:ss.SSS}] %msg%n"></Property>
+        <Property name="LogDir" value="logs"/>
+        <Property name="DefaultLogPattern" value="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        <Property name="PrettyConsolePattern" value="[%d{HH:mm:ss.SSS}] %msg%n"/>
+        <Property name="SimpleConsolePattern" value="%msg%n"/>
     </Properties>
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="${PrettyConsolePattern}"/>
+        </Console>
+
+        <Console name="SimpleConsole" target="SYSTEM_OUT">
+            <PatternLayout pattern="${SimpleConsolePattern}"/>
         </Console>
 
         <File name="File_Appender" filename="${LogDir}/logfile.log">
@@ -16,10 +21,10 @@
     </Appenders>
     <Loggers>
         <logger name="de.kilitr" level="info" additivity="true">
-            <AppenderRef ref="Console"></AppenderRef>
+            <AppenderRef ref="SimpleConsole"/>
         </logger>
         <Root level="debug">
-            <AppenderRef ref="File_Appender"/>
+            <AppenderRef ref="File_Appender" level="warn"/>
         </Root>
     </Loggers>
 </Configuration>
