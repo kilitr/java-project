@@ -20,12 +20,15 @@ public class Paths {
     public void setWeight(int w) {
         this.weight = w;
     }
-
+    /**
+     * @param v a Vertex of the Graph
+     * @return The number of paths which contain the vertex v
+     */
     public int checkVertex(Vertex v){
         int pathsWithVertex = 0;
         for (LinkedList l : paths){
             if (l.getFirst() == v || l.getLast() == v){
-
+                break;
             }
             else if(l.contains(v)){
                 pathsWithVertex++;
