@@ -22,25 +22,16 @@ public class Edge {
         this.weight = weight;
     }
 
-    /**
-     * provides the destination of the edge.
-     *
-     * @return The node, that this edge points to.
-     */
     protected Node getTo() {
         return to;
     }
 
-    /**
-     * provides the weight of this edge.
-     * @return The weight of this Edge.
-     */
     public int getWeight() {
         return weight;
     }
 
     /**
-     * generates a String describing this Object.
+     * generates a String describing this Edge.
      *
      * @return a String in the form of <i>Edge{[source]-[target]([weight]}</i>.
      */

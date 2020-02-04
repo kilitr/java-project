@@ -88,47 +88,22 @@ public class Results extends JavaProjectThread {
         }
     }
 
-    /**
-     * Get the amount of vertices in the graph.
-     *
-     * @return amount of vertices
-     */
     public int getAmountVertices() {
         return this.amountVertices;
     }
 
-    /**
-     * Get the amount of edges in the graph.
-     *
-     * @return amount of edges
-     */
     public int getAmountEdges() {
         return this.amountEdges;
     }
 
-    /**
-     * Get the labels of all vertices in the graph.
-     *
-     * @return labels of all vertices in the graph.
-     */
     public ArrayList<String> getNodeLabels() {
         return this.nodeLabels;
     }
 
-    /**
-     * Get the labels of all edges in the graph.
-     *
-     * @return get the labels of all edges in the graph.
-     */
     public ArrayList<String> getEdgeLabels() {
         return this.edgeLabels;
     }
 
-    /**
-     * Whether or not the graph is connected.
-     *
-     * @return if the graph is connected or not.
-     */
     public boolean isConnected() {
         return this.isConnected;
     }

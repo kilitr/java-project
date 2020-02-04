@@ -116,7 +116,10 @@ public class Dijkstra {
         logger.debug("Final distance : " + distance.get(target));
     }
 
-
+    /**
+     * needed to be implemented inside the Dijkstra class because it requires access to the constantly updating
+     * paths - specifically the minimum distance of a node.
+     */
     private class NodeComparator implements Comparator<Node> {
         @Override
         public int compare(Node node1, Node node2) {

@@ -23,11 +23,6 @@ public class Node {
         edges = new HashSet<>();
     }
 
-    /**
-     * provides the label of this node.
-     *
-     * @return The custom label of this node.
-     */
     public String getLabel() {
         return label;
     }

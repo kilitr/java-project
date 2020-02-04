@@ -74,7 +74,7 @@ public class ArgumentParser {
                 while (resultThread.isAlive()) {
                     try {
                         Thread.sleep(250);
-                        System.out.print(".");
+                        System.out.print(". "); // let the user know the program is not crashed
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
