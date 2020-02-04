@@ -6,40 +6,24 @@ import org.apache.logging.log4j.Logger;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class ResultConsolePrinter implements Runnable {
+public class ResultConsolePrinter extends JavaProjectThread {
     private static final Logger logger = LogManager.getLogger(ResultConsolePrinter.class);
 
-    private boolean allFlag;
-    private boolean singlePathFlag;
-    private boolean singleBetweennessFlag;
-
     private Results results;
-    private Vertex start;
-    private Vertex destination;
-
-    public ResultConsolePrinter(Results results) {
-        this.results = results;
-        allFlag = false;
-        singlePathFlag = false;
-        singleBetweennessFlag = false;
-    }
 
     public ResultConsolePrinter(Results results, Vertex start, Vertex destination) {
-        this(results);
-        singlePathFlag = true;
-        this.start = start;
-        this.destination = destination;
+        super(results, start, destination);
+        this.results = results;
     }
 
     public ResultConsolePrinter(Results results, Vertex start) {
-        this(results);
-        singleBetweennessFlag = true;
-        this.start = start;
+        super(results, start);
+        this.results = results;
     }
 
     public ResultConsolePrinter(Results results, boolean all) {
-        this(results);
-        allFlag = all;
+        super(results, all);
+        this.results = results;
     }
 
     private void basicGraphInformation(Results results) {

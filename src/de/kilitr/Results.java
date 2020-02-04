@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
-public class Results implements Runnable {
+public class Results extends JavaProjectThread {
     private static final Logger logger = LogManager.getLogger(Results.class);
 
     private int amountVertices;
@@ -15,97 +15,86 @@ public class Results implements Runnable {
     private ArrayList<String> edgeLabels;
     private boolean isConnected;
     private int diameter; // TODO: implement graph diameter
-
     private TreeMap<Vertex, TreeMap<Vertex, Path>> allPaths;
     private TreeMap<Vertex, Double> allBetweenness;
 
-    private boolean allFlag;
-    private boolean singlePathFlag;
-    private boolean singleBetweennessFlag;
-
     private Graph graph;
-    private Vertex start;
-    private Vertex destination;
-
-    public Results(Graph g) {
-        this.graph = g;
-
-        allFlag = false;
-        singlePathFlag = false;
-        singleBetweennessFlag = false;
-
-        vertexLabels = new ArrayList<>();
-        edgeLabels = new ArrayList<>();
-        allPaths = new TreeMap<>(new TreeVertexAlphaNumComp());
-        allBetweenness = new TreeMap<>(new TreeVertexAlphaNumComp());
-    }
 
     public Results(Graph g, Vertex vertexForBetweenness) {
-        this(g); // call basic constructor
-        singleBetweennessFlag = true;
-        start = vertexForBetweenness;
+        super(g, vertexForBetweenness);
+        this.graph = g;
+        this.vertexLabels = new ArrayList<>();
+        this.edgeLabels = new ArrayList<>();
+        this.allPaths = new TreeMap<>(new TreeVertexAlphaNumComp());
+        this.allBetweenness = new TreeMap<>(new TreeVertexAlphaNumComp());
     }
 
     public Results(Graph g, Vertex pathStart, Vertex pathDestination) {
-        this(g); // call basic constructor
-        singlePathFlag = true;
-        start = pathStart;
-        destination = pathDestination;
+        super(g, pathStart, pathDestination);
+        this.graph = g;
+        this.vertexLabels = new ArrayList<>();
+        this.edgeLabels = new ArrayList<>();
+        this.allPaths = new TreeMap<>(new TreeVertexAlphaNumComp());
+        this.allBetweenness = new TreeMap<>(new TreeVertexAlphaNumComp());
     }
 
     public Results(Graph g, boolean all) {
-        this(g);
-        allFlag = all;
+        super(g, all);
+        this.graph = g;
+        this.vertexLabels = new ArrayList<>();
+        this.edgeLabels = new ArrayList<>();
+        this.allPaths = new TreeMap<>(new TreeVertexAlphaNumComp());
+        this.allBetweenness = new TreeMap<>(new TreeVertexAlphaNumComp());
     }
 
     @Override
     public void run() {
-        amountVertices = graph.getNumberOfVertices();
-        amountEdges = graph.getNumberOfEdges();
-        vertexLabels.addAll(graph.getVertexLabels());
-        edgeLabels.addAll(graph.getEdgeLabels());
-        isConnected = graph.isConnected();
+        this.amountVertices = this.graph.getNumberOfVertices();
+        this.amountEdges = this.graph.getNumberOfEdges();
+        this.vertexLabels.addAll(this.graph.getVertexLabels());
+        this.edgeLabels.addAll(this.graph.getEdgeLabels());
+        this.isConnected = this.graph.isConnected();
 
-        if (allFlag) {
-            allShortestPaths(graph);
-            allBetweennessCentrality(graph);
-        } else if (singlePathFlag) {
-            shortestPaths(graph, start, destination);
-        } else if (singleBetweennessFlag) {
-            betweennessCentrality(graph, start);
+        if (this.allFlag) {
+            allShortestPaths(this.graph);
+            allBetweennessCentrality(this.graph);
+        } else if (this.singlePathFlag) {
+            shortestPaths(this.graph, this.start, this.destination);
+        } else if (this.singleBetweennessFlag) {
+            betweennessCentrality(this.graph, this.start);
         }
     }
 
     public int getAmountVertices() {
-        return amountVertices;
+        return this.amountVertices;
     }
 
     public int getAmountEdges() {
-        return amountEdges;
+        return this.amountEdges;
     }
 
     public ArrayList<String> getVertexLabels() {
-        return vertexLabels;
+        return this.vertexLabels;
     }
 
     public ArrayList<String> getEdgeLabels() {
-        return edgeLabels;
+        return this.edgeLabels;
     }
 
     public boolean isConnected() {
-        return isConnected;
+        return this.isConnected;
     }
 
     public int getDiameter() {
-        return diameter;
+        return this.diameter;
     }
 
     public TreeMap<Vertex, TreeMap<Vertex, Path>> getAllPaths() {
-        return allPaths;
+        return this.allPaths;
     }
 
     public TreeMap<Vertex, Double> getAllBetweenness() {
-        return allBetweenness;
+        return this.allBetweenness;
     }
 
 
@@ -116,12 +105,12 @@ public class Results implements Runnable {
             for (Vertex target : g.getVertices()) {
                 Path path = dijkstra.createAllShortestPaths(target);
                 shortestPaths.put(target, path);
-                if (path.getWeight() > diameter) {
-                    diameter = path.getWeight();
+                if (path.getWeight() > this.diameter) {
+                    this.diameter = path.getWeight();
                     logger.debug("we're updating diameter");
                 }
             }
-            allPaths.put(start, shortestPaths);
+            this.allPaths.put(start, shortestPaths);
         }
     }
 
@@ -130,18 +119,18 @@ public class Results implements Runnable {
         Dijkstra dijkstra = new Dijkstra(g, start);
         TreeMap<Vertex, Path> temp = new TreeMap<>(new TreeVertexAlphaNumComp());
         temp.put(destination, dijkstra.createAllShortestPaths(destination));
-        allPaths.put(start, temp);
+        this.allPaths.put(start, temp);
     }
 
     private void allBetweennessCentrality(Graph g) {
         Betweenness betweenness = new Betweenness(g);
         for (Vertex v : g.getVertices()) {
-            allBetweenness.put(v, betweenness.getBetweenness(v));
+            this.allBetweenness.put(v, betweenness.getBetweenness(v));
         }
     }
 
     private void betweennessCentrality(Graph g, Vertex v) {
         Betweenness betweenness = new Betweenness(g);
-        allBetweenness.put(v, betweenness.getBetweenness(v));
+        this.allBetweenness.put(v, betweenness.getBetweenness(v));
     }
 }

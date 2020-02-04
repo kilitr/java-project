@@ -20,10 +20,7 @@
         </File>
     </Appenders>
     <Loggers>
-        <logger name="de.kilitr.ArgumentParser" level="info" additivity="false">
-            <AppenderRef ref="SimpleConsole"/>
-        </logger>
-        <logger name="de.kilitr.ResultConsolePrinter" level="info" additivity="false">
+        <logger name="de.kilitr" level="info" additivity="false">
             <AppenderRef ref="SimpleConsole"/>
         </logger>
         <Root level="debug">

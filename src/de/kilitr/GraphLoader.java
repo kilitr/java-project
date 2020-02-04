@@ -14,6 +14,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -46,8 +47,18 @@ public class GraphLoader {
             doc.getDocumentElement().normalize();
             loadVertices();
             loadEdges();
-        } catch (ParserConfigurationException | SAXException | IOException e) {
-            logger.error("Error: " + e.getMessage());
+        } catch (ParserConfigurationException e) {
+            logger.error("Parser Configuration Error: " + e.getMessage());
+            logger.debug(e.getStackTrace());
+        } catch (SAXException e) {
+            logger.error("XML Error: " + e.getMessage());
+            logger.debug(e.getStackTrace());
+        } catch (FileNotFoundException e) {
+            logger.error("Error: No such File...");
+            System.exit(-1);
+        } catch (IOException e) {
+            logger.error("I/O Error: " + e.getMessage());
+            logger.debug(e.getStackTrace());
         }
     }
 
@@ -66,10 +77,8 @@ public class GraphLoader {
         try {
             undirectedGraph = new UndirectedGraph(vertices);
         } catch (DuplicateVertexException e) {
-            logger.error("Error: " + e.getMessage());
+            logger.error("Duplicate Vertex Error: " + e.getMessage());
             System.exit(-1);
-        } catch (Exception e) {
-            logger.error("Error: " + e.getMessage());
         }
     }
 
