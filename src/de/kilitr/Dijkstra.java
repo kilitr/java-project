@@ -84,7 +84,7 @@ public class Dijkstra {
      * @param target The vertex, that you want to reach with all the shortest paths available.
      * @return custom class containing the weight of the shortest path and all the paths available.
      */
-    public Paths createAllShortestPaths(Vertex target) {
+    public Path createAllShortestPaths(Vertex target) {
         Vertex u = target;
 
         int amountOfPaths = 0;
@@ -95,7 +95,7 @@ public class Dijkstra {
         }
         amountOfPaths++;
 
-        Paths allPaths = new Paths(distance.get(target));
+        Path allPaths = new Path(distance.get(target));
         for(int i = 0; i < amountOfPaths; i++) {
             LinkedList<Vertex> path = new LinkedList<>();
             path.add(target);

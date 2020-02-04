@@ -12,7 +12,7 @@ public class Betweenness {
     private static final Logger logger = LogManager.getLogger(Betweenness.class);
 
     private Graph graph;
-    private List<Paths> paths;
+    private List<Path> paths;
 
     /**
      * Initializes the betweenness centrality measure calculation.
@@ -27,12 +27,12 @@ public class Betweenness {
     /**
      * @return an Arraylist of paths with all shortest paths of an graph
      */
-    private List<Paths> getAllPaths() {
-        List<Paths> allPathlist = new ArrayList<>();
+    private List<Path> getAllPaths() {
+        List<Path> allPathlist = new ArrayList<>();
         int i = this.graph.getNumberOfVertices();
-        for(Vertex v : this.graph.getVertices()) {
+        for (Vertex v : this.graph.getVertices()) {
             Dijkstra paths = new Dijkstra(graph, v);
-            for (Vertex w : this.graph.getVertices()){
+            for (Vertex w : this.graph.getVertices()) {
                 allPathlist.add(paths.createAllShortestPaths(w));
             }
             logger.debug("Calculated all shortest paths from " + v.getLabel());
@@ -49,8 +49,8 @@ public class Betweenness {
      */
     public double getBetweenness(Vertex v){
         double betweenness = 0;
-        for (Paths p : this.paths) {
-            betweenness = betweenness + ((double)p.checkVertex(v))/((double)p.size());
+        for (Path p : this.paths) {
+            betweenness = betweenness + ((double) p.checkVertex(v)) / ((double) p.size());
         }
         return betweenness/2;
     }

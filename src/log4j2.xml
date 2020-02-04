@@ -7,8 +7,8 @@
         <Property name="SimpleConsolePattern" value="%msg%n"/>
     </Properties>
     <Appenders>
-        <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="${PrettyConsolePattern}"/>
+        <Console name="DebugConsole" target="SYSTEM_OUT">
+            <PatternLayout pattern="${DefaultLogPattern}"/>
         </Console>
 
         <Console name="SimpleConsole" target="SYSTEM_OUT">
@@ -20,7 +20,10 @@
         </File>
     </Appenders>
     <Loggers>
-        <logger name="de.kilitr" level="info" additivity="true">
+        <logger name="de.kilitr.ArgumentParser" level="info" additivity="false">
+            <AppenderRef ref="SimpleConsole"/>
+        </logger>
+        <logger name="de.kilitr.ResultConsolePrinter" level="info" additivity="false">
             <AppenderRef ref="SimpleConsole"/>
         </logger>
         <Root level="debug">

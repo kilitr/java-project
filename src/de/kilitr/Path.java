@@ -1,8 +1,5 @@
 package de.kilitr;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,8 +7,7 @@ import java.util.List;
 /**
  * Provides functionality to store multiple shortest Paths with the according weight.
  */
-public class Paths {
-    private static final Logger logger = LogManager.getLogger(Paths.class);
+public class Path {
 
     private ArrayList<LinkedList<Vertex>> paths;
     private int weight;
@@ -21,7 +17,7 @@ public class Paths {
      *
      * @param w weight for all paths contained in this object
      */
-    public Paths(int w) {
+    public Path(int w) {
         weight = w;
         paths = new ArrayList<>();
     }
