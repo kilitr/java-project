@@ -16,12 +16,14 @@ abstract class JavaProjectThread implements Runnable {
 
     public JavaProjectThread(Object o, Vertex pathStart, Vertex pathDestination) {
         this(o);
+        singlePathFlag = true;
         start = pathStart;
         destination = pathDestination;
     }
 
     public JavaProjectThread(Object o, Vertex vertexForBetweenness) {
         this(o);
+        singleBetweennessFlag = true;
         start = vertexForBetweenness;
     }
 

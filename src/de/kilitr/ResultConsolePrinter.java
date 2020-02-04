@@ -77,6 +77,7 @@ public class ResultConsolePrinter extends JavaProjectThread {
     @Override
     public void run() {
         basicGraphInformation(results);
+        logger.debug("allFlag = " + allFlag + "\nsinglePathFlag = " + singlePathFlag + "\nsingleBetweennessFlag = " + singleBetweennessFlag);
         if (allFlag) {
             allShortestPaths(results);
             allBetweennessCentrality(results);
