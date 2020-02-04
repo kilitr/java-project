@@ -9,7 +9,7 @@ import java.util.List;
  * A class that can calculate the betweenness centrality of an vertex in a graph
  */
 public class Betweenness {
-    private static final Logger logger = LogManager.getLogger(Dijkstra.class);
+    private static final Logger logger = LogManager.getLogger(Betweenness.class);
 
     private Graph graph;
     private List<Paths> paths;

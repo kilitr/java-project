@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
  * Describes a single instance of the edges between a graph's vertices.
  */
 public class Edge {
-    private static final Logger logger = LogManager.getLogger(GraphLoader.class);
+    private static final Logger logger = LogManager.getLogger(Edge.class);
 
     private Vertex from; // for toString()
     private Vertex to;

@@ -12,7 +12,7 @@ import java.util.Set;
  * Describes a single instance of the vertices of a graph.
  */
 public class Vertex {
-    private static final Logger logger = LogManager.getLogger(GraphLoader.class);
+    private static final Logger logger = LogManager.getLogger(Vertex.class);
 
     private String label;
     private Set<Edge> edges;

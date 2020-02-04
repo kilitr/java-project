@@ -23,7 +23,7 @@ interface IGraph {
  * and undirected Graphs.
  */
 public abstract class Graph implements IGraph {
-    private static final Logger logger = LogManager.getLogger(GraphLoader.class);
+    private static final Logger logger = LogManager.getLogger(Graph.class);
 
     protected TreeSet<Vertex> vertices;
 

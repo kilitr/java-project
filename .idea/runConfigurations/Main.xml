@@ -1,8 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
     <option name="ALTERNATIVE_JRE_PATH" value="G:/jdk-11.0.2" />
-    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-    <option name="MAIN_CLASS_NAME" value="de.kilitr.Main" />
+    <option name="MAIN_CLASS_NAME" value="de.kilitr.CommandLineInterface" />
     <module name="java-project" />
     <shortenClasspath name="MANIFEST" />
     <extension name="coverage">

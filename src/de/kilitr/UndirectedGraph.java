@@ -15,7 +15,7 @@ import java.util.TreeSet;
  * </p>
  */
 public class UndirectedGraph extends Graph {
-    private static final Logger logger = LogManager.getLogger(GraphLoader.class);
+    private static final Logger logger = LogManager.getLogger(UndirectedGraph.class);
 
 
     /**
