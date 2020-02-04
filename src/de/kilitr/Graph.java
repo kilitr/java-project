@@ -1,7 +1,7 @@
 package de.kilitr;
 
-import de.kilitr.exceptions.DuplicateVertexException;
-import de.kilitr.exceptions.VertexNotFoundException;
+import de.kilitr.exceptions.DuplicateNodeException;
+import de.kilitr.exceptions.NodeNotFoundException;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -18,30 +18,30 @@ interface IGraph {
      *
      * @return a list of vertices contained in the Graph.
      */
-    TreeSet<Vertex> getVertices();
+    TreeSet<Node> getVertices();
 
     /**
-     * Adds a vertex to the graph.
+     * Adds a node to the graph.
      *
-     * @param vertex the vertex to add.
+     * @param node the node to add.
      */
-    void addVertex(Vertex vertex);
+    void addNode(Node node);
 
     /**
      * generates a TreeSet ordered by the TreeStringAlphaNumComp containing all labels of the vertices in the graph.
      *
      * @return TreeSet containing all labels of the vertices in the graph.
      */
-    TreeSet<String> getVertexLabels();
+    TreeSet<String> getNodeLabels();
 
     /**
-     * Get a vertex object by the label / id.
+     * Get a node object by the label / id.
      *
-     * @param label the label (CLI = id) of the desired vertex.
-     * @return Vertex if vertex with the given label exists, otherwise null.
-     * @throws VertexNotFoundException thrown, when the Vertex could not be found.
+     * @param label the label (CLI = id) of the desired node.
+     * @return node if node with the given label exists, otherwise null.
+     * @throws NodeNotFoundException thrown, when the node could not be found.
      */
-    Vertex getVertex(String label) throws VertexNotFoundException;
+    Node getNode(String label) throws NodeNotFoundException;
 
     /**
      * Provides the amount of vertices contained.
@@ -78,26 +78,26 @@ interface IGraph {
  */
 public abstract class Graph implements IGraph {
 
-    protected final TreeSet<Vertex> vertices;
+    protected final TreeSet<Node> vertices;
 
     /**
-     * Creates a prefilled graph from a list of vertex labels. Will contain no Edges, just Vertices with the provided
+     * Creates a prefilled graph from a list of node labels. Will contain no Edges, just Vertices with the provided
      * Strings as label.
      *
-     * @param verticeLabels An array of vertex labels.
-     * @throws DuplicateVertexException Gets thrown, when there is a duplicate in the list of labels.
+     * @param verticeLabels An array of node labels.
+     * @throws DuplicateNodeException Gets thrown, when there is a duplicate in the list of labels.
      */
-    protected Graph(String[] verticeLabels) throws DuplicateVertexException {
-        this.vertices = new TreeSet<>(new TreeVertexAlphaNumComp());
+    protected Graph(String[] verticeLabels) throws DuplicateNodeException {
+        this.vertices = new TreeSet<>(new TreeNodeAlphaNumComp());
         for (String verticeLabel : verticeLabels) {
             try {
-                if (this.getVertex(verticeLabel) != null) {
-                    throw new DuplicateVertexException("Cannot create graph! - This Graph contains at least two different Vertices, that were given the same name.");
+                if (this.getNode(verticeLabel) != null) {
+                    throw new DuplicateNodeException("Cannot create graph! - This Graph contains at least two different Vertices, that were given the same name.");
                 }
-            } catch (VertexNotFoundException e) {
-                // To be expected and nothing to worry about due to the fact that we are hoping not to find a Vertex here.
+            } catch (NodeNotFoundException e) {
+                // To be expected and nothing to worry about due to the fact that we are hoping not to find a node here.
             }
-            this.addVertex(new Vertex(verticeLabel));
+            this.addNode(new Node(verticeLabel));
         }
     }
 
@@ -106,34 +106,34 @@ public abstract class Graph implements IGraph {
      *
      * @return a list of vertices contained in the Graph.
      */
-    public TreeSet<Vertex> getVertices() {
+    public TreeSet<Node> getVertices() {
         return new TreeSet<>(vertices);
     }
 
     /**
-     * Adds a vertex to the graph.
+     * Adds a node to the graph.
      *
-     * @param vertex the vertex to add.
+     * @param node the node to add.
      */
-    public void addVertex(Vertex vertex) {
-        vertices.add(vertex);
+    public void addNode(Node node) {
+        vertices.add(node);
     }
 
 
     /**
-     * Get a vertex object by the label / id.
+     * Get a node object by the label / id.
      *
-     * @param label the label (CLI = id) of the desired vertex.
-     * @return Vertex if vertex with the given label exists, otherwise null.
+     * @param label the label (CLI = id) of the desired node.
+     * @return node if node with the given label exists, otherwise null.
      */
-    public Vertex getVertex(String label) throws VertexNotFoundException {
-        TreeSet<Vertex> vertices = getVertices();
-        for (Vertex vert : vertices) {
+    public Node getNode(String label) throws NodeNotFoundException {
+        TreeSet<Node> vertices = getVertices();
+        for (Node vert : vertices) {
             if (vert.getLabel().equals(label)) {
                 return vert;
             }
         }
-        throw new VertexNotFoundException("Vertex '" + label + "' does not exist.");
+        throw new NodeNotFoundException("node '" + label + "' does not exist.");
     }
 
     /**
@@ -152,7 +152,7 @@ public abstract class Graph implements IGraph {
      */
     public int getNumberOfEdges() {
         int sum = 0;
-        for (Vertex v : vertices) {
+        for (Node v : vertices) {
             sum += v.getEdges().size();
         }
         return sum;
@@ -169,10 +169,10 @@ public abstract class Graph implements IGraph {
 
     private int breadthFirstSearch() {
         int visitedVertices = 0;
-        Vertex current = getVertices().first();
-        HashMap<Vertex, Boolean> visited = new HashMap<>();
-        Queue<Vertex> queue = new LinkedList<>();
-        for (Vertex v : vertices) {
+        Node current = getVertices().first();
+        HashMap<Node, Boolean> visited = new HashMap<>();
+        Queue<Node> queue = new LinkedList<>();
+        for (Node v : vertices) {
             visited.put(v, false);
         }
 
@@ -182,7 +182,7 @@ public abstract class Graph implements IGraph {
 
         while (!queue.isEmpty()) {
             current = queue.poll();
-            for (Vertex v : current.getNeighbours()) {
+            for (Node v : current.getNeighbours()) {
                 if (!visited.get(v)) {
                     visited.put(v, true);
                     visitedVertices++;
@@ -195,14 +195,15 @@ public abstract class Graph implements IGraph {
 
     /**
      * generates a TreeSet ordered by the TreeStringAlphaNumComp containing all labels of the vertices in the graph.
+     *
      * @return TreeSet containing all labels of the vertices in the graph.
      */
-    public TreeSet<String> getVertexLabels() {
-        TreeSet<String> vertexLabels = new TreeSet<>(new TreeStringAlphaNumComp());
-        for (Vertex v : this.getVertices()) {
-            vertexLabels.add(v.getLabel());
+    public TreeSet<String> getNodeLabels() {
+        TreeSet<String> nodeLabels = new TreeSet<>(new TreeStringAlphaNumComp());
+        for (Node v : this.getVertices()) {
+            nodeLabels.add(v.getLabel());
         }
-        return vertexLabels;
+        return nodeLabels;
     }
 
     public abstract TreeSet<String> getEdgeLabels();

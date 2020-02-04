@@ -15,44 +15,44 @@ public class Results extends JavaProjectThread {
 
     private int amountVertices;
     private int amountEdges;
-    private final ArrayList<String> vertexLabels;
+    private final ArrayList<String> nodeLabels;
     private final ArrayList<String> edgeLabels;
     private boolean isConnected;
     private int diameter; // TODO: implement graph diameter
-    private final TreeMap<Vertex, TreeMap<Vertex, Path>> allPaths;
-    private final TreeMap<Vertex, Double> allBetweenness;
+    private final TreeMap<Node, TreeMap<Node, Path>> allPaths;
+    private final TreeMap<Node, Double> allBetweenness;
 
     private final Graph graph;
 
     /**
-     * Constructor for the betweenness centrality measure of a vertex command line argument.
+     * Constructor for the betweenness centrality measure of a node command line argument.
      *
-     * @param g                    contains the loaded graph that the calculations are meant for.
-     * @param vertexForBetweenness calculate the betweenness centrality for this vertex.
+     * @param g                  contains the loaded graph that the calculations are meant for.
+     * @param nodeForBetweenness calculate the betweenness centrality for this node.
      */
-    public Results(Graph g, Vertex vertexForBetweenness) {
-        super(vertexForBetweenness);
+    public Results(Graph g, Node nodeForBetweenness) {
+        super(nodeForBetweenness);
         this.graph = g;
-        this.vertexLabels = new ArrayList<>();
+        this.nodeLabels = new ArrayList<>();
         this.edgeLabels = new ArrayList<>();
-        this.allPaths = new TreeMap<>(new TreeVertexAlphaNumComp());
-        this.allBetweenness = new TreeMap<>(new TreeVertexAlphaNumComp());
+        this.allPaths = new TreeMap<>(new TreeNodeAlphaNumComp());
+        this.allBetweenness = new TreeMap<>(new TreeNodeAlphaNumComp());
     }
 
     /**
      * Constructor for the shortest path between two vertices command line argument.
      *
      * @param g               contains the loaded graph that the calculations are meant for.
-     * @param pathStart       the start vertex of the path
-     * @param pathDestination the destination vertex of the path
+     * @param pathStart       the start node of the path
+     * @param pathDestination the destination node of the path
      */
-    public Results(Graph g, Vertex pathStart, Vertex pathDestination) {
+    public Results(Graph g, Node pathStart, Node pathDestination) {
         super(pathStart, pathDestination);
         this.graph = g;
-        this.vertexLabels = new ArrayList<>();
+        this.nodeLabels = new ArrayList<>();
         this.edgeLabels = new ArrayList<>();
-        this.allPaths = new TreeMap<>(new TreeVertexAlphaNumComp());
-        this.allBetweenness = new TreeMap<>(new TreeVertexAlphaNumComp());
+        this.allPaths = new TreeMap<>(new TreeNodeAlphaNumComp());
+        this.allBetweenness = new TreeMap<>(new TreeNodeAlphaNumComp());
     }
 
     /**
@@ -64,17 +64,17 @@ public class Results extends JavaProjectThread {
     public Results(Graph g, boolean all) {
         super(all);
         this.graph = g;
-        this.vertexLabels = new ArrayList<>();
+        this.nodeLabels = new ArrayList<>();
         this.edgeLabels = new ArrayList<>();
-        this.allPaths = new TreeMap<>(new TreeVertexAlphaNumComp());
-        this.allBetweenness = new TreeMap<>(new TreeVertexAlphaNumComp());
+        this.allPaths = new TreeMap<>(new TreeNodeAlphaNumComp());
+        this.allBetweenness = new TreeMap<>(new TreeNodeAlphaNumComp());
     }
 
     @Override
     public void run() {
         this.amountVertices = this.graph.getNumberOfVertices();
         this.amountEdges = this.graph.getNumberOfEdges();
-        this.vertexLabels.addAll(this.graph.getVertexLabels());
+        this.nodeLabels.addAll(this.graph.getNodeLabels());
         this.edgeLabels.addAll(this.graph.getEdgeLabels());
         this.isConnected = this.graph.isConnected();
 
@@ -111,8 +111,8 @@ public class Results extends JavaProjectThread {
      *
      * @return labels of all vertices in the graph.
      */
-    public ArrayList<String> getVertexLabels() {
-        return this.vertexLabels;
+    public ArrayList<String> getNodeLabels() {
+        return this.nodeLabels;
     }
 
     /**
@@ -146,28 +146,28 @@ public class Results extends JavaProjectThread {
     /**
      * Get all existing shortest paths in the graph.
      *
-     * @return a nested Treemap: the outer treemap has the start vertex as key, the inner treemap has the
-     * destination vertex as key and contains the paths as value.
+     * @return a nested Treemap: the outer treemap has the start node as key, the inner treemap has the
+     * destination node as key and contains the paths as value.
      */
-    public TreeMap<Vertex, TreeMap<Vertex, Path>> getAllPaths() {
+    public TreeMap<Node, TreeMap<Node, Path>> getAllPaths() {
         return this.allPaths;
     }
 
     /**
-     * Get the betweenness centrality values for every vertex in the graph.
+     * Get the betweenness centrality values for every node in the graph.
      *
-     * @return a Treemap: the key is the Vertex, the value is the betweenness centrality measure for the vertex.
+     * @return a Treemap: the key is the node, the value is the betweenness centrality measure for the node.
      */
-    public TreeMap<Vertex, Double> getAllBetweenness() {
+    public TreeMap<Node, Double> getAllBetweenness() {
         return this.allBetweenness;
     }
 
 
     private void allShortestPaths(Graph g) {
-        for (Vertex start : g.getVertices()) {
-            TreeMap<Vertex, Path> shortestPaths = new TreeMap<>(new TreeVertexAlphaNumComp());
+        for (Node start : g.getVertices()) {
+            TreeMap<Node, Path> shortestPaths = new TreeMap<>(new TreeNodeAlphaNumComp());
             Dijkstra dijkstra = new Dijkstra(g, start);
-            for (Vertex target : g.getVertices()) {
+            for (Node target : g.getVertices()) {
                 Path path = dijkstra.createAllShortestPaths(target);
                 shortestPaths.put(target, path);
                 if (path.getWeight() > this.diameter) {
@@ -179,22 +179,22 @@ public class Results extends JavaProjectThread {
         }
     }
 
-    private void shortestPaths(Graph g, Vertex start, Vertex destination) {
+    private void shortestPaths(Graph g, Node start, Node destination) {
         Dijkstra dijkstra = new Dijkstra(g, start);
-        TreeMap<Vertex, Path> temp = new TreeMap<>(new TreeVertexAlphaNumComp());
+        TreeMap<Node, Path> temp = new TreeMap<>(new TreeNodeAlphaNumComp());
         temp.put(destination, dijkstra.createAllShortestPaths(destination));
         this.allPaths.put(start, temp);
     }
 
     private void allBetweennessCentrality(Graph g) {
         Betweenness betweenness = new Betweenness(g);
-        for (Vertex v : g.getVertices()) {
+        for (Node v : g.getVertices()) {
             this.allBetweenness.put(v, betweenness.getBetweenness(v));
         }
     }
 
-    private void betweennessCentrality(Graph g, Vertex v) {
+    private void betweennessCentrality(Graph g, Node node) {
         Betweenness betweenness = new Betweenness(g);
-        this.allBetweenness.put(v, betweenness.getBetweenness(v));
+        this.allBetweenness.put(node, betweenness.getBetweenness(node));
     }
 }

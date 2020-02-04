@@ -8,8 +8,8 @@ abstract class JavaProjectThread implements Runnable {
     protected boolean allFlag;
     protected boolean singlePathFlag;
     protected boolean singleBetweennessFlag;
-    protected Vertex start;
-    protected Vertex destination;
+    protected Node start;
+    protected Node destination;
 
     /**
      * Basic constructor, called every time this object is constructed. Sets all flags to false.
@@ -24,10 +24,10 @@ abstract class JavaProjectThread implements Runnable {
      * Constructor, that is being called when the commandline argument for the shortest path between two vertices is
      * invoked.
      *
-     * @param pathStart       the start Vertex
-     * @param pathDestination the destination Vertex
+     * @param pathStart       the start node
+     * @param pathDestination the destination node
      */
-    public JavaProjectThread(Vertex pathStart, Vertex pathDestination) {
+    public JavaProjectThread(Node pathStart, Node pathDestination) {
         this();
         singlePathFlag = true;
         start = pathStart;
@@ -36,14 +36,14 @@ abstract class JavaProjectThread implements Runnable {
 
     /**
      * Constructor, that is being called when the commandline argument for the betweenness centrality measure of
-     * a vertex is invoked.
+     * a node is invoked.
      *
-     * @param vertexForBetweenness calculate the betweennsess centrality for this vertex.
+     * @param nodeForBetweenness calculate the betweennsess centrality for this node.
      */
-    public JavaProjectThread(Vertex vertexForBetweenness) {
+    public JavaProjectThread(Node nodeForBetweenness) {
         this();
         singleBetweennessFlag = true;
-        start = vertexForBetweenness;
+        start = nodeForBetweenness;
     }
 
     /**

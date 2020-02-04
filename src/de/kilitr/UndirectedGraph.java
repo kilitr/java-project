@@ -1,7 +1,7 @@
 package de.kilitr;
 
-import de.kilitr.exceptions.DuplicateVertexException;
-import de.kilitr.exceptions.VertexNotFoundException;
+import de.kilitr.exceptions.DuplicateNodeException;
+import de.kilitr.exceptions.NodeNotFoundException;
 
 import java.util.TreeSet;
 
@@ -17,11 +17,12 @@ public class UndirectedGraph extends Graph {
 
     /**
      * creates the Undirected Graph utilizing the constructor of the abstract class Graph.
+     *
      * @param verticeLabels An array, containing all ID's / labels of the vertices, that should be contained in
      *                      the Graph.
-     * @throws DuplicateVertexException when trying to create a Graph with two identical vertex labels
+     * @throws DuplicateNodeException when trying to create a Graph with two identical node labels
      */
-    public UndirectedGraph(String[] verticeLabels) throws DuplicateVertexException {
+    public UndirectedGraph(String[] verticeLabels) throws DuplicateNodeException {
         super(verticeLabels);
     }
 
@@ -29,24 +30,24 @@ public class UndirectedGraph extends Graph {
     /**
      * Connects two vertices in both directions with custom weight.
      *
-     * @param label1 Label of first involved vertex. (order does not matter)
-     * @param label2 Label of second involved vertex. (order does not matter)
+     * @param label1 Label of first involved node. (order does not matter)
+     * @param label2 Label of second involved node. (order does not matter)
      * @param weight The custom weight of this Edge.
      */
     public void addEdge(String label1, String label2, int weight) {
-        Vertex vertex1 = null;
-        Vertex vertex2 = null;
+        Node node1 = null;
+        Node node2 = null;
         try {
-            vertex1 = getVertex(label1);
-            vertex2 = getVertex(label2);
-        } catch (VertexNotFoundException e) {
+            node1 = getNode(label1);
+            node2 = getNode(label2);
+        } catch (NodeNotFoundException e) {
             e.printStackTrace();
         }
-        if (vertex1 == null || vertex2 == null) return;//TODO: throw new Exception();
-        Edge e = new Edge(vertex1 ,vertex2, weight);
-        vertex1.addEdge(e);
-        e = new Edge(vertex2, vertex1, weight);
-        vertex2.addEdge(e);
+        if (node1 == null || node2 == null) return;//TODO: throw new Exception();
+        Edge e = new Edge(node1, node2, weight);
+        node1.addEdge(e);
+        e = new Edge(node2, node1, weight);
+        node2.addEdge(e);
     }
 
     /**
@@ -61,7 +62,7 @@ public class UndirectedGraph extends Graph {
 
     public TreeSet<String> getEdgeLabels() {
         TreeSet<String> edgeLabels = new TreeSet<>(new TreeStringAlphaNumComp());
-        for (Vertex v : this.getVertices()) {
+        for (Node v : this.getVertices()) {
             for (Edge e : v.getEdges()) {
                 // only add, an edge once.
                 if (!edgeLabels.contains(e.reversed().toString())) {

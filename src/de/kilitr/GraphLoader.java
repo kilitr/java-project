@@ -1,6 +1,6 @@
 package de.kilitr;
 
-import de.kilitr.exceptions.DuplicateVertexException;
+import de.kilitr.exceptions.DuplicateNodeException;
 import de.kilitr.exceptions.GraphNotValidException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -70,8 +70,8 @@ public class GraphLoader {
 
         try {
             undirectedGraph = new UndirectedGraph(vertices);
-        } catch (DuplicateVertexException e) {
-            logger.error("Duplicate Vertex Error: " + e.getMessage());
+        } catch (DuplicateNodeException e) {
+            logger.error("Duplicate node Error: " + e.getMessage());
             System.exit(-1);
         }
     }

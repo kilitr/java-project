@@ -18,21 +18,21 @@ public class ResultConsolePrinter extends JavaProjectThread {
      * Constructor for the shortest path between two vertices command line argument.
      *
      * @param results     contains every calculated value & path for this command line argument.
-     * @param start       the start vertex of the path
-     * @param destination the destination vertex of the path
+     * @param start       the start node of the path
+     * @param destination the destination node of the path
      */
-    public ResultConsolePrinter(Results results, Vertex start, Vertex destination) {
+    public ResultConsolePrinter(Results results, Node start, Node destination) {
         super(start, destination);
         this.results = results;
     }
 
     /**
-     * Constructor for the betweenness centrality measure of a vertex command line argument.
+     * Constructor for the betweenness centrality measure of a node command line argument.
      *
      * @param results contains every calculated value & path for this command line argument.
-     * @param start   calculate the betweenness centrality for this vertex.
+     * @param start   calculate the betweenness centrality for this node.
      */
-    public ResultConsolePrinter(Results results, Vertex start) {
+    public ResultConsolePrinter(Results results, Node start) {
         super(start);
         this.results = results;
     }
@@ -48,26 +48,12 @@ public class ResultConsolePrinter extends JavaProjectThread {
         this.results = results;
     }
 
-    private void basicGraphInformation(Results results) {
-        logger.info("### Graph information ###");
-        logger.info("\t\tAmount of Vertices: " + results.getAmountVertices());
-        logger.info("\t\tAmount of Edges: " + results.getAmountEdges());
-        logger.info("\t\tVertex labels: " + String.join(", ", results.getVertexLabels()));
-        logger.info("\t\tEdges: " + String.join(", ", results.getEdgeLabels()));
-        logger.info("\t\tGraph is connected? " + results.isConnected());
-        if (allFlag) {
-            logger.info("\t\tGraph diameter: " + results.getDiameter());
-        } else {
-            logger.info("\t\tGraph diameter: only with -a flag");
-        }
-    }
-
     private static void allShortestPaths(Results results) {
         logger.info("### Shortest paths ###");
-        for (Map.Entry<Vertex, TreeMap<Vertex, Path>> allPathsEntry : results.getAllPaths().entrySet()) {
+        for (Map.Entry<Node, TreeMap<Node, Path>> allPathsEntry : results.getAllPaths().entrySet()) {
             logger.info("Source node '" + allPathsEntry.getKey() + "'");
-            for (Map.Entry<Vertex, Path> pathEntry : allPathsEntry.getValue().entrySet()) {
-                Vertex to = pathEntry.getKey();
+            for (Map.Entry<Node, Path> pathEntry : allPathsEntry.getValue().entrySet()) {
+                Node to = pathEntry.getKey();
                 int weight = pathEntry.getValue().getWeight();
                 Path actualPath = pathEntry.getValue();
                 logger.info("\t\t To node '" + to.getLabel() + "' with cost " + weight + ": " + actualPath.toString());
@@ -75,7 +61,7 @@ public class ResultConsolePrinter extends JavaProjectThread {
         }
     }
 
-    private static void shortestPaths(Results results, Vertex start, Vertex destination) {
+    private static void shortestPaths(Results results, Node start, Node destination) {
         logger.info("### Paths from '" + start.getLabel() + "' to '" + destination.getLabel() + "' ###");
         Path paths = results.getAllPaths().get(start).get(destination);
         logger.info("\t\t" + paths.toString() + " length -> " + paths.getWeight());
@@ -84,16 +70,30 @@ public class ResultConsolePrinter extends JavaProjectThread {
     private static void allBetweennessCentrality(Results results) {
         logger.info("### Betweenness centrality ###");
 
-        for (Map.Entry<Vertex, Double> betweennessEntry : results.getAllBetweenness().entrySet()) {
-            String vertexLabel = betweennessEntry.getKey().getLabel();
+        for (Map.Entry<Node, Double> betweennessEntry : results.getAllBetweenness().entrySet()) {
+            String nodeLabel = betweennessEntry.getKey().getLabel();
             double betweennessValue = betweennessEntry.getValue();
-            logger.info("\t\tNode '" + vertexLabel + "': " + betweennessValue);
+            logger.info("\t\tNode '" + nodeLabel + "': " + betweennessValue);
         }
     }
 
-    private static void betweennessCentrality(Results results, Vertex v) {
+    private static void betweennessCentrality(Results results, Node node) {
         logger.info("### Betweenness centrality ###");
-        logger.info("\t\tNode '" + v.getLabel() + "': " + results.getAllBetweenness().get(v));
+        logger.info("\t\tNode '" + node.getLabel() + "': " + results.getAllBetweenness().get(node));
+    }
+
+    private void basicGraphInformation(Results results) {
+        logger.info("### Graph information ###");
+        logger.info("\t\tAmount of Nodes: " + results.getAmountVertices());
+        logger.info("\t\tAmount of Edges: " + results.getAmountEdges());
+        logger.info("\t\tNode labels: " + String.join(", ", results.getNodeLabels()));
+        logger.info("\t\tEdge labels: " + String.join(", ", results.getEdgeLabels()));
+        logger.info("\t\tGraph is connected? " + results.isConnected());
+        if (allFlag) {
+            logger.info("\t\tGraph diameter: " + results.getDiameter());
+        } else {
+            logger.info("\t\tGraph diameter: only with -a flag");
+        }
     }
 
     @Override

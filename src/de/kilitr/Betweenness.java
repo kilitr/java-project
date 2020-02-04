@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 /**
- * A class that can calculate the betweenness centrality of an vertex in a graph
+ * A class that can calculate the betweenness centrality of an node in a graph
  */
 public class Betweenness {
     private static final Logger logger = LogManager.getLogger(Betweenness.class);
@@ -29,9 +29,9 @@ public class Betweenness {
      */
     private List<Path> getAllPaths() {
         List<Path> allPathlist = new ArrayList<>();
-        for (Vertex v : this.graph.getVertices()) {
+        for (Node v : this.graph.getVertices()) {
             Dijkstra paths = new Dijkstra(graph, v);
-            for (Vertex w : this.graph.getVertices()) {
+            for (Node w : this.graph.getVertices()) {
                 allPathlist.add(paths.createAllShortestPaths(w));
             }
             logger.debug("Calculated all shortest paths from " + v.getLabel());
@@ -42,16 +42,17 @@ public class Betweenness {
     }
 
     /**
-     * provides the betweenness centrality measure for the given vertex.
-     * @param v a vertex of the graph
-     * @return the betweenness centrality of the vertex v
+     * provides the betweenness centrality measure for the given node.
+     *
+     * @param node a node of the graph
+     * @return the betweenness centrality of the node v
      */
-    public double getBetweenness(Vertex v){
+    public double getBetweenness(Node node) {
         double betweenness = 0;
         for (Path p : this.paths) {
-            betweenness = betweenness + ((double) p.checkVertex(v)) / ((double) p.size());
+            betweenness = betweenness + ((double) p.checkNode(node)) / ((double) p.size());
         }
-        return betweenness/2;
+        return betweenness / 2;
     }
 
 

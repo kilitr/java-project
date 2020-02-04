@@ -5,18 +5,18 @@ package de.kilitr;
  */
 public class Edge {
 
-    private final Vertex from; // for toString()
-    private final Vertex to;
+    private final Node from; // for toString()
+    private final Node to;
     private final int weight;
 
     /**
      * creates an Edge but <b>does not add</b> it to the respective vertices.
      *
-     * @param from   Vertex, that this Edge starts at.
-     * @param to     Vertex, that this Edge points to.
+     * @param from   node, that this Edge starts at.
+     * @param to     node, that this Edge points to.
      * @param weight The weight of this Edge.
      */
-    public Edge(Vertex from, Vertex to, int weight) {
+    public Edge(Node from, Node to, int weight) {
         this.from = from;
         this.to = to;
         this.weight = weight;
@@ -24,9 +24,10 @@ public class Edge {
 
     /**
      * provides the destination of the edge.
-     * @return The vertex, that this edge points to.
+     *
+     * @return The node, that this edge points to.
      */
-    protected Vertex getTo() {
+    protected Node getTo() {
         return to;
     }
 
@@ -49,7 +50,7 @@ public class Edge {
     }
 
     /**
-     * reverses an edge by swapping the from and the to vertex.
+     * reverses an edge by swapping the from and the to node.
      *
      * @return the reversed edge.
      */

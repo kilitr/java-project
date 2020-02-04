@@ -37,17 +37,17 @@ class TreeStringAlphaNumComp implements Comparator<String> {
  * Example without this class: n0, n1, n10, n11, ...
  * Example using this class: n0, n1, n2, n3, ...
  */
-class TreeVertexAlphaNumComp implements Comparator<Vertex> {
+class TreeNodeAlphaNumComp implements Comparator<Node> {
 
     /**
      * The custom compare function for achieving the described order.
      *
-     * @param v1 first vertex to compare
-     * @param v2 second vertex to compare
+     * @param v1 first node to compare
+     * @param v2 second node to compare
      * @return a positive Integer - if v1 &gt; v2 <br> a negative Integer - if v1 &lt; v2 <br> zero - if v1 == v2.
      */
     @Override
-    public int compare(Vertex v1, Vertex v2) {
+    public int compare(Node v1, Node v2) {
         String str1StringPart = v1.getLabel().replaceAll("\\d", "");
         String str2StringPart = v2.getLabel().replaceAll("\\d", "");
 

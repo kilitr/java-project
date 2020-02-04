@@ -14,22 +14,22 @@ import java.util.*;
 public class Dijkstra {
     private static final Logger logger = LogManager.getLogger(Dijkstra.class);
 
-    private final HashMap<Vertex, Integer> distance;
-    private final HashMap<Vertex, List<Vertex>> predecessor;
-    private final List<Vertex> q;
+    private final HashMap<Node, Integer> distance;
+    private final HashMap<Node, List<Node>> predecessor;
+    private final List<Node> q;
 
 
     /**
      * Initializes the shortest path calculation.
      *
-     * @param g     The graph, that the starting vertex is contained in.
-     * @param start The start vertex.
+     * @param g     The graph, that the starting node is contained in.
+     * @param start The start node.
      */
-    public Dijkstra(Graph g, Vertex start) {
+    public Dijkstra(Graph g, Node start) {
         this.distance = new HashMap<>();
         this.predecessor = new HashMap<>();
         this.q = new ArrayList<>();
-        for (Vertex v : g.getVertices()) {
+        for (Node v : g.getVertices()) {
             distance.put(v, Integer.MAX_VALUE);
             predecessor.put(v, null);
         }
@@ -44,11 +44,11 @@ public class Dijkstra {
     private void execute() {
         while (!q.isEmpty()) {
             logger.debug("Queue: " + q.toString());
-            q.sort(new VertexComparator());
-            Vertex u = q.get(0);
+            q.sort(new NodeComparator());
+            Node u = q.get(0);
             q.remove(0);
             logger.debug("Inspecting " + u.toString());
-            for (Vertex v : u.getNeighbours()) {
+            for (Node v : u.getNeighbours()) {
                 if (q.contains(v)) {
                     logger.debug("updating " + u.getLabel() + " & " + v.getLabel());
                     updateDistances(u, v);
@@ -58,17 +58,17 @@ public class Dijkstra {
     }
 
     /**
-     * creates all shortest paths from the starting vertex to the target in form of the class Paths.
+     * creates all shortest paths from the starting node to the target in form of the class Paths.
      *
-     * @param target The vertex, that you want to reach with all the shortest paths available.
+     * @param target The node, that you want to reach with all the shortest paths available.
      * @return custom class containing the weight of the shortest path and all the paths available.
      */
-    public Path createAllShortestPaths(Vertex target) {
-        Vertex u = target;
+    public Path createAllShortestPaths(Node target) {
+        Node u = target;
 
         int amountOfPaths = 0;
         while (predecessor.get(u) != null) {
-            List<Vertex> predecessors = predecessor.get(u);
+            List<Node> predecessors = predecessor.get(u);
             amountOfPaths = amountOfPaths + (predecessors.size() - 1);
             u = predecessors.get(0);
         }
@@ -76,11 +76,11 @@ public class Dijkstra {
 
         Path allPaths = new Path(distance.get(target));
         for(int i = 0; i < amountOfPaths; i++) {
-            LinkedList<Vertex> path = new LinkedList<>();
+            LinkedList<Node> path = new LinkedList<>();
             path.add(target);
             u = target;
             while (predecessor.get(u) != null) { // Predecessor of start is null
-                List<Vertex> predecessors = predecessor.get(u);
+                List<Node> predecessors = predecessor.get(u);
                 if(predecessors.size() > i) {
                     u = predecessors.get(i);
                 } else {
@@ -93,7 +93,7 @@ public class Dijkstra {
         return allPaths;
     }
 
-    private void updateDistances(Vertex origin, Vertex target) {
+    private void updateDistances(Node origin, Node target) {
         logger.debug("Initial distance : " + distance.get(target));
         try {
             int alternative = distance.get(origin) + origin.getWeightTo(target);
@@ -103,7 +103,7 @@ public class Dijkstra {
                 logger.debug("New distance for " + target.getLabel() + " = " + alternative);
             } else if (alternative == distance.get(target)) {
                 // würde das dafür sorgen, dass 2 kürzeste Wege gefunden werden?
-                List<Vertex> multiplePredecessors = new ArrayList<>();
+                List<Node> multiplePredecessors = new ArrayList<>();
                 multiplePredecessors.add(predecessor.get(target).get(0));
                 multiplePredecessors.add(origin);
                 distance.put(target, alternative);
@@ -117,10 +117,10 @@ public class Dijkstra {
     }
 
 
-    private class VertexComparator implements Comparator<Vertex> {
+    private class NodeComparator implements Comparator<Node> {
         @Override
-        public int compare(Vertex v1, Vertex v2) {
-            return distance.get(v1).compareTo(distance.get(v2));
+        public int compare(Node node1, Node node2) {
+            return distance.get(node1).compareTo(distance.get(node2));
         }
     }
 }

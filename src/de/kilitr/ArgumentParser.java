@@ -1,7 +1,7 @@
 package de.kilitr;
 
 import de.kilitr.exceptions.GraphNotValidException;
-import de.kilitr.exceptions.VertexNotFoundException;
+import de.kilitr.exceptions.NodeNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,22 +41,22 @@ public class ArgumentParser {
             }
 
             // needed here for correct output later
-            Vertex start = null;
-            Vertex destination = null;
+            Node start = null;
+            Node destination = null;
 
             Thread resultThread = null;
             // parsing the Arguments
             for (String arg : args) {
                 if (arg.equals("-s")) {
                     singlePathFlag = true;
-                    start = getVertex(graph, args[2]);
-                    destination = getVertex(graph, args[3]);
+                    start = getNode(graph, args[2]);
+                    destination = getNode(graph, args[3]);
                     results = new Results(graph, start, destination);
                     resultThread = new Thread(results, "resultThread");
                 }
                 if (arg.equals("-b")) {
                     singleBetweennessFlag = true;
-                    start = getVertex(graph, args[2]);
+                    start = getNode(graph, args[2]);
                     results = new Results(graph, start);
                     resultThread = new Thread(results, "resultThread");
                 }
@@ -100,11 +100,11 @@ public class ArgumentParser {
         }
     }
 
-    private static Vertex getVertex(Graph graph, String label) {
-        Vertex v = null;
+    private static Node getNode(Graph graph, String label) {
+        Node v = null;
         try {
-            v = graph.getVertex(label);
-        } catch (VertexNotFoundException e) {
+            v = graph.getNode(label);
+        } catch (NodeNotFoundException e) {
             logger.error("Error: " + e.getMessage());
             System.exit(-1);
         }

@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Path {
 
-    private final ArrayList<LinkedList<Vertex>> paths;
+    private final ArrayList<LinkedList<Node>> paths;
     private final int weight;
 
     /**
@@ -27,7 +27,7 @@ public class Path {
      *
      * @param path the new path to add
      */
-    public void addPath(LinkedList<Vertex> path) {
+    public void addPath(LinkedList<Node> path) {
         this.paths.add(path);
     }
 
@@ -39,30 +39,32 @@ public class Path {
     public int getWeight() {
         return this.weight;
     }
+
     /**
-     * @param v a Vertex of the Graph
-     * @return The number of paths which contain the vertex v
+     * @param node a node of the Graph
+     * @return The number of paths which contain the node v
      */
-    public int checkVertex(Vertex v){
-        int pathsWithVertex = 0;
-        for (LinkedList<Vertex> l : paths) {
-            if (l.getFirst() == v || l.getLast() == v) {
+    public int checkNode(Node node) {
+        int pathsWithNode = 0;
+        for (LinkedList<Node> l : paths) {
+            if (l.getFirst() == node || l.getLast() == node) {
                 break;
-            } else if (l.contains(v)) {
-                pathsWithVertex++;
+            } else if (l.contains(node)) {
+                pathsWithNode++;
             }
         }
-        return pathsWithVertex;
+        return pathsWithNode;
     }
 
     /**
      * generates a String describing this Object.
-     * @return a String in the form of <i>[vertex1, vertex2, vertex3]</i> or <i>[vertex1, vertex2, vertex3] &amp; [vertex2, vertex3, vertex1]</i>, if multiple paths are present.
+     *
+     * @return a String in the form of <i>[node1, node2, node3]</i> or <i>[node1, node2, node3] &amp; [node2, node3, node1]</i>, if multiple paths are present.
      */
     @Override
     public String toString() {
         List<String> output = new ArrayList<>();
-        for(LinkedList<Vertex> path : paths) {
+        for (LinkedList<Node> path : paths) {
             output.add(path.toString());
         }
         return String.join(" & ", output);
