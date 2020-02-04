@@ -8,27 +8,27 @@ abstract class JavaProjectThread implements Runnable {
     protected Vertex start;
     protected Vertex destination;
 
-    public JavaProjectThread(Object o) {
+    public JavaProjectThread() {
         this.allFlag = false;
         this.singleBetweennessFlag = false;
         this.singlePathFlag = false;
     }
 
-    public JavaProjectThread(Object o, Vertex pathStart, Vertex pathDestination) {
-        this(o);
+    public JavaProjectThread(Vertex pathStart, Vertex pathDestination) {
+        this();
         singlePathFlag = true;
         start = pathStart;
         destination = pathDestination;
     }
 
-    public JavaProjectThread(Object o, Vertex vertexForBetweenness) {
-        this(o);
+    public JavaProjectThread(Vertex vertexForBetweenness) {
+        this();
         singleBetweennessFlag = true;
         start = vertexForBetweenness;
     }
 
-    public JavaProjectThread(Object o, boolean all) {
-        this(o);
+    public JavaProjectThread(boolean all) {
+        this();
         allFlag = all;
     }
 }

@@ -23,13 +23,7 @@ import java.io.IOException;
 public class GraphLoader {
     private static final Logger logger = LogManager.getLogger(GraphLoader.class);
 
-    private File inputFile;
-    private DocumentBuilderFactory dbFactory;
-    private DocumentBuilder dBuilder;
     private Document doc;
-
-    private NodeList xmlListVertices;
-    private NodeList xmlListEdges;
 
     private UndirectedGraph undirectedGraph;
 
@@ -40,9 +34,9 @@ public class GraphLoader {
     public GraphLoader(String filename) {
         try {
             logger.debug("Parsing \"" + filename + "\"");
-            inputFile = new File(filename);
-            dbFactory = DocumentBuilderFactory.newInstance();
-            dBuilder = dbFactory.newDocumentBuilder();
+            File inputFile = new File(filename);
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             doc = dBuilder.parse(inputFile);
             doc.getDocumentElement().normalize();
             loadVertices();
@@ -63,7 +57,7 @@ public class GraphLoader {
     }
 
     private void loadVertices() {
-        xmlListVertices = doc.getElementsByTagName("node");
+        NodeList xmlListVertices = doc.getElementsByTagName("node");
         String[] vertices = new String[xmlListVertices.getLength()];
         for (int temp = 0; temp < xmlListVertices.getLength(); temp++) {
             Node nNode = xmlListVertices.item(temp);
@@ -83,7 +77,7 @@ public class GraphLoader {
     }
 
     private void loadEdges() {
-        xmlListEdges = doc.getElementsByTagName("edge");
+        NodeList xmlListEdges = doc.getElementsByTagName("edge");
         for (int temp = 0; temp < xmlListEdges.getLength(); temp++) {
             Node nNode = xmlListEdges.item(temp);
             if (nNode.getNodeType() == Node.ELEMENT_NODE) {

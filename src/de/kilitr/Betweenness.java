@@ -11,8 +11,8 @@ import java.util.List;
 public class Betweenness {
     private static final Logger logger = LogManager.getLogger(Betweenness.class);
 
-    private Graph graph;
-    private List<Path> paths;
+    private final Graph graph;
+    private final List<Path> paths;
 
     /**
      * Initializes the betweenness centrality measure calculation.
@@ -29,7 +29,6 @@ public class Betweenness {
      */
     private List<Path> getAllPaths() {
         List<Path> allPathlist = new ArrayList<>();
-        int i = this.graph.getNumberOfVertices();
         for (Vertex v : this.graph.getVertices()) {
             Dijkstra paths = new Dijkstra(graph, v);
             for (Vertex w : this.graph.getVertices()) {

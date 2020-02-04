@@ -11,17 +11,17 @@ public class Results extends JavaProjectThread {
 
     private int amountVertices;
     private int amountEdges;
-    private ArrayList<String> vertexLabels;
-    private ArrayList<String> edgeLabels;
+    private final ArrayList<String> vertexLabels;
+    private final ArrayList<String> edgeLabels;
     private boolean isConnected;
     private int diameter; // TODO: implement graph diameter
-    private TreeMap<Vertex, TreeMap<Vertex, Path>> allPaths;
-    private TreeMap<Vertex, Double> allBetweenness;
+    private final TreeMap<Vertex, TreeMap<Vertex, Path>> allPaths;
+    private final TreeMap<Vertex, Double> allBetweenness;
 
-    private Graph graph;
+    private final Graph graph;
 
     public Results(Graph g, Vertex vertexForBetweenness) {
-        super(g, vertexForBetweenness);
+        super(vertexForBetweenness);
         this.graph = g;
         this.vertexLabels = new ArrayList<>();
         this.edgeLabels = new ArrayList<>();
@@ -30,7 +30,7 @@ public class Results extends JavaProjectThread {
     }
 
     public Results(Graph g, Vertex pathStart, Vertex pathDestination) {
-        super(g, pathStart, pathDestination);
+        super(pathStart, pathDestination);
         this.graph = g;
         this.vertexLabels = new ArrayList<>();
         this.edgeLabels = new ArrayList<>();
@@ -39,7 +39,7 @@ public class Results extends JavaProjectThread {
     }
 
     public Results(Graph g, boolean all) {
-        super(g, all);
+        super(all);
         this.graph = g;
         this.vertexLabels = new ArrayList<>();
         this.edgeLabels = new ArrayList<>();
@@ -115,7 +115,6 @@ public class Results extends JavaProjectThread {
     }
 
     private void shortestPaths(Graph g, Vertex start, Vertex destination) {
-        TreeMap<Vertex, Path> shortestPath = new TreeMap<>(new TreeVertexAlphaNumComp());
         Dijkstra dijkstra = new Dijkstra(g, start);
         TreeMap<Vertex, Path> temp = new TreeMap<>(new TreeVertexAlphaNumComp());
         temp.put(destination, dijkstra.createAllShortestPaths(destination));

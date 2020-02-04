@@ -2,20 +2,10 @@ package de.kilitr;
 
 import de.kilitr.exceptions.DuplicateVertexException;
 import de.kilitr.exceptions.VertexNotFoundException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
 interface IGraph {
-    /**
-     * Connects two vertices in one direction with custom weight.
-     *
-     * @param from   Label of vertex that this edge starts from.
-     * @param to     Label of vertex that this edge leads to.
-     * @param weight The custom weight of this Edge.
-     */
-    void addEdge(String from, String to, int weight);
 }
 
 /**
@@ -23,15 +13,14 @@ interface IGraph {
  * and undirected Graphs.
  */
 public abstract class Graph implements IGraph {
-    private static final Logger logger = LogManager.getLogger(Graph.class);
 
-    protected TreeSet<Vertex> vertices;
+    protected final TreeSet<Vertex> vertices;
 
     protected Graph(String[] verticeLabels) throws DuplicateVertexException {
         this.vertices = new TreeSet<>(new TreeVertexAlphaNumComp());
         for (String verticeLabel : verticeLabels) {
             try {
-                if (this.getVertex(verticeLabel) instanceof Vertex) {
+                if (this.getVertex(verticeLabel) != null) {
                     throw new DuplicateVertexException("Cannot create graph! - This Graph contains at least two different Vertices, that were given the same name.");
                 }
             } catch (VertexNotFoundException e) {
@@ -50,13 +39,14 @@ public abstract class Graph implements IGraph {
         return new ArrayList<>(vertices);
     }
 
-    protected boolean addVertex(Vertex vertex) {
-        return vertices.add(vertex);
+    protected void addVertex(Vertex vertex) {
+        vertices.add(vertex);
     }
 
 
     /**
      * Get a vertex object by the label / id.
+     *
      * @param label the label (CLI = id) of the desired vertex.
      * @return Vertex if vertex with the given label exists, otherwise null.
      */

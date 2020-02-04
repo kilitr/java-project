@@ -9,8 +9,8 @@ import java.util.List;
  */
 public class Path {
 
-    private ArrayList<LinkedList<Vertex>> paths;
-    private int weight;
+    private final ArrayList<LinkedList<Vertex>> paths;
+    private final int weight;
 
     /**
      * Initializes the contained data structures and sets the weight to <i>w</i>.
@@ -45,11 +45,10 @@ public class Path {
      */
     public int checkVertex(Vertex v){
         int pathsWithVertex = 0;
-        for (LinkedList l : paths){
-            if (l.getFirst() == v || l.getLast() == v){
+        for (LinkedList<Vertex> l : paths) {
+            if (l.getFirst() == v || l.getLast() == v) {
                 break;
-            }
-            else if(l.contains(v)){
+            } else if (l.contains(v)) {
                 pathsWithVertex++;
             }
         }

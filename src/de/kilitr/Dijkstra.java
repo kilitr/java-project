@@ -14,11 +14,9 @@ import java.util.*;
 public class Dijkstra {
     private static final Logger logger = LogManager.getLogger(Dijkstra.class);
 
-    private Graph graph;
-    private Vertex start;
-    private HashMap<Vertex, Integer> distance;
-    private HashMap<Vertex, List<Vertex>> predecessor;
-    private List<Vertex> q;
+    private final HashMap<Vertex, Integer> distance;
+    private final HashMap<Vertex, List<Vertex>> predecessor;
+    private final List<Vertex> q;
 
 
     /**
@@ -31,14 +29,12 @@ public class Dijkstra {
         this.distance = new HashMap<>();
         this.predecessor = new HashMap<>();
         this.q = new ArrayList<>();
-        this.graph = g;
-        this.start = start;
-        for (Vertex v : this.graph.getVertices()) {
+        for (Vertex v : g.getVertices()) {
             distance.put(v, Integer.MAX_VALUE);
             predecessor.put(v, null);
         }
-        distance.put(this.start, 0);
-        q.addAll(this.graph.getVertices());
+        distance.put(start, 0);
+        q.addAll(g.getVertices());
         execute();
     }
 
@@ -59,23 +55,6 @@ public class Dijkstra {
                 }
             }
         }
-    }
-
-    /**
-     * creates a single shortest path from the startvertex to the target in form of a linked list.
-     *
-     * @param target The vertex, that you want to reach with the shortest path available.
-     * @return linked list of vertices, that describe the path.
-     */
-    public LinkedList<Vertex> createShortestPath(Vertex target) {
-        LinkedList<Vertex> path = new LinkedList<>();
-        path.add(target);
-        Vertex u = target;
-        while (predecessor.get(u) != null) { // Predecessor of start is null
-            u = predecessor.get(u).get(0);
-            path.add(0, u);
-        }
-        return path;
     }
 
     /**
@@ -137,26 +116,6 @@ public class Dijkstra {
         logger.debug("Final distance : " + distance.get(target));
     }
 
-    /**
-     * Provides all distances from the starting vertex to all other contained vertices.
-     * If a distance seems oddly large, compare the distance to Integer.MAX_VALUE on your system, if
-     * the distance is qual to this value, then there is not path.
-     * @return a hash map with the target vertex as key and the respective distance as value.
-     */
-    public HashMap<Vertex, Integer> getDistances() {
-        return distance;
-    }
-
-
-    /**
-     * provides the distance of the shortest paths from the start vertex to the target vertex.
-     *
-     * @param target the vertex, you want to get the distance to starting from the start Vertex.
-     * @return the Integer value representing the distance.
-     */
-    public Integer getDistanceTo(Vertex target) {
-        return distance.get(target);
-    }
 
     private class VertexComparator implements Comparator<Vertex> {
         @Override

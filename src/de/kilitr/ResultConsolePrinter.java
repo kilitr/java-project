@@ -9,20 +9,20 @@ import java.util.TreeMap;
 public class ResultConsolePrinter extends JavaProjectThread {
     private static final Logger logger = LogManager.getLogger(ResultConsolePrinter.class);
 
-    private Results results;
+    private final Results results;
 
     public ResultConsolePrinter(Results results, Vertex start, Vertex destination) {
-        super(results, start, destination);
+        super(start, destination);
         this.results = results;
     }
 
     public ResultConsolePrinter(Results results, Vertex start) {
-        super(results, start);
+        super(start);
         this.results = results;
     }
 
     public ResultConsolePrinter(Results results, boolean all) {
-        super(results, all);
+        super(all);
         this.results = results;
     }
 

@@ -2,8 +2,6 @@ package de.kilitr;
 
 import de.kilitr.exceptions.DuplicateVertexException;
 import de.kilitr.exceptions.VertexNotFoundException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.TreeSet;
 
@@ -15,7 +13,6 @@ import java.util.TreeSet;
  * </p>
  */
 public class UndirectedGraph extends Graph {
-    private static final Logger logger = LogManager.getLogger(UndirectedGraph.class);
 
 
     /**

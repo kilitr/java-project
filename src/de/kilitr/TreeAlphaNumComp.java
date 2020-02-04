@@ -1,8 +1,5 @@
 package de.kilitr;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.util.Comparator;
 
 /**
@@ -11,7 +8,6 @@ import java.util.Comparator;
  * Example using this class: n0, n1, n2, n3, ...
  */
 class TreeStringAlphaNumComp implements Comparator<String> {
-    private static final Logger logger = LogManager.getLogger(TreeStringAlphaNumComp.class);
 
     /**
      * The custom compare function for achieving the described order.
@@ -42,7 +38,6 @@ class TreeStringAlphaNumComp implements Comparator<String> {
  * Example using this class: n0, n1, n2, n3, ...
  */
 class TreeVertexAlphaNumComp implements Comparator<Vertex> {
-    private static final Logger logger = LogManager.getLogger(TreeVertexAlphaNumComp.class);
 
     /**
      * The custom compare function for achieving the described order.
