@@ -42,19 +42,19 @@ class TreeNodeAlphaNumComp implements Comparator<Node> {
     /**
      * The custom compare function for achieving the described order.
      *
-     * @param v1 first node to compare
-     * @param v2 second node to compare
+     * @param node1 first node to compare
+     * @param node2 second node to compare
      * @return a positive Integer - if v1 &gt; v2 <br> a negative Integer - if v1 &lt; v2 <br> zero - if v1 == v2.
      */
     @Override
-    public int compare(Node v1, Node v2) {
-        String str1StringPart = v1.getLabel().replaceAll("\\d", "");
-        String str2StringPart = v2.getLabel().replaceAll("\\d", "");
+    public int compare(Node node1, Node node2) {
+        String str1StringPart = node1.getLabel().replaceAll("\\d", "");
+        String str2StringPart = node2.getLabel().replaceAll("\\d", "");
 
         if (str1StringPart.equalsIgnoreCase(str2StringPart)) {
-            return extractInt(v1.getLabel()) - extractInt(v2.getLabel());
+            return extractInt(node1.getLabel()) - extractInt(node2.getLabel());
         }
-        return v1.getLabel().compareTo(v2.getLabel());
+        return node1.getLabel().compareTo(node2.getLabel());
     }
 
     private int extractInt(String s) {

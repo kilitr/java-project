@@ -18,7 +18,7 @@ interface IGraph {
      *
      * @return a list of vertices contained in the Graph.
      */
-    TreeSet<Node> getVertices();
+    TreeSet<Node> getNodes();
 
     /**
      * Adds a node to the graph.
@@ -78,7 +78,7 @@ interface IGraph {
  */
 public abstract class Graph implements IGraph {
 
-    protected final TreeSet<Node> vertices;
+    protected final TreeSet<Node> nodes;
 
     /**
      * Creates a prefilled graph from a list of node labels. Will contain no Edges, just Vertices with the provided
@@ -88,7 +88,7 @@ public abstract class Graph implements IGraph {
      * @throws DuplicateNodeException Gets thrown, when there is a duplicate in the list of labels.
      */
     protected Graph(String[] verticeLabels) throws DuplicateNodeException {
-        this.vertices = new TreeSet<>(new TreeNodeAlphaNumComp());
+        this.nodes = new TreeSet<>(new TreeNodeAlphaNumComp());
         for (String verticeLabel : verticeLabels) {
             try {
                 if (this.getNode(verticeLabel) != null) {
@@ -106,8 +106,8 @@ public abstract class Graph implements IGraph {
      *
      * @return a list of vertices contained in the Graph.
      */
-    public TreeSet<Node> getVertices() {
-        return new TreeSet<>(vertices);
+    public TreeSet<Node> getNodes() {
+        return new TreeSet<>(nodes);
     }
 
     /**
@@ -116,7 +116,7 @@ public abstract class Graph implements IGraph {
      * @param node the node to add.
      */
     public void addNode(Node node) {
-        vertices.add(node);
+        nodes.add(node);
     }
 
 
@@ -127,10 +127,10 @@ public abstract class Graph implements IGraph {
      * @return node if node with the given label exists, otherwise null.
      */
     public Node getNode(String label) throws NodeNotFoundException {
-        TreeSet<Node> vertices = getVertices();
-        for (Node vert : vertices) {
-            if (vert.getLabel().equals(label)) {
-                return vert;
+        TreeSet<Node> nodes = getNodes();
+        for (Node node : nodes) {
+            if (node.getLabel().equals(label)) {
+                return node;
             }
         }
         throw new NodeNotFoundException("node '" + label + "' does not exist.");
@@ -142,7 +142,7 @@ public abstract class Graph implements IGraph {
      * @return amount of vertices contained in the graph.
      */
     public int getNumberOfVertices() {
-        return vertices.size();
+        return nodes.size();
     }
 
     /**
@@ -152,8 +152,8 @@ public abstract class Graph implements IGraph {
      */
     public int getNumberOfEdges() {
         int sum = 0;
-        for (Node v : vertices) {
-            sum += v.getEdges().size();
+        for (Node node : nodes) {
+            sum += node.getEdges().size();
         }
         return sum;
     }
@@ -169,11 +169,11 @@ public abstract class Graph implements IGraph {
 
     private int breadthFirstSearch() {
         int visitedVertices = 0;
-        Node current = getVertices().first();
+        Node current = getNodes().first();
         HashMap<Node, Boolean> visited = new HashMap<>();
         Queue<Node> queue = new LinkedList<>();
-        for (Node v : vertices) {
-            visited.put(v, false);
+        for (Node node : nodes) {
+            visited.put(node, false);
         }
 
         visited.put(current, true);
@@ -182,11 +182,11 @@ public abstract class Graph implements IGraph {
 
         while (!queue.isEmpty()) {
             current = queue.poll();
-            for (Node v : current.getNeighbours()) {
-                if (!visited.get(v)) {
-                    visited.put(v, true);
+            for (Node node : current.getNeighbours()) {
+                if (!visited.get(node)) {
+                    visited.put(node, true);
                     visitedVertices++;
-                    queue.add(v);
+                    queue.add(node);
                 }
             }
         }
@@ -200,8 +200,8 @@ public abstract class Graph implements IGraph {
      */
     public TreeSet<String> getNodeLabels() {
         TreeSet<String> nodeLabels = new TreeSet<>(new TreeStringAlphaNumComp());
-        for (Node v : this.getVertices()) {
-            nodeLabels.add(v.getLabel());
+        for (Node node : this.getNodes()) {
+            nodeLabels.add(node.getLabel());
         }
         return nodeLabels;
     }

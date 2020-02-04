@@ -62,11 +62,11 @@ public class UndirectedGraph extends Graph {
 
     public TreeSet<String> getEdgeLabels() {
         TreeSet<String> edgeLabels = new TreeSet<>(new TreeStringAlphaNumComp());
-        for (Node v : this.getVertices()) {
-            for (Edge e : v.getEdges()) {
+        for (Node node : this.getNodes()) {
+            for (Edge edge : node.getEdges()) {
                 // only add, an edge once.
-                if (!edgeLabels.contains(e.reversed().toString())) {
-                    edgeLabels.add(e.toString());
+                if (!edgeLabels.contains(edge.reversed().toString())) {
+                    edgeLabels.add(edge.toString());
                 }
             }
         }

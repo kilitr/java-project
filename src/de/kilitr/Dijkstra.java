@@ -29,12 +29,12 @@ public class Dijkstra {
         this.distance = new HashMap<>();
         this.predecessor = new HashMap<>();
         this.q = new ArrayList<>();
-        for (Node v : g.getVertices()) {
-            distance.put(v, Integer.MAX_VALUE);
-            predecessor.put(v, null);
+        for (Node node : g.getNodes()) {
+            distance.put(node, Integer.MAX_VALUE);
+            predecessor.put(node, null);
         }
         distance.put(start, 0);
-        q.addAll(g.getVertices());
+        q.addAll(g.getNodes());
         execute();
     }
 

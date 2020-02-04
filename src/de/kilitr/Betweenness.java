@@ -29,12 +29,12 @@ public class Betweenness {
      */
     private List<Path> getAllPaths() {
         List<Path> allPathlist = new ArrayList<>();
-        for (Node v : this.graph.getVertices()) {
-            Dijkstra paths = new Dijkstra(graph, v);
-            for (Node w : this.graph.getVertices()) {
-                allPathlist.add(paths.createAllShortestPaths(w));
+        for (Node start : this.graph.getNodes()) {
+            Dijkstra paths = new Dijkstra(graph, start);
+            for (Node destination : this.graph.getNodes()) {
+                allPathlist.add(paths.createAllShortestPaths(destination));
             }
-            logger.debug("Calculated all shortest paths from " + v.getLabel());
+            logger.debug("Calculated all shortest paths from " + start.getLabel());
 
         }
         logger.debug("All shortest paths were calculated successfully.");

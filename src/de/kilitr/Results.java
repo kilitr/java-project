@@ -164,10 +164,10 @@ public class Results extends JavaProjectThread {
 
 
     private void allShortestPaths(Graph g) {
-        for (Node start : g.getVertices()) {
+        for (Node start : g.getNodes()) {
             TreeMap<Node, Path> shortestPaths = new TreeMap<>(new TreeNodeAlphaNumComp());
             Dijkstra dijkstra = new Dijkstra(g, start);
-            for (Node target : g.getVertices()) {
+            for (Node target : g.getNodes()) {
                 Path path = dijkstra.createAllShortestPaths(target);
                 shortestPaths.put(target, path);
                 if (path.getWeight() > this.diameter) {
@@ -188,8 +188,8 @@ public class Results extends JavaProjectThread {
 
     private void allBetweennessCentrality(Graph g) {
         Betweenness betweenness = new Betweenness(g);
-        for (Node v : g.getVertices()) {
-            this.allBetweenness.put(v, betweenness.getBetweenness(v));
+        for (Node node : g.getNodes()) {
+            this.allBetweenness.put(node, betweenness.getBetweenness(node));
         }
     }
 

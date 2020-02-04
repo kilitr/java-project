@@ -101,14 +101,14 @@ public class ArgumentParser {
     }
 
     private static Node getNode(Graph graph, String label) {
-        Node v = null;
+        Node node = null;
         try {
-            v = graph.getNode(label);
+            node = graph.getNode(label);
         } catch (NodeNotFoundException e) {
             logger.error("Error: " + e.getMessage());
             System.exit(-1);
         }
-        return v;
+        return node;
     }
 
     private static void helpMessage() {
