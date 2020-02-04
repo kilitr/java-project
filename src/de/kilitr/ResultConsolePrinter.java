@@ -42,14 +42,18 @@ public class ResultConsolePrinter implements Runnable {
         allFlag = all;
     }
 
-    private static void basicGraphInformation(Results results) {
+    private void basicGraphInformation(Results results) {
         logger.info("### Graph information ###");
         logger.info("\t\tAmount of Vertices: " + results.getAmountVertices());
         logger.info("\t\tAmount of Edges: " + results.getAmountEdges());
         logger.info("\t\tVertex labels: " + String.join(", ", results.getVertexLabels()));
         logger.info("\t\tEdges: " + String.join(", ", results.getEdgeLabels()));
         logger.info("\t\tGraph is connected? " + results.isConnected());
-        logger.info("\t\tGraph diameter: " + results.getDiameter());
+        if (allFlag) {
+            logger.info("\t\tGraph diameter: " + results.getDiameter());
+        } else {
+            logger.info("\t\tGraph diameter: only with -a flag");
+        }
     }
 
     private static void allShortestPaths(Results results) {

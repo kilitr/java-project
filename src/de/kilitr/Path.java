@@ -32,15 +32,6 @@ public class Path {
     }
 
     /**
-     * change the weight of all contained paths.
-     *
-     * @param w changes the weight.
-     */
-    public void setWeight(int w) {
-        this.weight = w;
-    }
-
-    /**
      * provides the weight of these shortest paths.
      *
      * @return weight of shortest paths.
