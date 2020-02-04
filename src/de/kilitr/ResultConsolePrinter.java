@@ -5,27 +5,40 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
 
-public class ResultConsolePrinter {
+public class ResultConsolePrinter implements Runnable {
     private static final Logger logger = LogManager.getLogger(ResultConsolePrinter.class);
 
+    private boolean allFlag;
+    private boolean singlePathFlag;
+    private boolean singleBetweennessFlag;
+
+    private Results results;
+    private Vertex start;
+    private Vertex destination;
+
     public ResultConsolePrinter(Results results) {
-        basicGraphInformation(results);
+        this.results = results;
+        allFlag = false;
+        singlePathFlag = false;
+        singleBetweennessFlag = false;
     }
 
     public ResultConsolePrinter(Results results, Vertex start, Vertex destination) {
         this(results);
-        shortestPaths(results, start, destination);
+        singlePathFlag = true;
+        this.start = start;
+        this.destination = destination;
     }
 
     public ResultConsolePrinter(Results results, Vertex start) {
         this(results);
-        betweennessCentrality(results, start);
+        singleBetweennessFlag = true;
+        this.start = start;
     }
 
     public ResultConsolePrinter(Results results, boolean all) {
         this(results);
-        allShortestPaths(results);
-        allBetweennessCentrality(results);
+        allFlag = all;
     }
 
     private static void basicGraphInformation(Results results) {
@@ -70,5 +83,18 @@ public class ResultConsolePrinter {
     private static void betweennessCentrality(Results results, Vertex v) {
         logger.info("### Betweenness centrality ###");
         logger.info("\t\tNode '" + v.getLabel() + "': " + results.getAllBetweenness().get(v));
+    }
+
+    @Override
+    public void run() {
+        basicGraphInformation(results);
+        if (allFlag) {
+            allShortestPaths(results);
+            allBetweennessCentrality(results);
+        } else if (singlePathFlag) {
+            shortestPaths(results, start, destination);
+        } else if (singleBetweennessFlag) {
+            betweennessCentrality(results, start);
+        }
     }
 }

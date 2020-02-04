@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
-public class Results {
+public class Results implements Runnable {
     private static final Logger logger = LogManager.getLogger(Results.class);
 
     private int amountVertices;
@@ -19,36 +19,62 @@ public class Results {
     private TreeMap<Vertex, PathsFromVertex> allPaths;
     private TreeMap<Vertex, Double> allBetweenness;
 
+    private boolean allFlag;
+    private boolean singlePathFlag;
+    private boolean singleBetweennessFlag;
+
+    private Graph graph;
+    private Vertex start;
+    private Vertex destination;
+
     public Results(Graph g) {
+        this.graph = g;
+
+        allFlag = false;
+        singlePathFlag = false;
+        singleBetweennessFlag = false;
+
         vertexLabels = new ArrayList<>();
         edgeLabels = new ArrayList<>();
-
-        amountVertices = g.getNumberOfVertices();
-        amountEdges = g.getNumberOfEdges();
-        vertexLabels.addAll(g.getVertexLabels());
-        edgeLabels.addAll(g.getEdgeLabels());
-        isConnected = g.isConnected();
-
         allPaths = new TreeMap<>(new TreeVertexAlphaNumComp());
         allBetweenness = new TreeMap<>(new TreeVertexAlphaNumComp());
     }
 
     public Results(Graph g, Vertex vertexForBetweenness) {
         this(g); // call basic constructor
-        betweennessCentrality(g, vertexForBetweenness);
+        singleBetweennessFlag = true;
+        start = vertexForBetweenness;
     }
 
     public Results(Graph g, Vertex pathStart, Vertex pathDestination) {
         this(g); // call basic constructor
-        shortestPaths(g, pathStart, pathDestination);
+        singlePathFlag = true;
+        start = pathStart;
+        destination = pathDestination;
     }
 
     public Results(Graph g, boolean all) {
         this(g);
-        allShortestPaths(g);
-        allBetweennessCentrality(g);
+        allFlag = all;
     }
 
+    @Override
+    public void run() {
+        amountVertices = graph.getNumberOfVertices();
+        amountEdges = graph.getNumberOfEdges();
+        vertexLabels.addAll(graph.getVertexLabels());
+        edgeLabels.addAll(graph.getEdgeLabels());
+        isConnected = graph.isConnected();
+
+        if (allFlag) {
+            allShortestPaths(graph);
+            allBetweennessCentrality(graph);
+        } else if (singlePathFlag) {
+            shortestPaths(graph, start, destination);
+        } else if (singleBetweennessFlag) {
+            betweennessCentrality(graph, start);
+        }
+    }
 
     public int getAmountVertices() {
         return amountVertices;

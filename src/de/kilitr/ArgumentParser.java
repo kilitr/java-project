@@ -32,6 +32,7 @@ public class ArgumentParser {
             Vertex start = null;
             Vertex destination = null;
 
+            Thread resultThread = null;
             // parsing the Arguments
             for (String arg : args) {
                 if (arg.equals("-s")) {
@@ -39,11 +40,13 @@ public class ArgumentParser {
                     start = getVertex(graph, args[2]);
                     destination = getVertex(graph, args[3]);
                     results = new Results(graph, start, destination);
+                    resultThread = new Thread(results, "resultThread");
                 }
                 if (arg.equals("-b")) {
                     singleBetweennessFlag = true;
                     start = getVertex(graph, args[2]);
                     results = new Results(graph, start);
+                    resultThread = new Thread(results, "resultThread");
                 }
                 if (arg.equals("-o")) {
                     saveOutputFlag = true;
@@ -51,17 +54,35 @@ public class ArgumentParser {
                 if (arg.equals("--all") || arg.equals("-a")) { // all information needed...
                     allFlag = true;
                     results = new Results(graph, true);
+                    resultThread = new Thread(results, "resultThread");
+                }
+            }
+            if (resultThread != null) {
+                resultThread.start();
+                while (resultThread.isAlive()) {
+                    try {
+                        Thread.sleep(250);
+                        System.out.print(".");
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             if (saveOutputFlag) {
                 // TODO: save output
             }
+            Thread consolePrinter = null;
             if (singlePathFlag) {
-                new ResultConsolePrinter(results, start, destination);
+                consolePrinter = new Thread(new ResultConsolePrinter(results, start, destination), "ConsolePrinter");
             } else if (singleBetweennessFlag) {
-                new ResultConsolePrinter(results, start);
+                consolePrinter = new Thread(new ResultConsolePrinter(results, start), "ConsolePrinter");
             } else if (allFlag) {
-                new ResultConsolePrinter(results, true);
+                consolePrinter = new Thread(new ResultConsolePrinter(results, true), "ConsolePrinter");
+            }
+            if (consolePrinter != null) {
+                consolePrinter.start();
+            } else {
+                logger.error("The thread for creating console output could not be created!");
             }
         } else {
             helpMessage();
