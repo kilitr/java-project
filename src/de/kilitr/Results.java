@@ -16,7 +16,7 @@ public class Results implements Runnable {
     private boolean isConnected;
     private int diameter; // TODO: implement graph diameter
 
-    private TreeMap<Vertex, PathsFromVertex> allPaths;
+    private TreeMap<Vertex, TreeMap<Vertex, Path>> allPaths;
     private TreeMap<Vertex, Double> allBetweenness;
 
     private boolean allFlag;
@@ -100,7 +100,7 @@ public class Results implements Runnable {
         return diameter;
     }
 
-    public TreeMap<Vertex, PathsFromVertex> getAllPaths() {
+    public TreeMap<Vertex, TreeMap<Vertex, Path>> getAllPaths() {
         return allPaths;
     }
 
@@ -111,12 +111,26 @@ public class Results implements Runnable {
 
     private void allShortestPaths(Graph g) {
         for (Vertex start : g.getVertices()) {
-            allPaths.put(start, new PathsFromVertex(g, start));
+            TreeMap<Vertex, Path> shortestPaths = new TreeMap<>(new TreeVertexAlphaNumComp());
+            Dijkstra dijkstra = new Dijkstra(g, start);
+            for (Vertex target : g.getVertices()) {
+                Path path = dijkstra.createAllShortestPaths(target);
+                shortestPaths.put(target, path);
+                if (path.getWeight() > diameter) {
+                    diameter = path.getWeight();
+                    logger.debug("we're updating diameter");
+                }
+            }
+            allPaths.put(start, shortestPaths);
         }
     }
 
     private void shortestPaths(Graph g, Vertex start, Vertex destination) {
-        allPaths.put(start, new PathsFromVertex(g, start));
+        TreeMap<Vertex, Path> shortestPath = new TreeMap<>(new TreeVertexAlphaNumComp());
+        Dijkstra dijkstra = new Dijkstra(g, start);
+        TreeMap<Vertex, Path> temp = new TreeMap<>(new TreeVertexAlphaNumComp());
+        temp.put(destination, dijkstra.createAllShortestPaths(destination));
+        allPaths.put(start, temp);
     }
 
     private void allBetweennessCentrality(Graph g) {

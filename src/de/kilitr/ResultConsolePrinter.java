@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
+import java.util.TreeMap;
 
 public class ResultConsolePrinter implements Runnable {
     private static final Logger logger = LogManager.getLogger(ResultConsolePrinter.class);
@@ -53,9 +54,9 @@ public class ResultConsolePrinter implements Runnable {
 
     private static void allShortestPaths(Results results) {
         logger.info("### Shortest paths ###");
-        for (Map.Entry<Vertex, PathsFromVertex> allPathsEntry : results.getAllPaths().entrySet()) {
+        for (Map.Entry<Vertex, TreeMap<Vertex, Path>> allPathsEntry : results.getAllPaths().entrySet()) {
             logger.info("Source node '" + allPathsEntry.getKey() + "'");
-            for (Map.Entry<Vertex, Path> pathEntry : allPathsEntry.getValue().getAllDestinationPaths().entrySet()) {
+            for (Map.Entry<Vertex, Path> pathEntry : allPathsEntry.getValue().entrySet()) {
                 Vertex to = pathEntry.getKey();
                 int weight = pathEntry.getValue().getWeight();
                 Path actualPath = pathEntry.getValue();
@@ -66,7 +67,7 @@ public class ResultConsolePrinter implements Runnable {
 
     private static void shortestPaths(Results results, Vertex start, Vertex destination) {
         logger.info("### Paths from '" + start.getLabel() + "' to '" + destination.getLabel() + "' ###");
-        Path paths = results.getAllPaths().get(start).getPath(destination);
+        Path paths = results.getAllPaths().get(start).get(destination);
         logger.info("\t\t" + paths.toString() + " length -> " + paths.getWeight());
     }
 

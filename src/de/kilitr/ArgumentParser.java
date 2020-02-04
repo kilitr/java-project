@@ -15,7 +15,10 @@ public class ArgumentParser {
     private static boolean singleBetweennessFlag = false;
 
     public static void main(String[] args) {
-        if (args.length > 0) {
+        if (args.length == 0 || args[0].equals("-h") || args[0].equals("--help")) {
+            helpMessage();
+            System.exit(0);
+        } else {
             // always read the Graph first.
             String inputFile = args[0];
             logger.info("Loading graph from file: \"" + inputFile + "\".");
@@ -67,6 +70,7 @@ public class ArgumentParser {
                         e.printStackTrace();
                     }
                 }
+                System.out.println("\n");
             }
             if (saveOutputFlag) {
                 // TODO: save output
@@ -84,8 +88,6 @@ public class ArgumentParser {
             } else {
                 logger.error("The thread for creating console output could not be created!");
             }
-        } else {
-            helpMessage();
         }
     }
 
@@ -102,14 +104,17 @@ public class ArgumentParser {
 
     private static void helpMessage() {
         logger.warn("Proper Usage is: java-project <inputfile> [option] [-o <outputfile>]");
-        logger.info("\tYou may also use (only) ONE of the following options:");
 
         String allHelp = "Provide all the information about the graph, that this program can collect.";
         String dijkstraHelp = "Calculate the shortest paths from start to destination.";
         String betweennessHelp = "Calculate the betweenness centrality for node.";
+        String helpHelp = "displays this message again.";
 
+        logger.info("\t\t-h | --help\t\t\t\t\t - \t" + helpHelp);
+        logger.info("\tYou may also use (only) ONE of the following options:");
         logger.info("\t\t-a | --all\t\t\t\t\t - \t" + allHelp);
         logger.info("\t\t-s <start> <destination>\t - \t" + dijkstraHelp);
         logger.info("\t\t-b <node>\t\t\t\t\t - \t" + betweennessHelp);
+        logger.info("\tPlease note, that the diameter is only calculated, when the option '-a or --all' is selected.");
     }
 }
