@@ -6,6 +6,10 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
+/**
+ * Class that is capable of calculating and storing every information about this graph available in its own thread.
+ * However, it does not always calculate everything.
+ */
 public class Results extends JavaProjectThread {
     private static final Logger logger = LogManager.getLogger(Results.class);
 
@@ -20,6 +24,12 @@ public class Results extends JavaProjectThread {
 
     private final Graph graph;
 
+    /**
+     * Constructor for the betweenness centrality measure of a vertex command line argument.
+     *
+     * @param g                    contains the loaded graph that the calculations are meant for.
+     * @param vertexForBetweenness calculate the betweenness centrality for this vertex.
+     */
     public Results(Graph g, Vertex vertexForBetweenness) {
         super(vertexForBetweenness);
         this.graph = g;
@@ -29,6 +39,13 @@ public class Results extends JavaProjectThread {
         this.allBetweenness = new TreeMap<>(new TreeVertexAlphaNumComp());
     }
 
+    /**
+     * Constructor for the shortest path between two vertices command line argument.
+     *
+     * @param g               contains the loaded graph that the calculations are meant for.
+     * @param pathStart       the start vertex of the path
+     * @param pathDestination the destination vertex of the path
+     */
     public Results(Graph g, Vertex pathStart, Vertex pathDestination) {
         super(pathStart, pathDestination);
         this.graph = g;
@@ -38,6 +55,12 @@ public class Results extends JavaProjectThread {
         this.allBetweenness = new TreeMap<>(new TreeVertexAlphaNumComp());
     }
 
+    /**
+     * Constructor for the command line argument for calculating everything.
+     *
+     * @param g   contains the loaded graph that the calculations are meant for.
+     * @param all the parameter is only used for changing the signature of the Constructor. -> must be set to true though
+     */
     public Results(Graph g, boolean all) {
         super(all);
         this.graph = g;
@@ -65,34 +88,76 @@ public class Results extends JavaProjectThread {
         }
     }
 
+    /**
+     * Get the amount of vertices in the graph.
+     *
+     * @return amount of vertices
+     */
     public int getAmountVertices() {
         return this.amountVertices;
     }
 
+    /**
+     * Get the amount of edges in the graph.
+     *
+     * @return amount of edges
+     */
     public int getAmountEdges() {
         return this.amountEdges;
     }
 
+    /**
+     * Get the labels of all vertices in the graph.
+     *
+     * @return labels of all vertices in the graph.
+     */
     public ArrayList<String> getVertexLabels() {
         return this.vertexLabels;
     }
 
+    /**
+     * Get the labels of all edges in the graph.
+     *
+     * @return get the labels of all edges in the graph.
+     */
     public ArrayList<String> getEdgeLabels() {
         return this.edgeLabels;
     }
 
+    /**
+     * Whether or not the graph is connected.
+     *
+     * @return if the graph is connected or not.
+     */
     public boolean isConnected() {
         return this.isConnected;
     }
 
+    /**
+     * Get the diameter of the graph. Note: This will only be calculated when invoking the program with the argument
+     * for all calculations.
+     *
+     * @return diameter of the graph
+     */
     public int getDiameter() {
         return this.diameter;
     }
 
+    /**
+     * Get all existing shortest paths in the graph.
+     *
+     * @return a nested Treemap: the outer treemap has the start vertex as key, the inner treemap has the
+     * destination vertex as key and contains the paths as value.
+     */
     public TreeMap<Vertex, TreeMap<Vertex, Path>> getAllPaths() {
         return this.allPaths;
     }
 
+    /**
+     * Get the betweenness centrality values for every vertex in the graph.
+     *
+     * @return a Treemap: the key is the Vertex, the value is the betweenness centrality measure for the vertex.
+     */
     public TreeMap<Vertex, Double> getAllBetweenness() {
         return this.allBetweenness;
     }

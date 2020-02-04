@@ -5,6 +5,9 @@ import de.kilitr.exceptions.VertexNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Entry Point of the Executable and Parses the commandline arguments.
+ */
 public class ArgumentParser {
     private static final Logger logger = LogManager.getLogger(ArgumentParser.class);
 
@@ -14,6 +17,12 @@ public class ArgumentParser {
     private static boolean singlePathFlag = false;
     private static boolean singleBetweennessFlag = false;
 
+    /**
+     * Entry point of the program. Providing no arguments results in displaying a help message,
+     * for further information look at the help message.
+     *
+     * @param args Command line arguments.
+     */
     public static void main(String[] args) {
         if (args.length == 0 || args[0].equals("-h") || args[0].equals("--help")) {
             helpMessage();

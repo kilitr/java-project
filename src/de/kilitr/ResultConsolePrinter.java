@@ -6,21 +6,43 @@ import org.apache.logging.log4j.Logger;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * Class implementing the Console output as a Thread for an uninterrupted experience.
+ */
 public class ResultConsolePrinter extends JavaProjectThread {
     private static final Logger logger = LogManager.getLogger(ResultConsolePrinter.class);
 
     private final Results results;
 
+    /**
+     * Constructor for the shortest path between two vertices command line argument.
+     *
+     * @param results     contains every calculated value & path for this command line argument.
+     * @param start       the start vertex of the path
+     * @param destination the destination vertex of the path
+     */
     public ResultConsolePrinter(Results results, Vertex start, Vertex destination) {
         super(start, destination);
         this.results = results;
     }
 
+    /**
+     * Constructor for the betweenness centrality measure of a vertex command line argument.
+     *
+     * @param results contains every calculated value & path for this command line argument.
+     * @param start   calculate the betweenness centrality for this vertex.
+     */
     public ResultConsolePrinter(Results results, Vertex start) {
         super(start);
         this.results = results;
     }
 
+    /**
+     * Constructor for the command line argument for calculating everything.
+     *
+     * @param results contains every calculated value & path for this command line argument.
+     * @param all     the parameter is only used for changing the signature of the Constructor. -> must be set to true though
+     */
     public ResultConsolePrinter(Results results, boolean all) {
         super(all);
         this.results = results;
