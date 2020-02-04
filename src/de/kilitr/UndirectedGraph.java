@@ -61,7 +61,7 @@ public class UndirectedGraph extends Graph {
     }
 
     public TreeSet<String> getEdgeLabels() {
-        TreeSet<String> edgeLabels = new TreeSet<>(new TreeStringAlphaNumComp());
+        TreeSet<String> edgeLabels = new TreeSet<>(new TreeAlphaNumStringComparator());
         for (Node node : this.getNodes()) {
             for (Edge edge : node.getEdges()) {
                 // only add, an edge once.

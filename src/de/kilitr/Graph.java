@@ -88,7 +88,7 @@ public abstract class Graph implements IGraph {
      * @throws DuplicateNodeException Gets thrown, when there is a duplicate in the list of labels.
      */
     protected Graph(String[] verticeLabels) throws DuplicateNodeException {
-        this.nodes = new TreeSet<>(new TreeNodeAlphaNumComp());
+        this.nodes = new TreeSet<>(new TreeAlphaNumNodeComparator());
         for (String verticeLabel : verticeLabels) {
             try {
                 if (this.getNode(verticeLabel) != null) {
@@ -199,7 +199,7 @@ public abstract class Graph implements IGraph {
      * @return TreeSet containing all labels of the vertices in the graph.
      */
     public TreeSet<String> getNodeLabels() {
-        TreeSet<String> nodeLabels = new TreeSet<>(new TreeStringAlphaNumComp());
+        TreeSet<String> nodeLabels = new TreeSet<>(new TreeAlphaNumStringComparator());
         for (Node node : this.getNodes()) {
             nodeLabels.add(node.getLabel());
         }

@@ -10,7 +10,7 @@ import java.util.TreeMap;
  * Class that is capable of calculating and storing every information about this graph available in its own thread.
  * However, it does not always calculate everything.
  */
-public class Results extends JavaProjectThread {
+public class Results extends ArgumentRelatedThread {
     private static final Logger logger = LogManager.getLogger(Results.class);
 
     private int amountVertices;
@@ -35,8 +35,8 @@ public class Results extends JavaProjectThread {
         this.graph = g;
         this.nodeLabels = new ArrayList<>();
         this.edgeLabels = new ArrayList<>();
-        this.allPaths = new TreeMap<>(new TreeNodeAlphaNumComp());
-        this.allBetweenness = new TreeMap<>(new TreeNodeAlphaNumComp());
+        this.allPaths = new TreeMap<>(new TreeAlphaNumNodeComparator());
+        this.allBetweenness = new TreeMap<>(new TreeAlphaNumNodeComparator());
     }
 
     /**
@@ -51,8 +51,8 @@ public class Results extends JavaProjectThread {
         this.graph = g;
         this.nodeLabels = new ArrayList<>();
         this.edgeLabels = new ArrayList<>();
-        this.allPaths = new TreeMap<>(new TreeNodeAlphaNumComp());
-        this.allBetweenness = new TreeMap<>(new TreeNodeAlphaNumComp());
+        this.allPaths = new TreeMap<>(new TreeAlphaNumNodeComparator());
+        this.allBetweenness = new TreeMap<>(new TreeAlphaNumNodeComparator());
     }
 
     /**
@@ -66,8 +66,8 @@ public class Results extends JavaProjectThread {
         this.graph = g;
         this.nodeLabels = new ArrayList<>();
         this.edgeLabels = new ArrayList<>();
-        this.allPaths = new TreeMap<>(new TreeNodeAlphaNumComp());
-        this.allBetweenness = new TreeMap<>(new TreeNodeAlphaNumComp());
+        this.allPaths = new TreeMap<>(new TreeAlphaNumNodeComparator());
+        this.allBetweenness = new TreeMap<>(new TreeAlphaNumNodeComparator());
     }
 
     @Override
@@ -140,7 +140,7 @@ public class Results extends JavaProjectThread {
 
     private void allShortestPaths(Graph g) {
         for (Node start : g.getNodes()) {
-            TreeMap<Node, Path> shortestPaths = new TreeMap<>(new TreeNodeAlphaNumComp());
+            TreeMap<Node, Path> shortestPaths = new TreeMap<>(new TreeAlphaNumNodeComparator());
             Dijkstra dijkstra = new Dijkstra(g, start);
             for (Node target : g.getNodes()) {
                 Path path = dijkstra.createAllShortestPaths(target);
@@ -156,7 +156,7 @@ public class Results extends JavaProjectThread {
 
     private void shortestPaths(Graph g, Node start, Node destination) {
         Dijkstra dijkstra = new Dijkstra(g, start);
-        TreeMap<Node, Path> temp = new TreeMap<>(new TreeNodeAlphaNumComp());
+        TreeMap<Node, Path> temp = new TreeMap<>(new TreeAlphaNumNodeComparator());
         temp.put(destination, dijkstra.createAllShortestPaths(destination));
         this.allPaths.put(start, temp);
     }

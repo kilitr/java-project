@@ -3,7 +3,7 @@ package de.kilitr;
 /**
  * The superclass for all threads, whose behaviour is dependant on the commandline arguments.
  */
-abstract class JavaProjectThread implements Runnable {
+abstract class ArgumentRelatedThread implements Runnable {
 
     protected boolean allFlag;
     protected boolean singlePathFlag;
@@ -14,7 +14,7 @@ abstract class JavaProjectThread implements Runnable {
     /**
      * Basic constructor, called every time this object is constructed. Sets all flags to false.
      */
-    public JavaProjectThread() {
+    public ArgumentRelatedThread() {
         this.allFlag = false;
         this.singleBetweennessFlag = false;
         this.singlePathFlag = false;
@@ -27,7 +27,7 @@ abstract class JavaProjectThread implements Runnable {
      * @param pathStart       the start node
      * @param pathDestination the destination node
      */
-    public JavaProjectThread(Node pathStart, Node pathDestination) {
+    public ArgumentRelatedThread(Node pathStart, Node pathDestination) {
         this();
         singlePathFlag = true;
         start = pathStart;
@@ -40,7 +40,7 @@ abstract class JavaProjectThread implements Runnable {
      *
      * @param nodeForBetweenness calculate the betweennsess centrality for this node.
      */
-    public JavaProjectThread(Node nodeForBetweenness) {
+    public ArgumentRelatedThread(Node nodeForBetweenness) {
         this();
         singleBetweennessFlag = true;
         start = nodeForBetweenness;
@@ -51,7 +51,7 @@ abstract class JavaProjectThread implements Runnable {
      *
      * @param all the parameter is only used for changing the signature of the Constructor. -> must be set to true though
      */
-    public JavaProjectThread(boolean all) {
+    public ArgumentRelatedThread(boolean all) {
         this();
         allFlag = all;
     }

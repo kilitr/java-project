@@ -7,7 +7,7 @@ import java.util.Comparator;
  * Example without this class: n0, n1, n10, n11, ...
  * Example using this class: n0, n1, n2, n3, ...
  */
-class TreeStringAlphaNumComp implements Comparator<String> {
+class TreeAlphaNumStringComparator implements Comparator<String> {
 
     /**
      * The custom compare function for achieving the described order.
@@ -37,7 +37,7 @@ class TreeStringAlphaNumComp implements Comparator<String> {
  * Example without this class: n0, n1, n10, n11, ...
  * Example using this class: n0, n1, n2, n3, ...
  */
-class TreeNodeAlphaNumComp implements Comparator<Node> {
+class TreeAlphaNumNodeComparator implements Comparator<Node> {
 
     /**
      * The custom compare function for achieving the described order.

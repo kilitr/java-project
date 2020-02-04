@@ -9,7 +9,7 @@ import java.util.TreeMap;
 /**
  * Class implementing the Console output as a Thread for an uninterrupted experience.
  */
-public class ResultConsolePrinter extends JavaProjectThread {
+public class ResultConsolePrinter extends ArgumentRelatedThread {
     private static final Logger logger = LogManager.getLogger(ResultConsolePrinter.class);
 
     private final Results results;

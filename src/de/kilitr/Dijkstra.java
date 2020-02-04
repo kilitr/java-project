@@ -62,6 +62,8 @@ public class Dijkstra {
      *
      * @param target The node, that you want to reach with all the shortest paths available.
      * @return custom class containing the weight of the shortest path and all the paths available.
+     * @see <a href="https://de.wikipedia.org/wiki/Dijkstra-Algorithmus#Algorithmus_in_Pseudocode">Wikipedia pseudocode</a>
+     * for better understanding the choice for naming of contained variables.
      */
     public Path createAllShortestPaths(Node target) {
         Node u = target;
