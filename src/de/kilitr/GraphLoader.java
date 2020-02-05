@@ -39,7 +39,7 @@ public class GraphLoader {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             doc = dBuilder.parse(inputFile);
             doc.getDocumentElement().normalize();
-            loadVertices();
+            loadNodes();
             loadEdges();
         } catch (ParserConfigurationException e) {
             logger.error("Parser Configuration Error: " + e.getMessage());
@@ -56,7 +56,7 @@ public class GraphLoader {
         }
     }
 
-    private void loadVertices() {
+    private void loadNodes() {
         NodeList xmlListVertices = doc.getElementsByTagName("node");
         String[] vertices = new String[xmlListVertices.getLength()];
         for (int temp = 0; temp < xmlListVertices.getLength(); temp++) {
