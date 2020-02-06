@@ -13,12 +13,13 @@ import java.util.TreeMap;
 public class Results extends ArgumentRelatedThread {
     private static final Logger logger = LogManager.getLogger(Results.class);
 
-    private int amountVertices;
+    private int amountNodes;
     private int amountEdges;
     private final ArrayList<String> nodeLabels;
     private final ArrayList<String> edgeLabels;
+    private ArrayList<Edge> edges;
     private boolean isConnected;
-    private int diameter; // TODO: implement graph diameter
+    private int diameter;
     private final TreeMap<Node, TreeMap<Node, Path>> allPaths;
     private final TreeMap<Node, Double> allBetweenness;
 
@@ -35,6 +36,7 @@ public class Results extends ArgumentRelatedThread {
         this.graph = g;
         this.nodeLabels = new ArrayList<>();
         this.edgeLabels = new ArrayList<>();
+        this.edges = new ArrayList<>();
         this.allPaths = new TreeMap<>(new TreeAlphaNumNodeComparator());
         this.allBetweenness = new TreeMap<>(new TreeAlphaNumNodeComparator());
     }
@@ -51,6 +53,7 @@ public class Results extends ArgumentRelatedThread {
         this.graph = g;
         this.nodeLabels = new ArrayList<>();
         this.edgeLabels = new ArrayList<>();
+        this.edges = new ArrayList<>();
         this.allPaths = new TreeMap<>(new TreeAlphaNumNodeComparator());
         this.allBetweenness = new TreeMap<>(new TreeAlphaNumNodeComparator());
     }
@@ -66,16 +69,18 @@ public class Results extends ArgumentRelatedThread {
         this.graph = g;
         this.nodeLabels = new ArrayList<>();
         this.edgeLabels = new ArrayList<>();
+        this.edges = new ArrayList<>();
         this.allPaths = new TreeMap<>(new TreeAlphaNumNodeComparator());
         this.allBetweenness = new TreeMap<>(new TreeAlphaNumNodeComparator());
     }
 
     @Override
     public void run() {
-        this.amountVertices = this.graph.getNumberOfVertices();
+        this.amountNodes = this.graph.getNumberOfNodes();
         this.amountEdges = this.graph.getNumberOfEdges();
         this.nodeLabels.addAll(this.graph.getNodeLabels());
         this.edgeLabels.addAll(this.graph.getEdgeLabels());
+        this.edges = this.graph.getEdges();
         this.isConnected = this.graph.isConnected();
 
         if (this.allFlag) {
@@ -88,8 +93,8 @@ public class Results extends ArgumentRelatedThread {
         }
     }
 
-    public int getAmountVertices() {
-        return this.amountVertices;
+    public int getAmountNodes() {
+        return this.amountNodes;
     }
 
     public int getAmountEdges() {
@@ -102,6 +107,10 @@ public class Results extends ArgumentRelatedThread {
 
     public ArrayList<String> getEdgeLabels() {
         return this.edgeLabels;
+    }
+
+    public ArrayList<Edge> getEdges() {
+        return edges;
     }
 
     public boolean isConnected() {
@@ -121,7 +130,7 @@ public class Results extends ArgumentRelatedThread {
     /**
      * Get all existing shortest paths in the graph.
      *
-     * @return a nested Treemap: the outer treemap has the start node as key, the inner treemap has the
+     * @return a nested TreeMap: the outer TreeMap has the start node as key, the inner TreeMap has the
      * destination node as key and contains the paths as value.
      */
     public TreeMap<Node, TreeMap<Node, Path>> getAllPaths() {
@@ -131,7 +140,7 @@ public class Results extends ArgumentRelatedThread {
     /**
      * Get the betweenness centrality values for every node in the graph.
      *
-     * @return a Treemap: the key is the node, the value is the betweenness centrality measure for the node.
+     * @return a TreeMap: the key is the node, the value is the betweenness centrality measure for the node.
      */
     public TreeMap<Node, Double> getAllBetweenness() {
         return this.allBetweenness;

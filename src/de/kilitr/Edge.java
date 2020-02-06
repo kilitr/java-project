@@ -26,6 +26,10 @@ public class Edge {
         return to;
     }
 
+    protected Node getFrom() {
+        return from;
+    }
+
     public int getWeight() {
         return weight;
     }

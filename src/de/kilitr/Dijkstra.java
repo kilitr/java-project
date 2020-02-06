@@ -104,7 +104,6 @@ public class Dijkstra {
                 predecessor.put(target, List.of(origin));
                 logger.debug("New distance for " + target.getLabel() + " = " + alternative);
             } else if (alternative == distance.get(target)) {
-                // würde das dafür sorgen, dass 2 kürzeste Wege gefunden werden?
                 List<Node> multiplePredecessors = new ArrayList<>();
                 multiplePredecessors.add(predecessor.get(target).get(0));
                 multiplePredecessors.add(origin);

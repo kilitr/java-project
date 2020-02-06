@@ -48,7 +48,7 @@ public class ResultConsolePrinter extends ArgumentRelatedThread {
         this.results = results;
     }
 
-    private static void allShortestPaths(Results results) {
+    private void allShortestPaths() {
         logger.info("### Shortest paths ###");
         for (Map.Entry<Node, TreeMap<Node, Path>> allPathsEntry : results.getAllPaths().entrySet()) {
             logger.info("Source node '" + allPathsEntry.getKey() + "'");
@@ -61,13 +61,13 @@ public class ResultConsolePrinter extends ArgumentRelatedThread {
         }
     }
 
-    private static void shortestPaths(Results results, Node start, Node destination) {
+    private void shortestPaths(Node start, Node destination) {
         logger.info("### Paths from '" + start.getLabel() + "' to '" + destination.getLabel() + "' ###");
         Path paths = results.getAllPaths().get(start).get(destination);
         logger.info("\t\t" + paths.toString() + " length -> " + paths.getWeight());
     }
 
-    private static void allBetweennessCentrality(Results results) {
+    private void allBetweennessCentrality() {
         logger.info("### Betweenness centrality ###");
 
         for (Map.Entry<Node, Double> betweennessEntry : results.getAllBetweenness().entrySet()) {
@@ -77,14 +77,14 @@ public class ResultConsolePrinter extends ArgumentRelatedThread {
         }
     }
 
-    private static void betweennessCentrality(Results results, Node node) {
+    private void betweennessCentrality(Node node) {
         logger.info("### Betweenness centrality ###");
         logger.info("\t\tNode '" + node.getLabel() + "': " + results.getAllBetweenness().get(node));
     }
 
-    private void basicGraphInformation(Results results) {
+    private void basicGraphInformation() {
         logger.info("### Graph information ###");
-        logger.info("\t\tAmount of Nodes: " + results.getAmountVertices());
+        logger.info("\t\tAmount of Nodes: " + results.getAmountNodes());
         logger.info("\t\tAmount of Edges: " + results.getAmountEdges());
         logger.info("\t\tNode labels: " + String.join(", ", results.getNodeLabels()));
         logger.info("\t\tEdge labels: " + String.join(", ", results.getEdgeLabels()));
@@ -98,15 +98,15 @@ public class ResultConsolePrinter extends ArgumentRelatedThread {
 
     @Override
     public void run() {
-        basicGraphInformation(results);
+        basicGraphInformation();
         logger.debug("allFlag = " + allFlag + "\nsinglePathFlag = " + singlePathFlag + "\nsingleBetweennessFlag = " + singleBetweennessFlag);
         if (allFlag) {
-            allShortestPaths(results);
-            allBetweennessCentrality(results);
+            allShortestPaths();
+            allBetweennessCentrality();
         } else if (singlePathFlag) {
-            shortestPaths(results, start, destination);
+            shortestPaths(start, destination);
         } else if (singleBetweennessFlag) {
-            betweennessCentrality(results, start);
+            betweennessCentrality(start);
         }
     }
 }

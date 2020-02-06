@@ -8,7 +8,6 @@ import java.util.List;
  * Provides functionality to store multiple shortest Paths with the according weight.
  */
 public class Path {
-
     private final ArrayList<LinkedList<Node>> paths;
     private final int weight;
 
@@ -20,6 +19,10 @@ public class Path {
     public Path(int w) {
         weight = w;
         paths = new ArrayList<>();
+    }
+
+    public ArrayList<LinkedList<Node>> getPaths() {
+        return paths;
     }
 
     /**
@@ -41,6 +44,8 @@ public class Path {
     }
 
     /**
+     * provides the amount of Paths containing the specified Node.
+     *
      * @param node a node of the Graph
      * @return The number of paths which contain the node v
      */

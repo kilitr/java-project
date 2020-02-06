@@ -2,7 +2,10 @@ package de.kilitr;
 
 import de.kilitr.exceptions.DuplicateNodeException;
 import de.kilitr.exceptions.NodeNotFoundException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.TreeSet;
 
 /**
@@ -13,17 +16,17 @@ import java.util.TreeSet;
  * </p>
  */
 public class UndirectedGraph extends Graph {
-
+    private static final Logger logger = LogManager.getLogger(UndirectedGraph.class);
 
     /**
      * creates the Undirected Graph utilizing the constructor of the abstract class Graph.
      *
-     * @param verticeLabels An array, containing all ID's / labels of the vertices, that should be contained in
-     *                      the Graph.
+     * @param nodeLabels An array, containing all ID's / labels of the vertices, that should be contained in
+     *                   the Graph.
      * @throws DuplicateNodeException when trying to create a Graph with two identical node labels
      */
-    public UndirectedGraph(String[] verticeLabels) throws DuplicateNodeException {
-        super(verticeLabels);
+    public UndirectedGraph(String[] nodeLabels) throws DuplicateNodeException {
+        super(nodeLabels);
     }
 
 
@@ -43,7 +46,10 @@ public class UndirectedGraph extends Graph {
         } catch (NodeNotFoundException e) {
             e.printStackTrace();
         }
-        if (node1 == null || node2 == null) return;//TODO: throw new Exception();
+        if (node1 == null || node2 == null) {
+            logger.error("Could not add Edge - some Error occured.");
+            System.exit(-1);
+        }
         Edge e = new Edge(node1, node2, weight);
         node1.addEdge(e);
         e = new Edge(node2, node1, weight);
@@ -60,6 +66,7 @@ public class UndirectedGraph extends Graph {
         return super.getNumberOfEdges()/2;
     }
 
+    @Override
     public TreeSet<String> getEdgeLabels() {
         TreeSet<String> edgeLabels = new TreeSet<>(new TreeAlphaNumStringComparator());
         for (Node node : this.getNodes()) {
@@ -71,5 +78,19 @@ public class UndirectedGraph extends Graph {
             }
         }
         return edgeLabels;
+    }
+
+    @Override
+    public ArrayList<Edge> getEdges() {
+        ArrayList<Edge> edges = new ArrayList<>();
+        for (Node node : this.getNodes()) {
+            for (Edge edge : node.getEdges()) {
+                // only add, an edge once.
+                if (!edges.contains(edge.reversed())) {
+                    edges.add(edge);
+                }
+            }
+        }
+        return edges;
     }
 }

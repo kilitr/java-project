@@ -3,10 +3,7 @@ package de.kilitr;
 import de.kilitr.exceptions.DuplicateNodeException;
 import de.kilitr.exceptions.NodeNotFoundException;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * The basic "exposed" functionality, that every inheriting member of this hierarchy must have.
@@ -48,7 +45,7 @@ interface IGraph {
      *
      * @return amount of vertices contained in the graph.
      */
-    int getNumberOfVertices();
+    int getNumberOfNodes();
 
     /**
      * generates a TreeSet ordered by the TreeStringAlphaNumComp containing all labels of the edges in the graph.
@@ -65,7 +62,7 @@ interface IGraph {
     int getNumberOfEdges();
 
     /**
-     * wheter this graph is connected or not.
+     * whether this graph is connected or not.
      *
      * @return boolean value, whether the graph is connected or not.
      */
@@ -84,20 +81,20 @@ public abstract class Graph implements IGraph {
      * Creates a prefilled graph from a list of node labels. Will contain no Edges, just Vertices with the provided
      * Strings as label.
      *
-     * @param verticeLabels An array of node labels.
+     * @param nodeLabels An array of node labels.
      * @throws DuplicateNodeException Gets thrown, when there is a duplicate in the list of labels.
      */
-    protected Graph(String[] verticeLabels) throws DuplicateNodeException {
+    protected Graph(String[] nodeLabels) throws DuplicateNodeException {
         this.nodes = new TreeSet<>(new TreeAlphaNumNodeComparator());
-        for (String verticeLabel : verticeLabels) {
+        for (String nodeLabel : nodeLabels) {
             try {
-                if (this.getNode(verticeLabel) != null) {
+                if (this.getNode(nodeLabel) != null) {
                     throw new DuplicateNodeException("Cannot create graph! - This Graph contains at least two different Vertices, that were given the same name.");
                 }
             } catch (NodeNotFoundException e) {
                 // To be expected and nothing to worry about due to the fact that we are hoping not to find a node here.
             }
-            this.addNode(new Node(verticeLabel));
+            this.addNode(new Node(nodeLabel));
         }
     }
 
@@ -141,7 +138,7 @@ public abstract class Graph implements IGraph {
      *
      * @return amount of vertices contained in the graph.
      */
-    public int getNumberOfVertices() {
+    public int getNumberOfNodes() {
         return nodes.size();
     }
 
@@ -160,11 +157,12 @@ public abstract class Graph implements IGraph {
 
 
     /**
-     * wheter this graph is connected or not.
+     * whether this graph is connected or not.
+     *
      * @return boolean value, whether the graph is connected or not.
      */
     public boolean isConnected() {
-        return breadthFirstSearch() == getNumberOfVertices();
+        return breadthFirstSearch() == getNumberOfNodes();
     }
 
     private int breadthFirstSearch() {
@@ -207,4 +205,6 @@ public abstract class Graph implements IGraph {
     }
 
     public abstract TreeSet<String> getEdgeLabels();
+
+    public abstract ArrayList<Edge> getEdges();
 }

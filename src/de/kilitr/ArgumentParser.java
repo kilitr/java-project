@@ -44,6 +44,8 @@ public class ArgumentParser {
             Node start = null;
             Node destination = null;
 
+            String outputFileName = "results.xml";
+
             Thread resultThread = null;
             // parsing the Arguments
             for (String arg : args) {
@@ -62,6 +64,7 @@ public class ArgumentParser {
                 }
                 if (arg.equals("-o")) {
                     saveOutputFlag = true;
+                    outputFileName = args[args.length - 1];
                 }
                 if (arg.equals("--all") || arg.equals("-a")) { // all information needed...
                     allFlag = true;
@@ -81,10 +84,19 @@ public class ArgumentParser {
                 }
                 System.out.println("\n");
             }
+            Thread resultSaver = null;
             if (saveOutputFlag) {
-                // TODO: save output
+                if (singlePathFlag) {
+                    resultSaver = new Thread(new ResultXMLSaver(outputFileName, results, start, destination), "ResultSaver");
+                } else if (singleBetweennessFlag) {
+                    resultSaver = new Thread(new ResultXMLSaver(outputFileName, results, start), "ResultSaver");
+                } else if (allFlag) {
+                    resultSaver = new Thread(new ResultXMLSaver(outputFileName, results, true), "ResultSaver");
+                }
             }
+
             Thread consolePrinter = null;
+
             if (singlePathFlag) {
                 consolePrinter = new Thread(new ResultConsolePrinter(results, start, destination), "ConsolePrinter");
             } else if (singleBetweennessFlag) {
@@ -92,10 +104,17 @@ public class ArgumentParser {
             } else if (allFlag) {
                 consolePrinter = new Thread(new ResultConsolePrinter(results, true), "ConsolePrinter");
             }
+
             if (consolePrinter != null) {
                 consolePrinter.start();
             } else {
                 logger.error("The thread for creating console output could not be created!");
+            }
+
+            if (resultSaver != null) {
+                resultSaver.start();
+            } else {
+                logger.error("The thread for saving the output to a file could not be created!");
             }
         }
     }
