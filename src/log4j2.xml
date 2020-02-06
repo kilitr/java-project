@@ -15,16 +15,16 @@
             <PatternLayout pattern="${SimpleConsolePattern}"/>
         </Console>
 
-        <File name="File_Appender" filename="${LogDir}/logfile.log">
+        <!--<File name="File_Appender" filename="${LogDir}/logfile.log">
             <PatternLayout pattern="${DefaultLogPattern}"/>
-        </File>
+        </File>-->
     </Appenders>
     <Loggers>
         <logger name="de.kilitr" level="info" additivity="false">
             <AppenderRef ref="SimpleConsole"/>
         </logger>
-        <Root level="debug">
-            <AppenderRef ref="File_Appender" level="warn"/>
+        <Root level="warn">
+            <AppenderRef ref="DebugConsole" level="warn"/>
         </Root>
     </Loggers>
 </Configuration>
