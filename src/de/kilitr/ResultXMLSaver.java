@@ -18,6 +18,11 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * allow saving the class Results to an XML file utilizing its own Thread.
+ *
+ * @see de.kilitr.Results
+ */
 public class ResultXMLSaver extends ArgumentRelatedThread {
     private static final Logger logger = LogManager.getLogger(ResultXMLSaver.class);
 
@@ -29,18 +34,40 @@ public class ResultXMLSaver extends ArgumentRelatedThread {
     private Element paths;
     private Element betweenness;
 
+    /**
+     * Constructor for the shortest path between two vertices command line argument.
+     *
+     * @param outputFileName the name or path of the XML file to be created.
+     * @param results        contains every calculated value & path for this command line argument.
+     * @param start          the start node of the path
+     * @param destination    the destination node of the path
+     */
     public ResultXMLSaver(String outputFileName, Results results, Node start, Node destination) {
         super(start, destination);
         this.results = results;
         this.xmlFilePath = outputFileName;
     }
 
+    /**
+     * Constructor for the betweenness centrality measure of a node command line argument.
+     *
+     * @param outputFileName the name or path of the XML file to be created.
+     * @param results        contains every calculated value & path for this command line argument.
+     * @param start          calculate the betweenness centrality for this node.
+     */
     public ResultXMLSaver(String outputFileName, Results results, Node start) {
         super(start);
         this.results = results;
         this.xmlFilePath = outputFileName;
     }
 
+    /**
+     * Constructor for the command line argument for calculating everything.
+     *
+     * @param outputFileName the name or path of the XML file to be created.
+     * @param results        contains every calculated value & path for this command line argument.
+     * @param all            the parameter is only used for changing the signature of the Constructor. -> must be set to true though
+     */
     public ResultXMLSaver(String outputFileName, Results results, boolean all) {
         super(all);
         this.results = results;
