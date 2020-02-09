@@ -38,7 +38,7 @@ public class ResultXMLSaver extends ArgumentRelatedThread {
      * Constructor for the shortest path between two vertices command line argument.
      *
      * @param outputFileName the name or path of the XML file to be created.
-     * @param results        contains every calculated value & path for this command line argument.
+     * @param results        contains every calculated value &amp; path for this command line argument.
      * @param start          the start node of the path
      * @param destination    the destination node of the path
      */
@@ -52,7 +52,7 @@ public class ResultXMLSaver extends ArgumentRelatedThread {
      * Constructor for the betweenness centrality measure of a node command line argument.
      *
      * @param outputFileName the name or path of the XML file to be created.
-     * @param results        contains every calculated value & path for this command line argument.
+     * @param results        contains every calculated value &amp; path for this command line argument.
      * @param start          calculate the betweenness centrality for this node.
      */
     public ResultXMLSaver(String outputFileName, Results results, Node start) {
@@ -65,8 +65,8 @@ public class ResultXMLSaver extends ArgumentRelatedThread {
      * Constructor for the command line argument for calculating everything.
      *
      * @param outputFileName the name or path of the XML file to be created.
-     * @param results        contains every calculated value & path for this command line argument.
-     * @param all            the parameter is only used for changing the signature of the Constructor. -> must be set to true though
+     * @param results        contains every calculated value &amp; path for this command line argument.
+     * @param all            the parameter is only used for changing the signature of the Constructor. -&gt; must be set to true though
      */
     public ResultXMLSaver(String outputFileName, Results results, boolean all) {
         super(all);

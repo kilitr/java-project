@@ -111,7 +111,7 @@ public class ArgumentParser {
                 logger.error("The thread for creating console output could not be created!");
             }
 
-            if (resultSaver != null) {
+            if (resultSaver != null && saveOutputFlag) {
                 resultSaver.start();
             } else {
                 logger.error("The thread for saving the output to a file could not be created!");

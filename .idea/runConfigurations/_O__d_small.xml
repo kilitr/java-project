@@ -1,0 +1,17 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="[O] d small" type="Application" factoryName="Application">
+    <option name="ALTERNATIVE_JRE_PATH" value="G:/jdk-11.0.2" />
+    <option name="MAIN_CLASS_NAME" value="de.kilitr.ArgumentParser" />
+    <module name="java-project" />
+    <option name="PROGRAM_PARAMETERS" value="large_graph.graphml -s n2 n13 -o output.xml" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="de.kilitr.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

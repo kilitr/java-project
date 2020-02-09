@@ -62,7 +62,7 @@ public class Results extends ArgumentRelatedThread {
      * Constructor for the command line argument for calculating everything.
      *
      * @param g   contains the loaded graph that the calculations are meant for.
-     * @param all the parameter is only used for changing the signature of the Constructor. -> must be set to true though
+     * @param all the parameter is only used for changing the signature of the Constructor. -&gt; must be set to true though
      */
     public Results(Graph g, boolean all) {
         super(all);
