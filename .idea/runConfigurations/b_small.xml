@@ -3,7 +3,7 @@
     <option name="ALTERNATIVE_JRE_PATH" value="G:/jdk-11.0.2" />
     <option name="MAIN_CLASS_NAME" value="de.kilitr.ArgumentParser" />
     <module name="java-project" />
-    <option name="PROGRAM_PARAMETERS" value="large_graph.graphml -b n14" />
+    <option name="PROGRAM_PARAMETERS" value="small_graph.graphml -b n14" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="de.kilitr.*" />

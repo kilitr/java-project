@@ -113,7 +113,7 @@ public class ArgumentParser {
 
             if (resultSaver != null && saveOutputFlag) {
                 resultSaver.start();
-            } else {
+            } else if(saveOutputFlag) {
                 logger.error("The thread for saving the output to a file could not be created!");
             }
         }
